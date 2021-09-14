@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavLink from "./NavLink";
-import { logoutUserAction } from "../../actions/user";
+import { logoutUserAction } from "../../actions/currentUser";
 import { useHistory } from "react-router";
 
 const Navbar = () => {
-  const user = useSelector(state => state.user);
+  const currentUser = useSelector(state => state.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
 
   useEffect(() => {
-    if (Object.keys(user).length === 0) history.push('/');
-  }, [user, history]);
+    if (Object.keys(currentUser).length === 0) history.push('/');
+  }, [currentUser, history]);
 
   const handleLogout = () => {
     dispatch(logoutUserAction());
@@ -27,11 +27,11 @@ const Navbar = () => {
         <div className="flex items-center">
           <NavLink label="Forums" slug="/" />
           <NavLink label="Blogs" slug="/blogs" />
-          { !user.id && <NavLink label="Sign Up" slug="/register" /> }
-          { !user.id && <NavLink label="Log In" slug="/login" /> }
-          { user.id && <NavLink label="Profile" slug={`/user/${user.username}`} /> }
+          { !currentUser.id && <NavLink label="Sign Up" slug="/register" /> }
+          { !currentUser.id && <NavLink label="Log In" slug="/login" /> }
+          { currentUser.id && <NavLink label="Profile" slug={`/user/${currentUser.username}`} /> }
           { 
-            user.id && 
+            currentUser.id && 
             <button 
               type="button" 
               className="mx-4 text-md rounded-md hover:bg-theme-orange hover:text-theme-black px-2 py-1"

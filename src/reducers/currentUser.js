@@ -1,4 +1,4 @@
-const userReducer = (state = {}, action) => {
+const currentUserReducer = (state = {}, action) => {
   switch(action.type) {
     case 'REGISTER': {
       window.localStorage.setItem('loggedInGravityUser', JSON.stringify(action.payload));
@@ -26,10 +26,14 @@ const userReducer = (state = {}, action) => {
     case 'SET_FROM_LOCAL_STORAGE': {
       return action.payload;
     }
+
+    case 'GET_USER_DETAILS': {
+      return { ...state, ...action.payload };
+    }
       
     default:
       return state;
   }
 }
 
-export default userReducer;
+export default currentUserReducer;

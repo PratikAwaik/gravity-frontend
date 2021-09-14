@@ -4,7 +4,7 @@ import Navbar from "./components/Utils/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import { useDispatch } from "react-redux";
-import { setUserFromLocalStorageAction } from './actions/user';
+import { setUserFromLocalStorageAction } from './actions/currentUser';
 import Forums from "./components/Forums/Forums";
 
 function App() {

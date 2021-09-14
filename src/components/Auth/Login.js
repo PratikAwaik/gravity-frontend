@@ -2,20 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { loginUserAction } from "../../actions/user";
+import { loginUserAction } from "../../actions/currentUser";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
     username: '',
     password: ''
   });
+
   const dispatch = useDispatch();
   const history = useHistory();
-  const user = useSelector(state => state.user);
+  const currentUser = useSelector(state => state.currentUser);
 
   useEffect(() => {
-    if (user.id) history.push('/');
-  }, [user, history]);
+    if (currentUser.id) history.push('/');
+  }, [currentUser, history]);
 
   const handleInputChange = (e) => {
     setUserInfo({
@@ -51,9 +52,9 @@ const Login = () => {
 
         </form>
         { 
-          user.error && 
+          currentUser.error && 
           <div className="absolute bottom-0 left-0 bg-theme-red w-full pb-1 rounded-b-md">
-            <span className="text-sm w-full flex items-start justify-center mt-1"><i className="ri-information-line text-sm mr-1"></i>{ user.error }</span>
+            <span className="text-sm w-full flex items-start justify-center mt-1"><i className="ri-information-line text-sm mr-1"></i>{ currentUser.error }</span>
           </div>
         }
       </div>

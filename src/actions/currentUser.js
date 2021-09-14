@@ -52,3 +52,13 @@ export const setUserFromLocalStorageAction = () => {
     });
   }
 }
+
+export const getCurrentUserDetailsAction = (id) => {
+  return async dispatch => {
+    const user = await userServices.getSingleUser(id);
+    dispatch({
+      type: 'GET_USER_DETAILS',
+      payload: user
+    });
+  }
+}

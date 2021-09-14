@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { registerUserAction } from "../../actions/user";
+import { registerUserAction } from "../../actions/currentUser";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
@@ -9,13 +9,14 @@ const Register = () => {
     email: '',
     password: ''
   });
+
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const currentUser = useSelector(state => state.currentUser);
   const history = useHistory();
 
   useEffect(() => {
-    if (user.id) history.push('/');
-  }, [user, history]);
+    if (currentUser.id) history.push('/');
+  }, [currentUser, history]);
 
   const handleInputChange = (e) => {
     setUserInfo({
@@ -38,19 +39,19 @@ const Register = () => {
           <div className="mb-4 flex flex-col items-start w-full">
             <label htmlFor="username" className="mb-1">Username</label>
             <input autoComplete="off" className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent" type="text" name="username" id="username" value={userInfo.username} onChange={handleInputChange} required />
-            { user.error && user.error.username && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ user.error.username.message }</span> }
+            { currentUser.error && currentUser.error.username && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.username.message }</span> }
           </div>
 
           <div className="mb-4 flex flex-col items-start w-full">
             <label htmlFor="email" className="mb-1">Email</label>
             <input autoComplete="off" className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none" type="email" name="email" id="email" value={userInfo.email} onChange={handleInputChange} required />
-            { user.error && user.error.email && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ user.error.email.message }</span> }
+            { currentUser.error && currentUser.error.email && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.email.message }</span> }
           </div>
 
           <div className="mb-6 flex flex-col items-start w-full">
             <label htmlFor="password" className="mb-1">Password</label>
             <input className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none" type="password" name="password" id="password" value={userInfo.password} onChange={handleInputChange} required />
-            { user.error && user.error.password && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ user.error.password.message }</span> }
+            { currentUser.error && currentUser.error.password && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.password.message }</span> }
           </div>
 
           <div className="mb-4 w-full">

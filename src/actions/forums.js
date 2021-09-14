@@ -9,3 +9,23 @@ export const getAllPostsAction = () => {
     });
   }
 }
+
+export const handleUpvotesAction = (id) => {
+  return async dispatch => {
+    const payload = await forumsServices.handleUpvote(id);
+    dispatch({
+      type: 'UPVOTE_POST',
+      payload
+    });
+  }
+}
+
+export const handleDownvotesAction = (id) => {
+  return async dispatch => {
+    const payload = await forumsServices.handleDownvote(id);
+    dispatch({
+      type: 'DOWNVOTE_POST',
+      payload
+    });
+  }
+}
