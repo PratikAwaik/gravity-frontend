@@ -15,3 +15,21 @@
   content: "";
   background-color: rgba(0, 0, 0, 0);
 }
+
+/* styles for fancy editor */
+.rdw-option-wrapper[aria-selected="true"] {
+  background-color: #ed8936;
+}
+
+/* styles for markdown editor */
+.w-md-editor {
+  background: #141821 !important;
+}
+
+.w-md-editor-content {
+  color: #e2e8f0 !important;
+}
+
+.w-md-editor-text-input {
+  -webkit-text-fill-color: #e2e8f0 !important;
+} 

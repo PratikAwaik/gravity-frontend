@@ -6,6 +6,7 @@ import Login from "./components/Auth/Login";
 import { useDispatch } from "react-redux";
 import { setUserFromLocalStorageAction } from './actions/currentUser';
 import Forums from "./components/Forums/Forums";
+import CreatePost from "./components/Forums/CreatePost";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,9 +29,14 @@ function App() {
             <Login />
           </Route>
 
+          <Route exact path="/forums/create">
+            <CreatePost />
+          </Route>
+
           <Route exact path="/">
             <Forums />
           </Route>
+
         </Switch>
       </div>
     </BrowserRouter>

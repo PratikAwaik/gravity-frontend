@@ -26,6 +26,8 @@ const ForumPost = ({ post }) => {
     dispatch(handleDownvotesAction(post.id));
   }
 
+  // user cannot upvote if he isnt signed in
+
   return (
     <div className="forum-post-container bg-theme-white border-4 border-theme-orange text-theme-black p-2 rounded-md mb-4 relative">
       <div className="forum-post-header text-sm text-theme-gray mb-2 flex items-center">
@@ -46,14 +48,21 @@ const ForumPost = ({ post }) => {
         <p className="text-base">{post.content}</p>
       </div>
       <div className="forum-post-footer flex items-center">
-        <i 
-          className={`ri-rocket-2-line mr-2 cursor-pointer text-xl z-10 ${currentUser.postsUpvoted && currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-purple' : ''}`}
-          onClick={handleUpvote}
-        ></i>
-        <i 
-          className={`ri-rocket-2-line transform rotate-180 mr-4 cursor-pointer text-xl z-10 ${currentUser.postsDownvoted && currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-red' : ''}`}
-          onClick={handleDownvote}
-        ></i>
+        <div className="mr-2 flex items-center">
+          <i 
+            className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${currentUser.postsUpvoted && currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-purple' : ''}`}
+            onClick={handleUpvote}
+          ></i>
+          {post.upvotes}
+        </div>
+        <div className="mr-4 flex items-center">
+          <i 
+            className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${currentUser.postsDownvoted && currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-red' : ''}`}
+            onClick={handleDownvote}
+          ></i>
+          {post.downvotes}
+        </div>
+        
         <div className="flex items-center cursor-pointer z-10">
           <i className="ri-chat-1-line mr-1 text-xl"></i>
           comments
