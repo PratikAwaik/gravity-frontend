@@ -1,13 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Editor } from "react-draft-wysiwyg";
 import MDEditor from '@uiw/react-md-editor';
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { Editor } from "react-draft-wysiwyg";
+import { convertToRaw } from "draft-js";
+import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createPostAction } from "../../actions/forums";
+import forumsServices from '../../services/forums';
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
   const [editorContent, setEditorContent] = useState('');
   const [mdContent, setMdContent] = useState('');
   const [isFancyEditor, setIsFancyEditor] = useState(true);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.currentUser);
 
   useEffect(() => {
     titleTextareaRef.current.style.height = 'inherit';
@@ -17,22 +24,8 @@ const CreatePost = () => {
     const computed = window.getComputedStyle(titleTextareaRef.current);
     const paddingTopHeight = parseInt(computed.getPropertyValue('padding-top'), 10);
     titleTextareaRef.current.style.height = scrollHeight + paddingTopHeight + 'px';
-  }, [titleTextareaRef]);
 
-  const fancyToolbarConfig = {
-    options: [
-      'inline', 
-      'blockType', 
-      'list', 
-      'textAlign', 
-      'link', 
-      'embedded', 
-      'emoji', 
-      'image', 
-      'remove', 
-      'history'
-    ]
-  }
+  }, [titleTextareaRef]);
   
   const toggleEditor = () => {
     setIsFancyEditor(!isFancyEditor);
@@ -40,6 +33,14 @@ const CreatePost = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const postData = {
+      title: titleTextareaRef.current.value,
+      content: isFancyEditor ? JSON.stringify(convertToRaw(editorContent.getCurrentContent())) : mdContent
+    }
+    
+    forumsServices.setToken(currentUser.token);
+    dispatch(createPostAction(postData));
+    console.log(convertToRaw(editorContent.getCurrentContent()));
   }
 
   return (
@@ -55,14 +56,17 @@ const CreatePost = () => {
 
       <div className="create-post-wrapper">
         <form onSubmit={handleSubmit}>
-          <textarea 
-            ref={titleTextareaRef}
-            name="title" 
-            placeholder="Title" 
-            maxLength="300"
-            className="resize-none mb-4 text-base w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent"
-            rows="1"
-          ></textarea>
+          <div className="flex flex-col items-start mb-4">
+            <textarea 
+              ref={titleTextareaRef}
+              name="title" 
+              placeholder="Title" 
+              maxLength="300"
+              className="resize-none text-base w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent"
+              rows="1"
+              required
+            ></textarea>
+          </div>
 
           <div className="flex items-center mb-4">
             <button 
@@ -90,6 +94,7 @@ const CreatePost = () => {
               editorClassName="p-2"
               toolbar={fancyToolbarConfig}
               onEditorStateChange={(editorState) => setEditorContent(editorState)}
+              placeholder="Write here..."
             />
           }
           {
@@ -98,10 +103,30 @@ const CreatePost = () => {
               <MDEditor value={mdContent} onChange={(content) => setMdContent(content)} />
             </div>
           }
+
+          <div className="flex items-center mt-5">
+            <button type="submit" className="px-5 py-2 border-2 border-theme-purple rounded-md hover:bg-theme-purple">Post</button>
+            <Link to="/" className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red">Cancel</Link>
+          </div>
         </form>
       </div>
     </div>
   );
+}
+
+const fancyToolbarConfig = {
+  options: [
+    'inline', 
+    'blockType', 
+    'list', 
+    'textAlign', 
+    'link', 
+    'embedded', 
+    'emoji', 
+    'image', 
+    'remove', 
+    'history'
+  ]
 }
 
 export default CreatePost;

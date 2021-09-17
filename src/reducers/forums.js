@@ -6,6 +6,8 @@ const forumsReducer = (state = [], action) => {
       return state.map(post => post.id.toString() === action.payload.id.toString() ? action.payload : post);
     case 'DOWNVOTE_POST':
       return state.map(post => post.id.toString() === action.payload.id.toString() ? action.payload : post);
+    case 'NEW_POST':
+      return [...state, action.payload];
     default:
       return state;
   }

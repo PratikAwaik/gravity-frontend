@@ -29,3 +29,13 @@ export const handleDownvotesAction = (id) => {
     });
   }
 }
+
+export const createPostAction = (postData) => {
+  return async dispatch => {
+    const payload = await forumsServices.createPost(postData);
+    dispatch({
+      type: 'NEW_POST',
+      payload
+    });
+  }
+}

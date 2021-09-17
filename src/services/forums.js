@@ -46,12 +46,27 @@ const handleDownvote = async (id) => {
   }
 }
 
+const createPost = async (postData) => {
+  const config = {
+    headers: {
+      Authorization: token
+    }
+  }
+  try {
+    const response = await axios.post(baseUrl, postData, config);
+    return response.data;
+  } catch (err) {
+    console.log(err.response);
+  }
+}
+
 const exports = { 
   setToken,
   getAllPosts,
   getSinglePost,
   handleUpvote,
-  handleDownvote
+  handleDownvote,
+  createPost
 };
 
 export default exports;

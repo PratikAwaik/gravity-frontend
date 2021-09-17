@@ -3,6 +3,8 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import { handleDownvotesAction, handleUpvotesAction } from "../../actions/forums";
 import { useDispatch, useSelector } from "react-redux";
+import draftToHtml from "draftjs-to-html";
+import DOMPurify from "dompurify";
 import { getCurrentUserDetailsAction } from "../../actions/currentUser";
 import forumsServices from '../../services/forums';
 
@@ -10,6 +12,7 @@ const ForumPost = ({ post }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.currentUser);
 
+  const markup = DOMPurify.sanitize(draftToHtml(JSON.parse(post.content)));
   const postedRelativeTime = moment(post.createdAt).fromNow();
 
   useEffect(() => {
@@ -45,7 +48,7 @@ const ForumPost = ({ post }) => {
           <h3 className="text-xl font-bold mb-1">{post.title}</h3>
         </Link>
         
-        <p className="text-base">{post.content}</p>
+        <div className="text-base" dangerouslySetInnerHTML={{ __html: markup }} />
       </div>
       <div className="forum-post-footer flex items-center">
         <div className="mr-2 flex items-center">
