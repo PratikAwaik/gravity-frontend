@@ -10,9 +10,9 @@ export const getAllPostsAction = () => {
   }
 }
 
-export const handleUpvotesAction = (id) => {
+export const handleUpvotesAction = (id, upvotesData) => {
   return async dispatch => {
-    const payload = await forumsServices.handleUpvote(id);
+    const payload = await forumsServices.handleUpvote(id, upvotesData);
     dispatch({
       type: 'UPVOTE_POST',
       payload
@@ -20,9 +20,9 @@ export const handleUpvotesAction = (id) => {
   }
 }
 
-export const handleDownvotesAction = (id) => {
+export const handleDownvotesAction = (id, downvotesData) => {
   return async dispatch => {
-    const payload = await forumsServices.handleDownvote(id);
+    const payload = await forumsServices.handleDownvote(id, downvotesData);
     dispatch({
       type: 'DOWNVOTE_POST',
       payload
