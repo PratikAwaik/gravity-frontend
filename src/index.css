@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Forum post styles */
 .forum-post-body-heading::after {
   position: absolute;
   top: 0;
@@ -16,14 +17,49 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
+.forum-post-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* styles for fancy editor */
 .rdw-option-wrapper[aria-selected="true"] {
   background-color: #ed8936;
 }
 
+.rdw-image-alignment-options-popup {
+  background-color: #805ad5 !important;
+  color: #141821 !important;
+}
+
 /* styles for markdown editor */
 .w-md-editor {
   background: #141821 !important;
+}
+
+.w-md-editor-toolbar {
+  background-color: #805ad5 !important;
+}
+
+.w-md-editor-toolbar button {
+  height: inherit !important;
+}
+
+.w-md-editor-toolbar button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.w-md-editor-toolbar button svg path {
+  color: #e2e8f0 !important;
+}
+
+.w-md-editor-toolbar li > button:hover, 
+.w-md-editor-toolbar li > button:focus {
+  color: #141821 !important;
+  background-color: #ed8936 !important;
 }
 
 .w-md-editor-content {
