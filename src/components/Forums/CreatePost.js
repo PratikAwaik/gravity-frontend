@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../actions/forums";
 import forumsServices from '../../services/forums';
+import rehypeSanitize from "rehype-sanitize";
+
+// Change markdown editor
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
@@ -16,6 +19,7 @@ const CreatePost = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.currentUser);
 
+  // increase title textarea height when content increases
   useEffect(() => {
     titleTextareaRef.current.style.height = 'inherit';
     const scrollHeight = titleTextareaRef.current.scrollHeight;
@@ -35,16 +39,17 @@ const CreatePost = () => {
     e.preventDefault();
     const postData = {
       title: titleTextareaRef.current.value,
-      content: isFancyEditor ? JSON.stringify(convertToRaw(editorContent.getCurrentContent())) : mdContent
+      content: isFancyEditor ? JSON.stringify(convertToRaw(editorContent.getCurrentContent())) : mdContent,
+      type: isFancyEditor ? 'editor' : 'markdown'
     }
     
     forumsServices.setToken(currentUser.token);
     dispatch(createPostAction(postData));
-    console.log(convertToRaw(editorContent.getCurrentContent()));
+    // redirect to post Detail
   }
 
   return (
-    <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto mb-12">
+    <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto">
       <div>
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">Post on the Forum</h2>
         <hr className="mb-5" />
@@ -95,12 +100,17 @@ const CreatePost = () => {
               toolbar={fancyToolbarConfig}
               onEditorStateChange={(editorState) => setEditorContent(editorState)}
               placeholder="Write here..."
+              handlePastedText={() => false}
             />
           }
           {
             !isFancyEditor &&
             <div className="markdown-container border-2 border-theme-purple rounded-md">
-              <MDEditor value={mdContent} onChange={(content) => setMdContent(content)} />
+              <MDEditor 
+                value={mdContent} 
+                onChange={(content) => setMdContent(content)} 
+                previewOptions={{ rehypePlugins: [rehypeSanitize] }}
+              />
             </div>
           }
 
@@ -126,7 +136,15 @@ const fancyToolbarConfig = {
     'image', 
     'remove', 
     'history'
-  ]
+  ],
+  link: {
+    link: {
+      className: 'text-theme-orange underline'
+    }
+  },
+  image: {
+    previewImage: true
+  }
 }
 
 export default CreatePost;
