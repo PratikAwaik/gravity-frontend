@@ -18,28 +18,28 @@ const getSinglePost = async (id) => {
   return response.data;
 }
 
-const handleUpvote = async (id) => {
+const handleUpvote = async (id, upvotesData) => {
   const config = {
     headers: {
       Authorization: token
     }
   }
   try {
-    const response = await axios.patch(`${baseUrl}/${id}/upvote`, {}, config);
+    const response = await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
     return response.data;
   } catch (err) {
     console.log(err.response);
   }
 }
 
-const handleDownvote = async (id) => {
+const handleDownvote = async (id, downvotesData) => {
   const config = {
     headers: {
       Authorization: token
     }
   }
   try {
-    const response = await axios.patch(`${baseUrl}/${id}/downvote`, {}, config);
+    const response = await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
     return response.data;
   } catch (err) {
     console.log(err.response);
