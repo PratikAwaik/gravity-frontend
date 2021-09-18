@@ -17,7 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App mt-16">
+      <div className="App mt-16 mb-16">
         <Navbar />
 
         <Switch>
