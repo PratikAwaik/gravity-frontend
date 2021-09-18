@@ -5,6 +5,7 @@ import { handleDownvotesAction, handleUpvotesAction } from "../../actions/forums
 import { useDispatch, useSelector } from "react-redux";
 import draftToHtml from "draftjs-to-html";
 import DOMPurify from "dompurify";
+import MDEditor from "@uiw/react-md-editor";
 import { getCurrentUserDetailsAction } from "../../actions/currentUser";
 import forumsServices from '../../services/forums';
 
@@ -12,24 +13,41 @@ const ForumPost = ({ post }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.currentUser);
 
-  const markup = DOMPurify.sanitize(draftToHtml(JSON.parse(post.content)));
   const postedRelativeTime = moment(post.createdAt).fromNow();
+  const hasUpvotedAlready = currentUser.postsUpvoted && currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString());
+  const hasDownvotedAlready = currentUser.postsDownvoted && currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString());
 
   useEffect(() => {
-    dispatch(getCurrentUserDetailsAction(currentUser.id));
+    if (currentUser.id) dispatch(getCurrentUserDetailsAction(currentUser.id));
   }, [dispatch, post, currentUser.id]);
 
   const handleUpvote = () => {
+    const downvotedThenUpvoted = currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString());
+
+    const upvotesData = {
+      upvotes: hasUpvotedAlready && !downvotedThenUpvoted ? post.upvotes - 1 : post.upvotes + 1,
+      downvotes: downvotedThenUpvoted ? post.downvotes - 1 : post.downvotes, 
+      hasUpvotedAlready,
+      downvotedThenUpvoted
+    }
+
     forumsServices.setToken(currentUser.token);
-    dispatch(handleUpvotesAction(post.id));
+    dispatch(handleUpvotesAction(post.id, upvotesData));
   }
 
   const handleDownvote = () => {
-    forumsServices.setToken(currentUser.token);
-    dispatch(handleDownvotesAction(post.id));
-  }
+    const upvotedThenDownvoted = currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString());
 
-  // user cannot upvote if he isnt signed in
+    const downvotesData = {
+      downvotes: hasDownvotedAlready && !upvotedThenDownvoted ? post.downvotes - 1 : post.downvotes + 1,
+      upvotes: upvotedThenDownvoted ? post.upvotes - 1 : post.upvotes,
+      hasDownvotedAlready,
+      upvotedThenDownvoted
+    }
+
+    forumsServices.setToken(currentUser.token);
+    dispatch(handleDownvotesAction(post.id, downvotesData));
+  }
 
   return (
     <div className="forum-post-container bg-theme-white border-4 border-theme-orange text-theme-black p-2 rounded-md mb-4 relative">
@@ -48,23 +66,51 @@ const ForumPost = ({ post }) => {
           <h3 className="text-xl font-bold mb-1">{post.title}</h3>
         </Link>
         
-        <div className="text-base" dangerouslySetInnerHTML={{ __html: markup }} />
+        { post.type === 'editor' ?
+          <div 
+            className="text-base forum-post-content" 
+            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(draftToHtml(JSON.parse(post.content))) }} 
+          /> :
+          <div className="text-base forum-post-content">
+            <MDEditor.Markdown source={post.content} />
+          </div>
+        }
+        
       </div>
       <div className="forum-post-footer flex items-center">
-        <div className="mr-2 flex items-center">
-          <i 
-            className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${currentUser.postsUpvoted && currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-purple' : ''}`}
-            onClick={handleUpvote}
-          ></i>
-          {post.upvotes}
-        </div>
-        <div className="mr-4 flex items-center">
-          <i 
-            className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${currentUser.postsDownvoted && currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString()) ? 'text-theme-red' : ''}`}
-            onClick={handleDownvote}
-          ></i>
-          {post.downvotes}
-        </div>
+        { currentUser.username ?
+          <div className="mr-2 flex items-center">
+            <i 
+              className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}
+              onClick={handleUpvote}
+            ></i>
+            {post.upvotes}
+          </div> :
+          <div>
+            <Link to="/login" className="mr-2 flex items-center">
+              <i 
+                className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}
+              ></i>
+              {post.upvotes}
+            </Link>
+          </div>
+        }
+
+        { currentUser.username ?
+          <div className="mr-4 flex items-center">
+            <i 
+              className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${hasDownvotedAlready ? 'text-theme-red' : ''}`}
+              onClick={handleDownvote}
+            ></i>
+            {post.downvotes}
+          </div> :
+          <Link to="/login" className="mr-4 flex items-center">
+            <i 
+              className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${hasDownvotedAlready ? 'text-theme-red' : ''}`}
+            ></i> 
+            {post.downvotes}
+          </Link>
+        }
         
         <div className="flex items-center cursor-pointer z-10">
           <i className="ri-chat-1-line mr-1 text-xl"></i>
