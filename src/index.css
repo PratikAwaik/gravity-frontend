@@ -4,8 +4,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* scrollbar style */
+body::-webkit-scrollbar {
+  width: 0.5em;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #ed8936;
+  border-radius: 3rem;
+}
+
 /* Forum post styles */
-.forum-post-body-heading::after {
+.forum-post-body-title::after {
   position: absolute;
   top: 0;
   left: 0;
@@ -17,16 +27,14 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
-.forum-post-content {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.forum-post-body {
+  mask-image: linear-gradient(180deg, #000 70%, transparent);
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent);
 }
 
 /* styles for fancy editor */
 .rdw-option-wrapper[aria-selected="true"] {
-  background-color: #ed8936;
+  background-color: #ed8936 !important;
 }
 
 .rdw-image-alignment-options-popup {
@@ -34,8 +42,9 @@
   color: #141821 !important;
 }
 
+/* md-editor  */
 /* styles for markdown editor */
-.w-md-editor {
+/* .w-md-editor {
   background: #141821 !important;
 }
 
@@ -68,4 +77,29 @@
 
 .w-md-editor-text-input {
   -webkit-text-fill-color: #e2e8f0 !important;
-} 
+}  */
+
+/* markdown editor */
+/* .md-editor-toolbar {
+  background-color: #805ad5 !important;
+}
+
+.md-editor-toolbar button svg path {
+  color: #e2e8f0 !important;
+}
+
+.md-editor-toolbar button:hover {
+  background-color: #ed8936 !important;
+}
+
+.md-editor-content, .md-editor-preview {
+  background-color: #141821 !important;
+}
+
+.CodeMirror-gutters {
+  background-color: #805ad5 !important;
+}
+
+.CodeMirror-scroll {
+  color: #e2e8f0 !important;
+} */
