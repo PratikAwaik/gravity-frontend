@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUserFromLocalStorageAction } from './actions/currentUser';
 import Forums from "./components/Forums/Forums";
 import CreatePost from "./components/Forums/CreatePost";
+import PostDetail from "./components/Forums/PostDetail";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App mt-16 mb-16">
+      <div className="App mt-16">
         <Navbar />
 
         <Switch>
@@ -35,6 +36,10 @@ function App() {
 
           <Route exact path="/">
             <Forums />
+          </Route>
+
+          <Route exact path="/forums/:id">
+            <PostDetail />
           </Route>
 
         </Switch>
