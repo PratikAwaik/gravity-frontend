@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavLink from "./NavLink";
 import { logoutUserAction } from "../../actions/currentUser";
@@ -8,10 +8,6 @@ const Navbar = () => {
   const currentUser = useSelector(state => state.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
-
-  useEffect(() => {
-    if (Object.keys(currentUser).length === 0) history.push('/');
-  }, [currentUser, history]);
 
   const handleLogout = () => {
     dispatch(logoutUserAction());
