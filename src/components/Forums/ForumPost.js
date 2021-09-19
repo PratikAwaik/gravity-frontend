@@ -1,52 +1,30 @@
-import React, { useEffect } from "react";
+import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { handleDownvotesAction, handleUpvotesAction } from "../../actions/forums";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import draftToHtml from "draftjs-to-html";
 import DOMPurify from "dompurify";
 import MDEditor from "@uiw/react-md-editor";
-import { getCurrentUserDetailsAction } from "../../actions/currentUser";
-import forumsServices from '../../services/forums';
+import { 
+  hasDownvotedAlreadyHelper, 
+  hasUpvotedAlreadyHelper,
+  handleUpvoteHelper,
+  handleDownvoteHelper
+} from "../../helpers";
 
-const ForumPost = ({ post }) => {
+const ForumPost = ({ post, currentUser }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.currentUser);
 
-  const postedRelativeTime = moment(post.createdAt).fromNow();
-  const hasUpvotedAlready = currentUser.postsUpvoted && currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString());
-  const hasDownvotedAlready = currentUser.postsDownvoted && currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString());
+  const hasUpvotedAlready = hasUpvotedAlreadyHelper(currentUser, post.id);
+  const hasDownvotedAlready = hasDownvotedAlreadyHelper(currentUser, post.id);
 
-  useEffect(() => {
-    if (currentUser.id) dispatch(getCurrentUserDetailsAction(currentUser.id));
-  }, [dispatch, post, currentUser.id]);
-
-  const handleUpvote = () => {
-    const downvotedThenUpvoted = currentUser.postsDownvoted.find(postId => postId.toString() === post.id.toString());
-
-    const upvotesData = {
-      upvotes: hasUpvotedAlready && !downvotedThenUpvoted ? post.upvotes - 1 : post.upvotes + 1,
-      downvotes: downvotedThenUpvoted ? post.downvotes - 1 : post.downvotes, 
-      hasUpvotedAlready,
-      downvotedThenUpvoted
-    }
-
-    forumsServices.setToken(currentUser.token);
-    dispatch(handleUpvotesAction(post.id, upvotesData));
+  const handleUpvoteClick = () => {
+    handleUpvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, handleUpvotesAction);
   }
 
-  const handleDownvote = () => {
-    const upvotedThenDownvoted = currentUser.postsUpvoted.find(postId => postId.toString() === post.id.toString());
-
-    const downvotesData = {
-      downvotes: hasDownvotedAlready && !upvotedThenDownvoted ? post.downvotes - 1 : post.downvotes + 1,
-      upvotes: upvotedThenDownvoted ? post.upvotes - 1 : post.upvotes,
-      hasDownvotedAlready,
-      upvotedThenDownvoted
-    }
-
-    forumsServices.setToken(currentUser.token);
-    dispatch(handleDownvotesAction(post.id, downvotesData));
+  const handleDownvoteClick = () => {
+    handleDownvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, handleDownvotesAction);
   }
 
   return (
@@ -59,16 +37,16 @@ const ForumPost = ({ post }) => {
           <span className="ml-1 underline z-10">{'[deleted]'}</span>
         }
         <i className="ri-checkbox-blank-circle-fill mx-1 text-xs" style={{fontSize: '0.5rem'}}></i> 
-        { postedRelativeTime }
+        { moment(post.createdAt).fromNow() }
       </div>
-      <div className="forum-post-body mb-2">
-        <Link to={`/forums/${post.id}`} className="forum-post-body-heading">
+      <div className="forum-post-body max-h-60 overflow-hidden mb-2">
+        <Link to={`/forums/${post.id}`} className="forum-post-body-title">
           <h3 className="text-xl font-bold mb-1">{post.title}</h3>
         </Link>
         
         { post.type === 'editor' ?
           <div 
-            className="text-base forum-post-content" 
+            className="text-base forum-post-body-content" 
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(draftToHtml(JSON.parse(post.content))) }} 
           /> :
           <div className="text-base forum-post-content">
@@ -82,14 +60,14 @@ const ForumPost = ({ post }) => {
           <div className="mr-2 flex items-center">
             <i 
               className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}
-              onClick={handleUpvote}
+              onClick={handleUpvoteClick}
             ></i>
             {post.upvotes}
           </div> :
           <div>
             <Link to="/login" className="mr-2 flex items-center">
               <i 
-                className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}
+                className="ri-rocket-2-line cursor-pointer text-xl z-10"
               ></i>
               {post.upvotes}
             </Link>
@@ -100,13 +78,13 @@ const ForumPost = ({ post }) => {
           <div className="mr-4 flex items-center">
             <i 
               className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${hasDownvotedAlready ? 'text-theme-red' : ''}`}
-              onClick={handleDownvote}
+              onClick={handleDownvoteClick}
             ></i>
             {post.downvotes}
           </div> :
           <Link to="/login" className="mr-4 flex items-center">
             <i 
-              className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${hasDownvotedAlready ? 'text-theme-red' : ''}`}
+              className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"
             ></i> 
             {post.downvotes}
           </Link>
