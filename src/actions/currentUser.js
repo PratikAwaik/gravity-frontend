@@ -53,8 +53,9 @@ export const setUserFromLocalStorageAction = () => {
   }
 }
 
-export const getCurrentUserDetailsAction = (id) => {
+export const getCurrentUserDetailsAction = () => {
   return async dispatch => {
+    const id = JSON.parse(window.localStorage.getItem('loggedInGravityUser')).id;
     const user = await userServices.getSingleUser(id);
     dispatch({
       type: 'GET_USER_DETAILS',
