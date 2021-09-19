@@ -14,7 +14,7 @@ export const handleUpvotesAction = (id, upvotesData) => {
   return async dispatch => {
     const payload = await forumsServices.handleUpvote(id, upvotesData);
     dispatch({
-      type: 'UPVOTE_POST',
+      type: 'UPVOTE_POST_FORUMS',
       payload
     });
   }
@@ -24,7 +24,7 @@ export const handleDownvotesAction = (id, downvotesData) => {
   return async dispatch => {
     const payload = await forumsServices.handleDownvote(id, downvotesData);
     dispatch({
-      type: 'DOWNVOTE_POST',
+      type: 'DOWNVOTE_POST_FORUMS',
       payload
     });
   }
