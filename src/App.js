@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"; 
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Navbar from "./components/Utils/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import { useDispatch } from "react-redux";
