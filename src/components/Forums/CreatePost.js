@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostAction } from "../../actions/forums";
 import forumsServices from '../../services/forums';
-import { fancyToolbarConfig } from "../../helpers";
+import fancyToolbarConfig from "../../editor.config";
 // import rehypeSanitize from "rehype-sanitize";
 
 // TODO: Add support for markdown editor 
