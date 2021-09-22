@@ -8,6 +8,8 @@ import {
   hasDownvotedAlreadyHelper, 
   hasUpvotedAlreadyHelper 
 } from "../../helpers";
+import { deletePostAction } from '../../actions/forums';
+import forumsServices from '../../services/forums';
 
 const PostFooter = ({
   currentUser, 
@@ -28,39 +30,44 @@ const PostFooter = ({
   const handleDownvoteClick = () => {
     handleDownvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, downvoteAction);
   }
+
+  const handleDeletePost = () => {
+    forumsServices.setToken(currentUser.token);
+    dispatch(deletePostAction(post.id));
+  }
   
   return (
     <div className={`forum-post-footer flex items-center justify-between ${isPostDetail ? 'mb-5' : ''}`}>
       <div className="flex items-center">
         { currentUser.username ?
-          <div className="mr-2 flex items-center">
+          <div className={`mr-2 flex items-center ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}>
             <i 
-              className={`ri-rocket-2-line cursor-pointer text-xl z-10 ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}
+              className="ri-rocket-2-line cursor-pointer text-xl z-10"
               onClick={handleUpvoteClick}
             ></i>
-            {post.upvotes}
+            <span className="text-xl">{post.upvotes}</span>
           </div> :
           <Link to="/login" className="mr-2 flex items-center">
             <i 
               className="ri-rocket-2-line cursor-pointer text-xl z-10"
             ></i>
-            {post.upvotes}
+            <span className="text-xl">{post.upvotes}</span>
           </Link>
         }
 
         { currentUser.username ?
-          <div className="mr-4 flex items-center">
+          <div className={`mr-4 flex items-center ${hasDownvotedAlready ? 'text-theme-red' : ''}`}>
             <i 
-              className={`ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10 ${hasDownvotedAlready ? 'text-theme-red' : ''}`}
+              className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"
               onClick={handleDownvoteClick}
             ></i>
-            {post.downvotes}
+            <span className="text-xl">{post.downvotes}</span>
           </div> :
           <Link to="/login" className="mr-4 flex items-center">
             <i 
               className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"
             ></i> 
-            {post.downvotes}
+            <span className="text-xl">{post.downvotes}</span>
           </Link>
         }
         
@@ -77,7 +84,7 @@ const PostFooter = ({
           <div className="mr-3">
             <i className="ri-edit-2-line cursor-pointer text-xl z-10 text-theme-blue"></i>
           </div>
-          <div>
+          <div onClick={handleDeletePost}>
             <i className="ri-delete-bin-5-line cursor-pointer text-xl z-10 text-theme-red"></i>
           </div>
         </div>

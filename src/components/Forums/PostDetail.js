@@ -25,7 +25,7 @@ const PostDetail = () => {
   }, [dispatch, currentUser.id]);
 
   return (
-    <div className="mt-24 mb-16 mx-auto max-w-3xl bg-theme-white  text-theme-black border-4 border-theme-orange rounded-md post-detail-container">
+    <div className="mt-24 mb-16 mx-auto max-w-3xl bg-transparent text-theme-white border-4 border-theme-orange rounded-md post-detail-container">
       <div className="p-2 post-detail-wrapper">
         <PostHeader post={post} />
         <PostBody post={post} isPostDetail={true} />

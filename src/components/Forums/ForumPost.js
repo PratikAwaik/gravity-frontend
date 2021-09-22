@@ -7,7 +7,7 @@ import PostFooter from "./PostFooter";
 
 const ForumPost = ({ post, currentUser }) => {
   return (
-    <div className="forum-post-container bg-theme-white border-4 border-theme-orange text-theme-black p-2 rounded-md mb-4 relative">
+    <div className="forum-post-container bg-transparent border-4 border-theme-orange text-theme-white p-2 rounded-md mb-4 relative">
       <PostHeader  post={post} />
       <PostBody post={post} isPostDetail={false} />
       <PostFooter
