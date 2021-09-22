@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavLink from "./NavLink";
 import { logoutUserAction } from "../../actions/currentUser";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const Navbar = () => {
   const currentUser = useSelector(state => state.currentUser);
