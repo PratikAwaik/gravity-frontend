@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"; 
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserFromLocalStorageAction } from './actions/currentUser';
 import Forums from "./components/Forums/Forums";
 import CreatePost from "./components/Forums/CreatePost";
@@ -11,6 +11,7 @@ import PostDetail from "./components/Forums/PostDetail";
 
 function App() {
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.currentUser);
 
   useEffect(() => {
     dispatch(setUserFromLocalStorageAction());
@@ -31,7 +32,7 @@ function App() {
           </Route>
 
           <Route exact path="/forums/create">
-            <CreatePost />
+            { currentUser.id ? <CreatePost /> : <Redirect to="/login" /> }
           </Route>
 
           <Route exact path="/">
