@@ -60,13 +60,29 @@ const createPost = async (postData) => {
   }
 }
 
+const deletePost = async (id) => {
+  const config = {
+    headers: {
+      Authorization: token
+    }
+  }
+
+  try {
+    await axios.delete(`${baseUrl}/${id}`, config); 
+    return true;
+  } catch (err) {
+    console.log(err.response);
+  }
+}
+
 const exports = { 
   setToken,
   getAllPosts,
   getSinglePost,
   handleUpvote,
   handleDownvote,
-  createPost
+  createPost,
+  deletePost
 };
 
 export default exports;
