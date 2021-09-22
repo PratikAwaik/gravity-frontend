@@ -39,3 +39,15 @@ export const createPostAction = (postData) => {
     });
   }
 }
+
+export const deletePostAction = (id) => {
+  return async dispatch => {
+    const response = await forumsServices.deletePost(id);
+    if (!response.data) {
+      dispatch({
+        type: 'DELETE_POST_FORUMS',
+        payload: id
+      });
+    }
+  }
+}
