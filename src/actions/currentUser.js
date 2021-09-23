@@ -1,36 +1,21 @@
-import userServices from '../services/user';
+
 
 export const registerUserAction = (userInfo) => {
   return async dispatch => {
-    const payload = await userServices.registerUser(userInfo);
-    if (payload.error) {
-      dispatch({
-        type: 'REGISTER_ERROR',
-        payload
-      });
-    } else {
-      dispatch({
-        type: 'REGISTER',
-        payload
-      });
-    }
+    dispatch({
+      type: 'REGISTER',
+      payload: userInfo
+    });
   }
 }
 
 export const loginUserAction = (userInfo) => {
   return async dispatch => {
-    const payload = await userServices.loginUser(userInfo);
-    if (payload.error) {
-      dispatch({
-        type: 'LOGIN_ERROR',
-        payload
-      });
-    } else {
-      dispatch({
-        type: 'LOGIN',
-        payload
-      });
-    }
+    // const payload = await userServices.loginUser(userInfo);
+    dispatch({
+      type: 'LOGIN',
+      payload: userInfo
+    });
   }
 }
 
@@ -53,13 +38,11 @@ export const setUserFromLocalStorageAction = () => {
   }
 }
 
-export const getCurrentUserDetailsAction = () => {
+export const getCurrentUserDetailsAction = (userInfo) => {
   return async dispatch => {
-    const id = JSON.parse(window.localStorage.getItem('loggedInGravityUser')).id;
-    const user = await userServices.getSingleUser(id);
     dispatch({
       type: 'GET_USER_DETAILS',
-      payload: user
+      payload: userInfo
     });
   }
 }
