@@ -1,5 +1,5 @@
-import { getCurrentUserDetailsAction } from './actions/currentUser';
-import forumsServices from './services/forums';
+import { handleDownvoteDispatcher, handleUpvoteDispatcher } from './dispatchers/forums';
+import { currentUserDetailsDispatcher } from './dispatchers/user';
 
 export const hasUpvotedAlreadyHelper = (currentUser, postID) => {
   return currentUser.postsUpvoted && currentUser.postsUpvoted.find(postid => postid.toString() === postID);
@@ -17,9 +17,8 @@ export const handleUpvoteHelper = async (dispatch, currentUser, post, hasUpvoted
     hasDownvotedAlready
   }
 
-  forumsServices.setToken(currentUser.token);
-  await dispatch(upvoteAction(post.id, upvotesData));
-  dispatch(getCurrentUserDetailsAction());
+  await handleUpvoteDispatcher(dispatch, post.id, upvotesData, currentUser.token);
+  currentUserDetailsDispatcher(dispatch);
 }
 
 export const handleDownvoteHelper = async (dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, downvoteAction) => {
@@ -30,7 +29,6 @@ export const handleDownvoteHelper = async (dispatch, currentUser, post, hasUpvot
     hasUpvotedAlready
   }
 
-  forumsServices.setToken(currentUser.token);
-  await dispatch(downvoteAction(post.id, downvotesData));
-  dispatch(getCurrentUserDetailsAction());
+  await handleDownvoteDispatcher(dispatch, post.id, downvotesData, currentUser.token);
+  currentUserDetailsDispatcher(dispatch);
 }
