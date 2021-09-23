@@ -8,8 +8,7 @@ import {
   hasDownvotedAlreadyHelper, 
   hasUpvotedAlreadyHelper 
 } from "../../helpers";
-import { deletePostAction } from '../../actions/forums';
-import forumsServices from '../../services/forums';
+import { deletePostDispatcher } from '../../dispatchers/forums';
 
 const PostFooter = ({
   currentUser, 
@@ -32,8 +31,7 @@ const PostFooter = ({
   }
 
   const handleDeletePost = () => {
-    forumsServices.setToken(currentUser.token);
-    dispatch(deletePostAction(post.id));
+    deletePostDispatcher(dispatch, post.id, currentUser.token);
   }
   
   return (

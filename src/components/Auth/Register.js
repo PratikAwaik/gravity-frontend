@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { registerUserAction } from "../../actions/currentUser";
+import { registerUserDispatcher } from "../../dispatchers/user";
+import FormInput from "./FormInput";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
@@ -11,7 +12,7 @@ const Register = () => {
   });
 
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.currentUser);
+  const { currentUser, error } = useSelector(state => state);
   const history = useHistory();
 
   useEffect(() => {
@@ -27,7 +28,17 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUserAction(userInfo));
+    registerUserDispatcher(dispatch, userInfo);
+  }
+
+  const displayError = (inputError) => {
+    return (
+      inputError &&
+      <span className="text-sm text-theme-red w-full flex items-start mt-1">
+        <i className="ri-information-line text-theme-red text-sm mr-1"></i>
+        { inputError.message }
+      </span>
+    );
   }
 
   return (
@@ -37,21 +48,18 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="w-full">
 
           <div className="mb-4 flex flex-col items-start w-full">
-            <label htmlFor="username" className="mb-1">Username</label>
-            <input autoComplete="off" className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent" type="text" name="username" id="username" value={userInfo.username} onChange={handleInputChange} required />
-            { currentUser.error && currentUser.error.username && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.username.message }</span> }
+            <FormInput type="text" name="username" label="Username" value={userInfo.username} handleChange={handleInputChange} />
+            {displayError(error.error && error.error.username)}
           </div>
 
           <div className="mb-4 flex flex-col items-start w-full">
-            <label htmlFor="email" className="mb-1">Email</label>
-            <input autoComplete="off" className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none" type="email" name="email" id="email" value={userInfo.email} onChange={handleInputChange} required />
-            { currentUser.error && currentUser.error.email && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.email.message }</span> }
+            <FormInput type="email" name="email" label="Email" value={userInfo.email} handleChange={handleInputChange} />
+            {displayError(error.error && error.error.email)}
           </div>
 
           <div className="mb-6 flex flex-col items-start w-full">
-            <label htmlFor="password" className="mb-1">Password</label>
-            <input className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none" type="password" name="password" id="password" value={userInfo.password} onChange={handleInputChange} required />
-            { currentUser.error && currentUser.error.password && <span className="text-sm text-theme-red w-full flex items-start mt-1"><i className="ri-information-line text-theme-red text-sm mr-1"></i>{ currentUser.error.password.message }</span> }
+            <FormInput type="password" name="password" label="Password" value={userInfo.password} handleChange={handleInputChange} />
+            {displayError(error.error && error.error.password)}
           </div>
 
           <div className="mb-4 w-full">

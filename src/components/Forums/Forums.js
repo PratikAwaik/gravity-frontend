@@ -1,20 +1,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ForumPost from './ForumPost';
-import { getAllPostsAction } from "../../actions/forums";
 import { Link } from 'react-router-dom';
-import { getCurrentUserDetailsAction } from "../../actions/currentUser";
+import { getAllPostsDispatcher } from "../../dispatchers/forums";
+import { currentUserDetailsDispatcher } from "../../dispatchers/user";
 
 const Forums = () => {
   const dispatch = useDispatch();
   const { forums, currentUser } = useSelector(state => state);
 
   useEffect(() => {
-    dispatch(getAllPostsAction());
+    // dispatch(getAllPostsAction());
+    getAllPostsDispatcher(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
-    if (currentUser.id) dispatch(getCurrentUserDetailsAction());
+    if (currentUser.id) currentUserDetailsDispatcher(dispatch);
   }, [dispatch, currentUser.id]);
 
   return (

@@ -4,8 +4,7 @@ import { convertToRaw } from "draft-js";
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createPostAction } from "../../actions/forums";
-import forumsServices from '../../services/forums';
+import { createPostDispatcher } from '../../dispatchers/forums';
 import fancyToolbarConfig from "../../editor.config";
 // import rehypeSanitize from "rehype-sanitize";
 
@@ -43,8 +42,7 @@ const CreatePost = () => {
       type: 'editor'
     }
     
-    forumsServices.setToken(currentUser.token);
-    dispatch(createPostAction(postData));
+    createPostDispatcher(dispatch, postData, currentUser.token);
     // redirect to post Detail
   }
 
