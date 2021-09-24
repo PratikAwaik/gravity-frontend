@@ -26,7 +26,6 @@ export const registerUserDispatcher = async (dispatch, userInfo) => {
 export const loginUserDispatcher = async (dispatch, userInfo) => {
   try {
     const response = await axios.post(`${baseUrl}/login`, userInfo);
-    console.log(response.data);
     dispatch(loginUserAction(response.data));
   } catch (err) {
     console.log(err.response);
