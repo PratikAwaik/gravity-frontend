@@ -10,7 +10,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: #ed8936;
+  background-color: #48bb78;
   border-radius: 3rem;
 }
 
@@ -26,79 +26,3 @@ body::-webkit-scrollbar-thumb {
   content: "";
   background-color: rgba(0, 0, 0, 0);
 }
-
-.forum-post-body-content img {
-  margin: auto !important;
-}
-
-/* styles for fancy editor */
-.rdw-option-wrapper[aria-selected="true"] {
-  background-color: #ed8936 !important;
-}
-
-.rdw-image-alignment-options-popup {
-  background-color: #805ad5 !important;
-  color: #141821 !important;
-}
-
-/* md-editor  */
-/* styles for markdown editor */
-/* .w-md-editor {
-  background: #141821 !important;
-}
-
-.w-md-editor-toolbar {
-  background-color: #805ad5 !important;
-}
-
-.w-md-editor-toolbar button {
-  height: inherit !important;
-}
-
-.w-md-editor-toolbar button svg {
-  width: 18px;
-  height: 18px;
-}
-
-.w-md-editor-toolbar button svg path {
-  color: #e2e8f0 !important;
-}
-
-.w-md-editor-toolbar li > button:hover, 
-.w-md-editor-toolbar li > button:focus {
-  color: #141821 !important;
-  background-color: #ed8936 !important;
-}
-
-.w-md-editor-content {
-  color: #e2e8f0 !important;
-}
-
-.w-md-editor-text-input {
-  -webkit-text-fill-color: #e2e8f0 !important;
-}  */
-
-/* markdown editor */
-/* .md-editor-toolbar {
-  background-color: #805ad5 !important;
-}
-
-.md-editor-toolbar button svg path {
-  color: #e2e8f0 !important;
-}
-
-.md-editor-toolbar button:hover {
-  background-color: #ed8936 !important;
-}
-
-.md-editor-content, .md-editor-preview {
-  background-color: #141821 !important;
-}
-
-.CodeMirror-gutters {
-  background-color: #805ad5 !important;
-}
-
-.CodeMirror-scroll {
-  color: #e2e8f0 !important;
-} */
