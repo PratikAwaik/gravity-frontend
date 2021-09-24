@@ -1,6 +1,5 @@
 import axios from "axios";
 import { setErrorAction } from "../actions/error";
-import { getSinglePostAction } from "../actions/post";
 import { 
   createPostAction, 
   deletePostAction, 
@@ -21,15 +20,15 @@ export const getAllPostsDispatcher = async (dispatch) => {
   }
 }
 
-export const getSinglePostDispatcher = async (dispatch, id) => {
-  try {
-    const response = await axios.get(`${baseUrl}/${id}`);
-    dispatch(getSinglePostAction(response.data));
-  } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
-  }
-} 
+// export const getSinglePostDispatcher = async (dispatch, id) => {
+//   try {
+//     const response = await axios.get(`${baseUrl}/${id}`);
+//     dispatch(getSinglePostAction(response.data));
+//   } catch (err) {
+//     console.log(err.response);
+//     dispatch(setErrorAction(err.response.data));
+//   }
+// } 
 
 export const handleUpvoteDispatcher = async (dispatch, id, upvotesData, userToken) => {
   const config = {
