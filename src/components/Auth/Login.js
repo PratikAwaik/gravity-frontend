@@ -49,7 +49,7 @@ const Login = () => {
             <button className="mb-4 px-5 py-2 w-full bg-theme-purple text-theme-white rounded-lg" type="submit">Log In</button>
             <p className="text-center mb-4">
               Haven't signed up yet? 
-              <Link className="text-theme-orange underline" to="/register">Sign Up</Link>
+              <Link className="text-theme-orange underline ml-1" to="/register">Sign Up</Link>
             </p>
           </div>
 
