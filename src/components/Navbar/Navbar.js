@@ -15,7 +15,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full fixed top-0 left-0 z-20 bg-theme-black shadow-md-purple">
+    <div className="w-full fixed top-0 left-0 z-20 shadow-md bg-white">
       <nav className="w-full p-4 flex items-center justify-between">
         <div>
           <h1 className="text-3xl">Gravity</h1>
@@ -30,7 +30,7 @@ const Navbar = () => {
             currentUser.id && 
             <button 
               type="button" 
-              className="mx-4 text-md rounded-md hover:bg-theme-orange hover:text-theme-black px-2 py-1"
+              className="mx-4 text-md rounded-md hover:bg-theme-green hover:text-theme-white px-3 py-1"
               onClick={handleLogout}
             >
               Log Out
