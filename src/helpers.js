@@ -9,7 +9,7 @@ export const hasDownvotedAlreadyHelper = (currentUser, postID) => {
   return currentUser.postsDownvoted && currentUser.postsDownvoted.find(postid => postid.toString() === postID);
 }
 
-export const handleUpvoteHelper = async (dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, upvoteAction) => {
+export const handleUpvoteHelper = async (dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready) => {
   const upvotesData = {
     upvotes: hasUpvotedAlready && !hasDownvotedAlready ? post.upvotes - 1 : post.upvotes + 1,
     downvotes: hasDownvotedAlready ? post.downvotes - 1 : post.downvotes, 
@@ -21,7 +21,7 @@ export const handleUpvoteHelper = async (dispatch, currentUser, post, hasUpvoted
   currentUserDetailsDispatcher(dispatch);
 }
 
-export const handleDownvoteHelper = async (dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, downvoteAction) => {
+export const handleDownvoteHelper = async (dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready) => {
   const downvotesData = {
     downvotes: hasDownvotedAlready && !hasUpvotedAlready ? post.downvotes - 1 : post.downvotes + 1,
     upvotes: hasUpvotedAlready ? post.upvotes - 1 : post.upvotes,
