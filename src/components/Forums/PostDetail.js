@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { Editor } from "react-draft-wysiwyg";
-import { handleDownvotesAction, handleUpvotesAction } from '../../actions/post';
-import { getSinglePostAction } from '../../actions/post';
 import { getCurrentUserDetailsAction } from '../../actions/currentUser';
+import { getAllPostsDispatcher } from '../../dispatchers/forums';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
 import PostFooter from './PostFooter';
@@ -12,19 +11,28 @@ import fancyToolbarConfig from '../../editor.config';
 
 const PostDetail = () => {
   const [editorContent, setEditorContent] = useState('');
+  const [post, setPost] = useState({});
   const { id } = useParams();
-  const { post, currentUser } = useSelector(state => state);
+  const { currentUser, forums } = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSinglePostAction(id));
-  }, [dispatch, id]);
+    (async function () {
+      if (forums.length === 0) {
+        await getAllPostsDispatcher(dispatch);
+        setPost(forums.find(post => post.id === id));
+      } else {
+        setPost(forums.find(post => post.id === id));
+      }
+    })();
+  }, [dispatch, forums, id]);
 
   useEffect(() => {
     if (currentUser.id) dispatch(getCurrentUserDetailsAction());
   }, [dispatch, currentUser.id]);
 
-  return (
+  return ( 
+    post.id ?
     <div className="mt-24 mb-16 mx-auto max-w-3xl bg-transparent text-theme-white border-4 border-theme-orange rounded-md post-detail-container">
       <div className="p-2 post-detail-wrapper">
         <PostHeader post={post} />
@@ -32,8 +40,6 @@ const PostDetail = () => {
         <PostFooter
           currentUser={currentUser}
           post={post}
-          upvoteAction={handleUpvotesAction}
-          downvoteAction={handleDownvotesAction}
           isPostDetail={true}
         />
 
@@ -59,7 +65,8 @@ const PostDetail = () => {
         <div className="post-detail-comments"></div>
 
       </div>
-    </div>
+    </div> :
+    null
   );
 }
 
