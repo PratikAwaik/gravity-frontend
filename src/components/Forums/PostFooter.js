@@ -13,8 +13,6 @@ import { deletePostDispatcher } from '../../dispatchers/forums';
 const PostFooter = ({
   currentUser, 
   post,
-  upvoteAction,
-  downvoteAction,
   isPostDetail
 }) => {
   const dispatch = useDispatch();
@@ -23,11 +21,11 @@ const PostFooter = ({
   const hasDownvotedAlready = hasDownvotedAlreadyHelper(currentUser, post.id);
 
   const handleUpvoteClick = () => {
-    handleUpvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, upvoteAction);
+    handleUpvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready);
   }
 
   const handleDownvoteClick = () => {
-    handleDownvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready, downvoteAction);
+    handleDownvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready);
   }
 
   const handleDeletePost = () => {
@@ -94,8 +92,6 @@ const PostFooter = ({
 PostFooter.propTypes = {
   currentUser: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
-  upvoteAction: PropTypes.func.isRequired,
-  downvoteAction: PropTypes.func.isRequired,
   isPostDetail: PropTypes.bool.isRequired
 }
 
