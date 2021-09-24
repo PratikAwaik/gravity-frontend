@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Editor } from "react-draft-wysiwyg";
-import { convertToRaw } from "draft-js";
 import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from '../../dispatchers/forums';
-import fancyToolbarConfig from "../../editor.config";
+import FancyEditor from "../Editors/FancyEditor";
+
 // import rehypeSanitize from "rehype-sanitize";
 
 // TODO: Add support for markdown editor 
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
-  const [editorContent, setEditorContent] = useState('');
+  const [editorContent, setEditorContent] = useState("<p>Write Something...</p>");
   // const [mdContent, setMdContent] = useState('');
   // const [isFancyEditor, setIsFancyEditor] = useState(true);
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const CreatePost = () => {
     e.preventDefault();
     const postData = {
       title: titleTextareaRef.current.value,
-      content: JSON.stringify(convertToRaw(editorContent.getCurrentContent())),
+      content: editorContent,
       type: 'editor'
     }
     
@@ -87,20 +86,14 @@ const CreatePost = () => {
               Markdown Mode
             </button>
           </div> */}
-            
-          <Editor
-            editorState={editorContent}
-            toolbarClassName="bg-theme-purple text-theme-black"
-            wrapperClassName="border-2 border-theme-purple rounded-md"
-            editorClassName="p-2"
-            toolbar={fancyToolbarConfig}
-            onEditorStateChange={(editorState) => setEditorContent(editorState)}
-            placeholder="Write here..."
-            handlePastedText={() => false}
+ 
+          <FancyEditor
+            editorContent={editorContent}
+            setEditorContent={setEditorContent}
           />
 
           <div className="flex items-center mt-5">
-            <button type="submit" className="px-5 py-2 border-2 border-theme-purple rounded-md hover:bg-theme-purple">Post</button>
+            <button type="submit" className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white">Post</button>
             <Link to="/" className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red">Cancel</Link>
           </div>
         </form>

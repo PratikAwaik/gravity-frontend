@@ -24,7 +24,7 @@ const Forums = () => {
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">Forums</h2>  
         <Link 
           to="/forums/create" 
-          className="border-2 border-theme-orange py-1 px-2 rounded-md hover:bg-theme-orange hover:text-theme-black"
+          className="border-2 border-theme-green py-1 px-2 rounded-md hover:bg-theme-green hover:text-theme-white"
         >Create Post</Link>
       </div>
       

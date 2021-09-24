@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
-import draftToHtml from "draftjs-to-html";
 import MDEditor from "@uiw/react-md-editor";
 import PropTypes from 'prop-types';
+import domPurifyConfig from "../../configs/domPurifyConfig";
 
 const PostBody = ({ post, isPostDetail }) => {
   const contentStyle = {
@@ -25,11 +25,10 @@ const PostBody = ({ post, isPostDetail }) => {
         </div>
       }
       
-      
       { post.type === 'editor' ?
         <div 
           className="text-base forum-post-body-content" 
-          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(draftToHtml(JSON.parse(post.content))) }} 
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content, domPurifyConfig) }} 
         /> :
         <div className="text-base forum-post-body-content">
           <MDEditor.Markdown source={post.content} />

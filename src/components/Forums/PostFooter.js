@@ -36,7 +36,7 @@ const PostFooter = ({
     <div className={`forum-post-footer flex items-center justify-between ${isPostDetail ? 'mb-5' : ''}`}>
       <div className="flex items-center">
         { currentUser.username ?
-          <div className={`mr-2 flex items-center ${hasUpvotedAlready ? 'text-theme-purple' : ''}`}>
+          <div className={`mr-2 flex items-center ${hasUpvotedAlready ? 'text-theme-green' : ''}`}>
             <i 
               className="ri-rocket-2-line cursor-pointer text-xl z-10"
               onClick={handleUpvoteClick}

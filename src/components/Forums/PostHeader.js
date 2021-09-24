@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const PostHeader = ({ post }) => {
   return (
-    <div className="forum-post-header text-sm text-theme-white mb-2 flex items-center">
+    <div className="forum-post-header text-theme-gray text-sm mb-2 flex items-center">
       Posted by 
       {
         post.user && post.user.username ? 
