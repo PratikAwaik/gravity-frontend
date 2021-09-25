@@ -45,8 +45,8 @@ const PostDetail = () => {
         {
           currentUser.username &&
           <div className="post-detail-add-comment mb-5">
-            <span className="text-sm mb-3">Comment as 
-              <Link className="ml-1 text-theme-orange underline" to={`/user/${currentUser.username}`}>{ currentUser.username }</Link>
+            <span className="text-sm mb-3 text-theme-gray">Comment as 
+              <Link className="ml-1 underline" to={`/user/${currentUser.username}`}>{ currentUser.username }</Link>
             </span>
 
             <FancyEditor 
