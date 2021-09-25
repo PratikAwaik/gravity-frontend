@@ -1,48 +1,43 @@
-import React, { useState, useEffect, useRef } from "react";
-import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from '../../dispatchers/forums';
 import FancyEditor from "../Editors/FancyEditor";
-
-// import rehypeSanitize from "rehype-sanitize";
-
-// TODO: Add support for markdown editor 
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
+  const [titleLength, setTitleLength] = useState(0);
   const [editorContent, setEditorContent] = useState("<p>Write Something...</p>");
-  // const [mdContent, setMdContent] = useState('');
-  // const [isFancyEditor, setIsFancyEditor] = useState(true);
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.currentUser);
 
   // increase title textarea height when content increases
-  useEffect(() => {
-    titleTextareaRef.current.style.height = 'inherit';
-    const scrollHeight = titleTextareaRef.current.scrollHeight;
-
-    // get computed styles for the element
-    const computed = window.getComputedStyle(titleTextareaRef.current);
-    const paddingTopHeight = parseInt(computed.getPropertyValue('padding-top'), 10);
-    titleTextareaRef.current.style.height = scrollHeight + paddingTopHeight + 'px';
-
-  }, [titleTextareaRef]);
-  
-  // const toggleEditor = () => {
-  //   setIsFancyEditor(!isFancyEditor);
-  // }
+  const textAreaChangeHandler = () => {
+    const { current } = titleTextareaRef;
+    current.style.height = 'auto';
+    current.style.height = titleTextareaRef.current.scrollHeight + 'px';
+    setTitleLength(current.value.length);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const postData = {
-      title: titleTextareaRef.current.value,
-      content: editorContent,
-      type: 'editor'
+
+    if (titleLength > 300) {
+      Swal.fire({
+        title: 'Title must have maximum of 300 characters.',
+        icon: 'warning',
+      });
+    } else {
+      const postData = {
+        title: titleTextareaRef.current.value,
+        content: editorContent,
+        type: 'editor'
+      }
+      
+      createPostDispatcher(dispatch, postData, currentUser.token);
+      // redirect to post Detail
     }
-    
-    createPostDispatcher(dispatch, postData, currentUser.token);
-    // redirect to post Detail
   }
 
   return (
@@ -61,31 +56,16 @@ const CreatePost = () => {
           <div className="flex flex-col items-start mb-4">
             <textarea 
               ref={titleTextareaRef}
+              onChange={textAreaChangeHandler}
               name="title" 
               placeholder="Title" 
               maxLength="300"
-              className="resize-none text-base w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent"
+              className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
               rows="1"
               required
             ></textarea>
+            <span className="text-sm mt-2 text-theme-gray">{titleLength} / 300</span>
           </div>
-
-          {/* <div className="flex items-center mb-4">
-            <button 
-              type="button" 
-              className={`mr-4 p-2 border-2 border-theme-purple rounded-md ${isFancyEditor ? 'bg-theme-purple' : ''}`}
-              onClick={toggleEditor}
-            >
-              Fancy Editor
-            </button>
-            <button 
-              type="button" 
-              className={`mr-4 p-2 border-2 border-theme-purple rounded-md ${!isFancyEditor ? 'bg-theme-purple' : ''}`}
-              onClick={toggleEditor}
-            >
-              Markdown Mode
-            </button>
-          </div> */}
  
           <FancyEditor
             editorContent={editorContent}
