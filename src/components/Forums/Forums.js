@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import ForumPost from './ForumPost';
 import { Link } from 'react-router-dom';
 import { getAllPostsDispatcher } from "../../dispatchers/forums";
 import { currentUserDetailsDispatcher } from "../../dispatchers/user";
+import { sortByDate } from "../../helpers";
+
+const ForumPost = React.lazy(() => import('./ForumPost'));
 
 const Forums = () => {
   const dispatch = useDispatch();
-  const { forums, currentUser } = useSelector(state => state);
+  const forums = useSelector(state => sortByDate(state.forums, true));
+  const currentUser = useSelector(state => state.currentUser);
 
   useEffect(() => {
-    // dispatch(getAllPostsAction());
     getAllPostsDispatcher(dispatch);
   }, [dispatch]);
 
@@ -31,7 +33,15 @@ const Forums = () => {
       <hr className="mb-5" />
       
       <div className="forums-post-wrapper">
-        {forums.map(post => <ForumPost key={post.id} forums={forums} currentUser={currentUser} post={post} />)}
+        {forums.map(post => 
+          <React.Suspense key={post.id}>
+            <ForumPost 
+              forums={forums} 
+              currentUser={currentUser} 
+              post={post} 
+            />
+          </React.Suspense>
+          )}
       </div>
     </div>
   );
