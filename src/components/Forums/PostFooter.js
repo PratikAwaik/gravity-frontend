@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import Swal from "sweetalert2";
 import { 
   handleDownvoteHelper, 
   handleUpvoteHelper, 
@@ -28,8 +29,40 @@ const PostFooter = ({
     handleDownvoteHelper(dispatch, currentUser, post, hasUpvotedAlready, hasDownvotedAlready);
   }
 
-  const handleDeletePost = () => {
-    deletePostDispatcher(dispatch, post.id, currentUser.token);
+  const handleDeletePost = async () => {
+    const swalObject = {
+      title: 'Are you sure?',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, go back!',
+      position: 'center',
+      icon: 'warning',
+      customClass: {
+        confirmButton: 'bg-theme-green text-theme-white border border-theme-green rounded-md',
+        cancelButton: 'bg-theme-gray, border border-theme-gray rounded-md'
+      }
+    }
+
+    const result = await Swal.fire(swalObject);
+    if (result.isConfirmed) {
+      try {
+        await deletePostDispatcher(dispatch, post.id, currentUser.token);
+        Swal.fire({
+          icon: 'success',
+          title: 'Post deleted Successfully!',
+          showConfirmButton: false,
+          timer: 2000
+        });  
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: err,
+          showConfirmButton: false,
+          timer: 2000
+        });
+      }
+    }
   }
   
   return (
