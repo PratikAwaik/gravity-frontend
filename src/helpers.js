@@ -32,3 +32,11 @@ export const handleDownvoteHelper = async (dispatch, currentUser, post, hasUpvot
   await handleDownvoteDispatcher(dispatch, post.id, downvotesData, currentUser.token);
   currentUserDetailsDispatcher(dispatch);
 }
+
+export const sortByDate = (array, mostRecent) => {
+  if (mostRecent) {
+    return array.sort((prev, next) => prev.createdAt > next.createdAt ? -1 : 1);
+  } else {
+    return array.sort((prev, next) => prev.createdAt > next.createdAt ? 1 : -1);
+  }
+}
