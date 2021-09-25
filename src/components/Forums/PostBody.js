@@ -13,15 +13,15 @@ const PostBody = ({ post, isPostDetail }) => {
 
   return (
     <div 
-      className={`forum-post-body overflow-hidden mb-2 ${!isPostDetail ? 'max-h-60' : '' }`} 
+      className={`forum-post-body overflow-hidden mb-4 ${!isPostDetail ? 'max-h-60' : '' }`} 
       style={!isPostDetail ? contentStyle : {}}
     > 
       { !isPostDetail ?
         <Link to={`/forums/${post.id}`} className="forum-post-body-title">
-          <h3 className="text-xl font-bold mb-1">{post.title}</h3>
+          <h3 className="text-xl font-bold mb-3">{post.title}</h3>
         </Link> :
         <div>
-          <h3 className="text-xl font-bold mb-1">{post.title}</h3>
+          <h3 className="text-xl font-bold mb-3">{post.title}</h3>
         </div>
       }
       
