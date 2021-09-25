@@ -13,7 +13,7 @@ const FormInput = ({
       <label htmlFor={name} className="mb-1">{label}</label>
       <input 
         autoComplete="off" 
-        className="w-full p-2 bg-transparent border-2 rounded-md border-theme-purple outline-none focus-within::bg-transparent" 
+        className="w-full p-2 bg-transparent border-2 rounded-md border-theme-green outline-none focus-within::bg-transparent" 
         type={type}
         name={name} 
         id={name} 
