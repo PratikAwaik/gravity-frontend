@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { loginUserDispatcher } from "../../dispatchers/user";
 import FormInput from "./FormInput";
@@ -13,11 +13,15 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const { currentUser, error } = useSelector(state => state);
 
   useEffect(() => {
-    if (currentUser.id) history.push('/');
-  }, [currentUser, history]);
+    if (currentUser.id) {
+      const { from } = location.state || { from: { pathname: '/' } };
+      history.replace(from); 
+    }
+  }, [currentUser, history, location.state]);
 
   const handleInputChange = (e) => {
     setUserInfo({
@@ -33,7 +37,7 @@ const Login = () => {
 
   return (
     <div className="login-form-container w-screen h-screen flex items-center justify-center overflow-hidden -mt-16">
-      <div className="login-form-wrapper border-2 border-theme-purple rounded-lg p-4 w-96 relative">
+      <div className="login-form-wrapper border-2 border-theme-green rounded-lg p-4 w-96 relative">
         <h2 className="text-3xl mb-6 text-center">Welcome back</h2>
         <form onSubmit={handleSubmit} className="w-100 mb-5">
 
@@ -46,7 +50,7 @@ const Login = () => {
           </div>
 
           <div className="mb-4">
-            <button className="mb-4 px-5 py-2 w-full bg-theme-purple text-theme-white rounded-lg" type="submit">Log In</button>
+            <button className="mb-4 px-5 py-2 w-full bg-theme-green text-theme-white rounded-lg" type="submit">Log In</button>
             <p className="text-center mb-4">
               Haven't signed up yet? 
               <Link className="text-theme-orange underline ml-1" to="/register">Sign Up</Link>
