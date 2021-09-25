@@ -1,17 +1,29 @@
 import React, { useEffect } from "react"; 
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
-import { useDispatch, useSelector } from "react-redux";
-import { setUserFromLocalStorageAction } from './actions/currentUser';
-import Forums from "./components/Forums/Forums";
 import CreatePost from "./components/Forums/CreatePost";
-import PostDetail from "./components/Forums/PostDetail";
+import PrivateRoute from "./components/Auth/PrivateRoute";
+
+import { setUserFromLocalStorageAction } from './actions/currentUser';
+import loadingIcon from './images/loading-icon.gif';
+
+const Forums = React.lazy(() => import('./components/Forums/Forums'));
+const PostDetail = React.lazy(() => import('./components/Forums/PostDetail'));
+
+const loadingElement = () => {
+  return (
+    <div className="w-screen h-screen flex items-center justify-center">
+      <img src={loadingIcon} alt="Red Loading Gear Icon" />
+    </div>
+  );
+}
 
 function App() {
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.currentUser);
 
   useEffect(() => {
     dispatch(setUserFromLocalStorageAction());
@@ -19,32 +31,35 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="App mt-16">
-        <Navbar />
+      <React.Suspense fallback={loadingElement()}>
 
-        <Switch>
-          <Route exact path="/register">
-            <Register />
-          </Route>
+        <div className="App mt-16">
+          <Navbar />
 
-          <Route exact path="/login">
-            <Login />
-          </Route>
+          <Switch>
+            <Route exact path="/register">
+              <Register />
+            </Route>
 
-          <Route exact path="/forums/create">
-            { currentUser.id ? <CreatePost /> : <Redirect to="/login" /> }
-          </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
 
-          <Route exact path="/">
-            <Forums />
-          </Route>
+            <PrivateRoute path="/forums/create">
+              <CreatePost />
+            </PrivateRoute>
 
-          <Route exact path="/forums/:id">
-            <PostDetail />
-          </Route>
+            <Route exact path="/">
+              <Forums />
+            </Route>
 
-        </Switch>
-      </div>
+            <PrivateRoute path="/forums/:id">
+              <PostDetail />
+            </PrivateRoute>
+          </Switch>
+        </div>
+
+      </React.Suspense>
     </BrowserRouter>
   );
 }
