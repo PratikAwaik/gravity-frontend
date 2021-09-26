@@ -30,8 +30,8 @@ function App() {
   }, [dispatch]);
 
   return (
-    <BrowserRouter>
-      <React.Suspense fallback={loadingElement()}>
+    <React.Suspense fallback={loadingElement()}>
+      <BrowserRouter>
         <div className="App mt-16">
           <Navbar />
 
@@ -44,7 +44,7 @@ function App() {
               <Login />
             </Route>
 
-            <PrivateRoute path="/forums/create">
+            <PrivateRoute exact path="/forums/create">
               <CreatePost />
             </PrivateRoute>
 
@@ -52,13 +52,13 @@ function App() {
               <Forums />
             </Route>
 
-            <PrivateRoute path="/forums/:id">
+            <PrivateRoute exact path="/forums/:id">
               <PostDetail />
             </PrivateRoute>
           </Switch>
         </div>
-      </React.Suspense>
-    </BrowserRouter>
+      </BrowserRouter>
+    </React.Suspense>
   );
 }
 
