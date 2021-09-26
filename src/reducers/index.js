@@ -6,7 +6,7 @@ import forumsReducer from "./forums";
 const reducers = combineReducers({
   currentUser: currentUserReducer,
   forums: forumsReducer,
-  error: errorReducer
+  error: errorReducer,
 });
 
 export default reducers;

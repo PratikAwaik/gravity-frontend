@@ -1,26 +1,32 @@
 const currentUserReducer = (state = {}, action) => {
-  switch(action.type) {
-    case 'REGISTER': {
-      window.localStorage.setItem('loggedInGravityUser', JSON.stringify(action.payload));
+  switch (action.type) {
+    case "REGISTER": {
+      window.localStorage.setItem(
+        "loggedInGravityUser",
+        JSON.stringify(action.payload)
+      );
       return action.payload;
     }
-    case 'LOGIN': {
-      window.localStorage.setItem('loggedInGravityUser', JSON.stringify(action.payload));
+    case "LOGIN": {
+      window.localStorage.setItem(
+        "loggedInGravityUser",
+        JSON.stringify(action.payload)
+      );
       return action.payload;
     }
-    case 'LOGOUT': {
-      window.localStorage.removeItem('loggedInGravityUser');
+    case "LOGOUT": {
+      window.localStorage.removeItem("loggedInGravityUser");
       return action.payload;
     }
-    case 'SET_FROM_LOCAL_STORAGE': {
+    case "SET_FROM_LOCAL_STORAGE": {
       return action.payload;
     }
-    case 'GET_USER_DETAILS': {
+    case "GET_USER_DETAILS": {
       return { ...state, ...action.payload };
     }
     default:
       return state;
   }
-}
+};
 
 export default currentUserReducer;

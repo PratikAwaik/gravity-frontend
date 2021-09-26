@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; 
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -8,11 +8,11 @@ import Login from "./components/Auth/Login";
 import CreatePost from "./components/Forums/CreatePost";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 
-import { setUserFromLocalStorageAction } from './actions/currentUser';
-import loadingIcon from './images/loading-icon.gif';
+import { setUserFromLocalStorageAction } from "./actions/currentUser";
+import loadingIcon from "./images/loading-icon.gif";
 
-const Forums = React.lazy(() => import('./components/Forums/Forums'));
-const PostDetail = React.lazy(() => import('./components/Forums/PostDetail'));
+const Forums = React.lazy(() => import("./components/Forums/Forums"));
+const PostDetail = React.lazy(() => import("./components/Forums/PostDetail"));
 
 const loadingElement = () => {
   return (
@@ -20,7 +20,7 @@ const loadingElement = () => {
       <img src={loadingIcon} alt="Red Loading Gear Icon" />
     </div>
   );
-}
+};
 
 function App() {
   const dispatch = useDispatch();
@@ -32,7 +32,6 @@ function App() {
   return (
     <BrowserRouter>
       <React.Suspense fallback={loadingElement()}>
-
         <div className="App mt-16">
           <Navbar />
 
@@ -58,7 +57,6 @@ function App() {
             </PrivateRoute>
           </Switch>
         </div>
-
       </React.Suspense>
     </BrowserRouter>
   );

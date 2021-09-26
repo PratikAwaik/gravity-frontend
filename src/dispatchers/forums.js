@@ -1,14 +1,14 @@
 import axios from "axios";
 import { setErrorAction } from "../actions/error";
-import { 
-  createPostAction, 
-  deletePostAction, 
-  getAllPostsAction, 
-  handleDownvotesAction, 
-  handleUpvotesAction 
+import {
+  createPostAction,
+  deletePostAction,
+  getAllPostsAction,
+  handleDownvotesAction,
+  handleUpvotesAction,
 } from "../actions/forums";
 
-const baseUrl = '/api/forums';
+const baseUrl = "/api/forums";
 
 export const getAllPostsDispatcher = async (dispatch) => {
   try {
@@ -18,7 +18,7 @@ export const getAllPostsDispatcher = async (dispatch) => {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 // export const getSinglePostDispatcher = async (dispatch, id) => {
 //   try {
@@ -28,46 +28,64 @@ export const getAllPostsDispatcher = async (dispatch) => {
 //     console.log(err.response);
 //     dispatch(setErrorAction(err.response.data));
 //   }
-// } 
+// }
 
-export const handleUpvoteDispatcher = async (dispatch, id, upvotesData, userToken) => {
+export const handleUpvoteDispatcher = async (
+  dispatch,
+  id,
+  upvotesData,
+  userToken
+) => {
   const config = {
     headers: {
-      Authorization: 'Bearer ' + userToken
-    }
-  }
+      Authorization: "Bearer " + userToken,
+    },
+  };
 
   try {
-    const response = await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
+    const response = await axios.patch(
+      `${baseUrl}/${id}/upvote`,
+      upvotesData,
+      config
+    );
     dispatch(handleUpvotesAction(response.data));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
-export const handleDownvoteDispatcher = async (dispatch, id, downvotesData, userToken) => {
+export const handleDownvoteDispatcher = async (
+  dispatch,
+  id,
+  downvotesData,
+  userToken
+) => {
   const config = {
     headers: {
-      Authorization: 'Bearer ' + userToken
-    }
-  }
+      Authorization: "Bearer " + userToken,
+    },
+  };
 
   try {
-    const response = await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
+    const response = await axios.patch(
+      `${baseUrl}/${id}/downvote`,
+      downvotesData,
+      config
+    );
     dispatch(handleDownvotesAction(response.data));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 export const createPostDispatcher = async (dispatch, postData, userToken) => {
   const config = {
     headers: {
-      Authorization: 'Bearer ' + userToken
-    }
-  }
+      Authorization: "Bearer " + userToken,
+    },
+  };
 
   try {
     const response = await axios.post(baseUrl, postData, config);
@@ -76,20 +94,20 @@ export const createPostDispatcher = async (dispatch, postData, userToken) => {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 export const deletePostDispatcher = async (dispatch, id, userToken) => {
   const config = {
     headers: {
-      Authorization: 'Bearer ' + userToken
-    }
-  }
+      Authorization: "Bearer " + userToken,
+    },
+  };
 
   try {
-    await axios.delete(`${baseUrl}/${id}`, config); 
+    await axios.delete(`${baseUrl}/${id}`, config);
     dispatch(deletePostAction(id));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};

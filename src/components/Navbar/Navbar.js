@@ -5,14 +5,14 @@ import { logoutUserAction } from "../../actions/currentUser";
 import { useHistory } from "react-router-dom";
 
 const Navbar = () => {
-  const currentUser = useSelector(state => state.currentUser);
+  const currentUser = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
 
   const handleLogout = () => {
     dispatch(logoutUserAction());
-    history.push('/');
-  }
+    history.push("/");
+  };
 
   return (
     <div className="w-full fixed top-0 left-0 z-20 shadow-md bg-white">
@@ -23,23 +23,24 @@ const Navbar = () => {
         <div className="flex items-center">
           <NavLink label="Forums" slug="/" />
           <NavLink label="Blogs" slug="/blogs" />
-          { !currentUser.id && <NavLink label="Sign Up" slug="/register" /> }
-          { !currentUser.id && <NavLink label="Log In" slug="/login" /> }
-          { currentUser.id && <NavLink label="Profile" slug={`/user/${currentUser.username}`} /> }
-          { 
-            currentUser.id && 
-            <button 
-              type="button" 
+          {!currentUser.id && <NavLink label="Sign Up" slug="/register" />}
+          {!currentUser.id && <NavLink label="Log In" slug="/login" />}
+          {currentUser.id && (
+            <NavLink label="Profile" slug={`/user/${currentUser.username}`} />
+          )}
+          {currentUser.id && (
+            <button
+              type="button"
               className="mx-4 text-md rounded-md hover:bg-theme-green hover:text-theme-white px-3 py-1"
               onClick={handleLogout}
             >
               Log Out
-            </button> 
-          }
+            </button>
+          )}
         </div>
       </nav>
     </div>
   );
-}
+};
 
 export default Navbar;

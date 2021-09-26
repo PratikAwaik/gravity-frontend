@@ -1,37 +1,35 @@
-
-
 export const registerUserAction = (userInfo) => {
   return {
-    type: 'REGISTER',
-    payload: userInfo
-  }
-}
+    type: "REGISTER",
+    payload: userInfo,
+  };
+};
 
 export const loginUserAction = (userInfo) => {
   return {
-    type: 'LOGIN',
-    payload: userInfo
-  }
-}
+    type: "LOGIN",
+    payload: userInfo,
+  };
+};
 
 export const logoutUserAction = () => {
   return {
-    type: 'LOGOUT',
-    payload: {}
-  }
-}
+    type: "LOGOUT",
+    payload: {},
+  };
+};
 
 export const setUserFromLocalStorageAction = () => {
-  const user = window.localStorage.getItem('loggedInGravityUser');
+  const user = window.localStorage.getItem("loggedInGravityUser");
   return {
-    type: 'SET_FROM_LOCAL_STORAGE',
-    payload: user ? JSON.parse(user) : {}
-  }
-}
+    type: "SET_FROM_LOCAL_STORAGE",
+    payload: user ? JSON.parse(user) : {},
+  };
+};
 
 export const getCurrentUserDetailsAction = (userInfo) => {
   return {
-    type: 'GET_USER_DETAILS',
-    payload: userInfo
-  }
-}
+    type: "GET_USER_DETAILS",
+    payload: userInfo,
+  };
+};

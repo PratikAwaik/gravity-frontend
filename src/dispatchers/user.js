@@ -1,8 +1,12 @@
 import axios from "axios";
-import { getCurrentUserDetailsAction, loginUserAction, registerUserAction } from "../actions/currentUser";
+import {
+  getCurrentUserDetailsAction,
+  loginUserAction,
+  registerUserAction,
+} from "../actions/currentUser";
 import { setErrorAction } from "../actions/error";
 
-const baseUrl = '/api/users';
+const baseUrl = "/api/users";
 
 export const getSingleUserDispatcher = async (dispatch, id) => {
   try {
@@ -11,7 +15,7 @@ export const getSingleUserDispatcher = async (dispatch, id) => {
   } catch (err) {
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 export const registerUserDispatcher = async (dispatch, userInfo) => {
   try {
@@ -21,7 +25,7 @@ export const registerUserDispatcher = async (dispatch, userInfo) => {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 export const loginUserDispatcher = async (dispatch, userInfo) => {
   try {
@@ -31,10 +35,10 @@ export const loginUserDispatcher = async (dispatch, userInfo) => {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
 
 export const currentUserDetailsDispatcher = async (dispatch) => {
-  const { id } = JSON.parse(window.localStorage.getItem('loggedInGravityUser'));
+  const { id } = JSON.parse(window.localStorage.getItem("loggedInGravityUser"));
   try {
     const response = await axios.get(`${baseUrl}/${id}`);
     dispatch(getCurrentUserDetailsAction(response.data));
@@ -42,4 +46,4 @@ export const currentUserDetailsDispatcher = async (dispatch) => {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
   }
-}
+};
