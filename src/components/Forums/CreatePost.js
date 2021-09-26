@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from "../../dispatchers/forums";
 import FancyEditor from "../Editors/FancyEditor";
@@ -11,6 +11,7 @@ const CreatePost = () => {
   const [editorContent, setEditorContent] = useState(
     "<p>Write Something...</p>"
   );
+  const history = useHistory();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
 
@@ -85,12 +86,13 @@ const CreatePost = () => {
             >
               Post
             </button>
-            <Link
-              to="/"
+            <button
+              type="button"
               className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red"
+              onClick={() => history.goBack()}
             >
               Cancel
-            </Link>
+            </button>
           </div>
         </form>
       </div>
