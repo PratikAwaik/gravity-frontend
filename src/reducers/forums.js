@@ -18,6 +18,12 @@ const forumsReducer = (state = [], action) => {
       return [...state, action.payload];
     case "DELETE_POST_FORUMS":
       return state.filter((post) => post.id.toString() !== action.payload);
+    case "EDIT_POST_FORUMS":
+      return state.map((post) =>
+        post.id.toString() === action.payload.id.toString()
+          ? action.payload
+          : post
+      );
     default:
       return state;
   }
