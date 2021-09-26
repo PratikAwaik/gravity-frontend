@@ -3,7 +3,9 @@ import { setErrorAction } from "../actions/error";
 import {
   createPostAction,
   deletePostAction,
+  editPostAction,
   getAllPostsAction,
+  // getSinglePostAction,
   handleDownvotesAction,
   handleUpvotesAction,
 } from "../actions/forums";
@@ -28,7 +30,7 @@ export const getAllPostsDispatcher = async (dispatch) => {
 //     console.log(err.response);
 //     dispatch(setErrorAction(err.response.data));
 //   }
-// }
+// };
 
 export const handleUpvoteDispatcher = async (
   dispatch,
@@ -106,6 +108,31 @@ export const deletePostDispatcher = async (dispatch, id, userToken) => {
   try {
     await axios.delete(`${baseUrl}/${id}`, config);
     dispatch(deletePostAction(id));
+  } catch (err) {
+    console.log(err.response);
+    dispatch(setErrorAction(err.response.data));
+  }
+};
+
+export const editPostDispatcher = async (
+  dispatch,
+  postId,
+  postData,
+  userToken
+) => {
+  const config = {
+    headers: {
+      Authorization: "Bearer " + userToken,
+    },
+  };
+
+  try {
+    const response = await axios.put(
+      `${baseUrl}/${postId}/edit`,
+      postData,
+      config
+    );
+    dispatch(editPostAction(response.data));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
