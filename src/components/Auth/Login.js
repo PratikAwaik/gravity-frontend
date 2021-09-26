@@ -76,7 +76,7 @@ const Login = () => {
           </div>
         </form>
         {error.error && (
-          <div className="absolute bottom-0 left-0 bg-theme-red w-full pb-1 rounded-b-md">
+          <div className="absolute bottom-0 left-0 text-theme-white bg-theme-red w-full pb-1 rounded-b-md">
             <span className="text-sm w-full flex items-start justify-center mt-1">
               <i className="ri-information-line text-sm mr-1"></i>
               {error.error}
