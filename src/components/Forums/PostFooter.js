@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
 import {
@@ -11,7 +11,8 @@ import {
 } from "../../helpers";
 import { deletePostDispatcher } from "../../dispatchers/forums";
 
-const PostFooter = ({ currentUser, post, isPostDetail }) => {
+const PostFooter = ({ currentUser, post, isPostDetail, toEdit, setToEdit }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const hasUpvotedAlready = hasUpvotedAlreadyHelper(currentUser, post.id);
@@ -37,6 +38,10 @@ const PostFooter = ({ currentUser, post, isPostDetail }) => {
     );
   };
 
+  const toggleEdit = () => {
+    setToEdit(!toEdit);
+  };
+
   const handleDeletePost = async () => {
     const swalObject = {
       title: "Are you sure?",
@@ -57,6 +62,7 @@ const PostFooter = ({ currentUser, post, isPostDetail }) => {
     if (result.isConfirmed) {
       try {
         await deletePostDispatcher(dispatch, post.id, currentUser.token);
+        history.goBack();
         Swal.fire({
           icon: "success",
           title: "Post deleted Successfully!",
@@ -126,14 +132,18 @@ const PostFooter = ({ currentUser, post, isPostDetail }) => {
         </div>
       </div>
 
-      {post.user && post.user.id === currentUser.id && (
+      {post.user && post.user.id === currentUser.id && isPostDetail && (
         <div className="flex items-center mr-5">
-          <div className="mr-3">
+          <button
+            to={`/forums/${post.id}/edit`}
+            onClick={toggleEdit}
+            className="mr-3"
+          >
             <i className="ri-edit-2-line cursor-pointer text-xl z-10 text-theme-blue"></i>
-          </div>
-          <div onClick={handleDeletePost}>
+          </button>
+          <button onClick={handleDeletePost}>
             <i className="ri-delete-bin-5-line cursor-pointer text-xl z-10 text-theme-red"></i>
-          </div>
+          </button>
         </div>
       )}
     </div>
@@ -144,6 +154,8 @@ PostFooter.propTypes = {
   currentUser: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   isPostDetail: PropTypes.bool.isRequired,
+  toEdit: PropTypes.bool,
+  setToEdit: PropTypes.func,
 };
 
 export default PostFooter;
