@@ -26,3 +26,7 @@ body::-webkit-scrollbar-thumb {
   content: "";
   background-color: rgba(0, 0, 0, 0);
 }
+
+.forum-post-body-content .image img {
+  margin: auto !important;
+}
