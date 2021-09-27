@@ -13,12 +13,23 @@ const Forums = () => {
   const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
-    getAllPostsDispatcher(dispatch);
+    (async function () {
+      await getAllPostsDispatcher(dispatch);
+      scrollToPreviousPosition();
+    })();
   }, [dispatch]);
 
   useEffect(() => {
     if (currentUser.id) currentUserDetailsDispatcher(dispatch);
   }, [dispatch, currentUser.id]);
+
+  function scrollToPreviousPosition() {
+    const yPosition = window.localStorage.getItem("gravityScrollPosition");
+    if (yPosition) {
+      window.scrollTo(0, parseInt(yPosition));
+      window.localStorage.removeItem("gravityScrollPosition");
+    }
+  }
 
   return (
     <div className="mt-16 forums-post-container pt-9 max-w-3xl mx-auto mb-16">

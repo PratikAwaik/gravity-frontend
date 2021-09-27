@@ -11,7 +11,7 @@ import {
 } from "../../helpers";
 import { deletePostDispatcher } from "../../dispatchers/forums";
 
-const PostFooter = ({ currentUser, post, isPostDetail, toEdit, setToEdit }) => {
+const PostFooter = ({ currentUser, post, isPostDetail, setToEdit }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ const PostFooter = ({ currentUser, post, isPostDetail, toEdit, setToEdit }) => {
   };
 
   const toggleEdit = () => {
-    setToEdit(!toEdit);
+    setToEdit(true);
   };
 
   const handleDeletePost = async () => {
@@ -154,7 +154,6 @@ PostFooter.propTypes = {
   currentUser: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   isPostDetail: PropTypes.bool.isRequired,
-  toEdit: PropTypes.bool,
   setToEdit: PropTypes.func,
 };
 
