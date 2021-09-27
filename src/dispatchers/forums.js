@@ -127,7 +127,7 @@ export const editPostDispatcher = async (
   };
 
   try {
-    const response = await axios.put(
+    const response = await axios.patch(
       `${baseUrl}/${postId}/edit`,
       postData,
       config
