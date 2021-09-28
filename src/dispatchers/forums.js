@@ -4,6 +4,7 @@ import {
   createPostAction,
   deletePostAction,
   editPostAction,
+  getAllCommentsAction,
   getAllPostsAction,
   // getSinglePostAction,
   handleDownvotesAction,
@@ -133,6 +134,16 @@ export const editPostDispatcher = async (
       config
     );
     dispatch(editPostAction(response.data));
+  } catch (err) {
+    console.log(err.response);
+    dispatch(setErrorAction(err.response.data));
+  }
+};
+
+export const getAllCommentsDispatcher = async (dispatch, postId) => {
+  try {
+    const response = await axios.get(`${baseUrl}/${postId}/comments`);
+    dispatch(getAllCommentsAction(response.data, postId));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
