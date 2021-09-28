@@ -24,6 +24,15 @@ const forumsReducer = (state = [], action) => {
           ? action.payload
           : post
       );
+    case "SET_COMMENTS":
+      const { comments, postId } = action.payload;
+      const targetPost = [...state].find(
+        (post) => post.id.toString() === postId
+      );
+      targetPost.comments = comments;
+      return state.map((post) =>
+        post.id.toString() === targetPost.id.toString() ? targetPost : post
+      );
     default:
       return state;
   }
