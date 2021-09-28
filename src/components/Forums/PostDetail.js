@@ -6,8 +6,9 @@ import PostHeader from "./PostHeader";
 import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
 import FancyEditor from "../Editors/FancyEditor";
-// import EditPost from "./EditPost";
 import { currentUserDetailsDispatcher } from "../../dispatchers/user";
+
+const Comments = React.lazy(() => import("../Comments/Comments"));
 
 const PostDetail = () => {
   const [editorContent, setEditorContent] = useState("");
@@ -69,7 +70,12 @@ const PostDetail = () => {
           </div>
         )}
 
-        <div className="post-detail-comments"></div>
+        <hr />
+        <div className="my-4 post-detail-comments">
+          <React.Suspense>
+            <Comments post={post} />
+          </React.Suspense>
+        </div>
       </div>
     </div>
   ) : null;
