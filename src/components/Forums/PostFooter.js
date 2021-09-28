@@ -127,7 +127,7 @@ const PostFooter = ({ currentUser, post, isPostDetail, setToEdit }) => {
 
         <div className="flex items-center cursor-pointer z-10">
           <i className="ri-chat-1-line mr-1 text-xl"></i>
-          {post.comments}
+          <span className="mr-1">{post.comments.length}</span>
           comments
         </div>
       </div>
