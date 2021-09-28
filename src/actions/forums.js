@@ -46,3 +46,13 @@ export const editPostAction = (postData) => {
     payload: postData,
   };
 };
+
+export const getAllCommentsAction = (comments, postId) => {
+  return {
+    type: "SET_COMMENTS",
+    payload: {
+      comments,
+      postId,
+    },
+  };
+};
