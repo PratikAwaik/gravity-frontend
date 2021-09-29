@@ -1,4 +1,6 @@
 import {
+  getAllCommentsDispatcher,
+  handleCommentUpvoteDispatcher,
   handleDownvoteDispatcher,
   handleUpvoteDispatcher,
 } from "./dispatchers/forums";
@@ -41,6 +43,35 @@ export const handleUpvoteHelper = async (
     upvotesData,
     currentUser.token
   );
+  await currentUserDetailsDispatcher(dispatch);
+  getAllCommentsDispatcher(dispatch, post.id);
+};
+
+export const handleCommentUpvoteHelper = async (
+  dispatch,
+  currentUser,
+  postId,
+  comment,
+  hasUpvotedAlready,
+  hasDownvotedAlready
+) => {
+  const upvotesData = {
+    upvotes:
+      hasUpvotedAlready && !hasDownvotedAlready
+        ? comment.upvotes - 1
+        : comment.upvotes + 1,
+    downvotes: hasDownvotedAlready ? comment.downvotes - 1 : comment.downvotes,
+    hasUpvotedAlready,
+    hasDownvotedAlready,
+  };
+
+  await handleCommentUpvoteDispatcher(
+    dispatch,
+    postId,
+    comment.id,
+    upvotesData,
+    currentUser.token
+  );
   currentUserDetailsDispatcher(dispatch);
 };
 
@@ -67,7 +98,8 @@ export const handleDownvoteHelper = async (
     downvotesData,
     currentUser.token
   );
-  currentUserDetailsDispatcher(dispatch);
+  await currentUserDetailsDispatcher(dispatch);
+  getAllCommentsDispatcher(dispatch, post.id);
 };
 
 export const sortByDate = (array, mostRecent) => {
