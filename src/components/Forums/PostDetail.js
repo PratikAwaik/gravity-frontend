@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { getAllPostsDispatcher } from "../../dispatchers/forums";
+import {
+  getAllPostsDispatcher,
+  createCommentDispatcher,
+} from "../../dispatchers/forums";
 import PostHeader from "./PostHeader";
 import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
@@ -32,6 +35,19 @@ const PostDetail = () => {
   useEffect(() => {
     if (currentUser.id) currentUserDetailsDispatcher(dispatch);
   }, [dispatch, currentUser.id]);
+
+  const handleCreateComment = async () => {
+    const commentData = {
+      content: editorContent,
+    };
+    await createCommentDispatcher(
+      dispatch,
+      post.id,
+      currentUser.token,
+      commentData
+    );
+    setEditorContent("");
+  };
 
   return post && post.id ? (
     <div className="mt-24 mb-16 mx-auto max-w-3xl bg-transparent border-2 rounded-md shadow-md post-detail-container">
@@ -66,14 +82,23 @@ const PostDetail = () => {
             <FancyEditor
               editorContent={editorContent}
               setEditorContent={setEditorContent}
+              isPost={false}
             />
+
+            <button
+              type="button"
+              className="mt-2 px-4 py-1 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
+              onClick={handleCreateComment}
+            >
+              Comment
+            </button>
           </div>
         )}
 
         <hr />
         <div className="my-4 post-detail-comments">
           <React.Suspense>
-            <Comments post={post} />
+            <Comments post={post} currentUser={currentUser} />
           </React.Suspense>
         </div>
       </div>
