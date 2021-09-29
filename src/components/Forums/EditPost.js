@@ -39,6 +39,7 @@ const EditPost = ({ post, setToEdit }) => {
         <FancyEditor
           editorContent={editorState}
           setEditorContent={setEditorState}
+          isPost={true}
         />
 
         <div className="flex items-center mt-5">
