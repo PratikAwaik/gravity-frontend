@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Comment from "./Comment";
 import { getAllCommentsDispatcher } from "../../dispatchers/forums";
 
-const Comments = ({ post }) => {
+const Comments = ({ post, currentUser }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Comments = ({ post }) => {
   return post ? (
     <div>
       {post.comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} currentUser={currentUser} />
       ))}
     </div>
   ) : null;
@@ -22,6 +22,7 @@ const Comments = ({ post }) => {
 
 Comments.propTypes = {
   post: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
 export default Comments;
