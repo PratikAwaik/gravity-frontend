@@ -77,6 +77,7 @@ const CreatePost = () => {
           <FancyEditor
             editorContent={editorContent}
             setEditorContent={setEditorContent}
+            isPost={true}
           />
 
           <div className="flex items-center mt-5">
