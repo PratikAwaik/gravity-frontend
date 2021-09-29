@@ -56,3 +56,23 @@ export const getAllCommentsAction = (comments, postId) => {
     },
   };
 };
+
+export const createCommentAction = (comment, postId) => {
+  return {
+    type: "ADD_COMMENT",
+    payload: {
+      comment,
+      postId,
+    },
+  };
+};
+
+export const handleCommentUpvoteAction = (comment, postId) => {
+  return {
+    type: "UPVOTE_COMMENT",
+    payload: {
+      comment,
+      postId,
+    },
+  };
+};
