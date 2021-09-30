@@ -46,33 +46,3 @@ export const editPostAction = (postData) => {
     payload: postData,
   };
 };
-
-export const getAllCommentsAction = (comments, postId) => {
-  return {
-    type: "SET_COMMENTS",
-    payload: {
-      comments,
-      postId,
-    },
-  };
-};
-
-export const createCommentAction = (comment, postId) => {
-  return {
-    type: "ADD_COMMENT",
-    payload: {
-      comment,
-      postId,
-    },
-  };
-};
-
-export const handleCommentUpvoteAction = (comment, postId) => {
-  return {
-    type: "UPVOTE_COMMENT",
-    payload: {
-      comment,
-      postId,
-    },
-  };
-};
