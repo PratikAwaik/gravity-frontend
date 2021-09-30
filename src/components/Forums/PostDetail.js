@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import {
-  getAllPostsDispatcher,
-  createCommentDispatcher,
-} from "../../dispatchers/forums";
+import { getAllPostsDispatcher } from "../../dispatchers/forums";
+import { createCommentDispatcher } from "../../dispatchers/comments";
 import PostHeader from "./PostHeader";
 import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
@@ -98,7 +96,7 @@ const PostDetail = () => {
         <hr />
         <div className="my-4 post-detail-comments">
           <React.Suspense>
-            <Comments post={post} currentUser={currentUser} />
+            <Comments post={post} />
           </React.Suspense>
         </div>
       </div>
