@@ -1,4 +1,5 @@
-const ckEditorConfigPost = {
+const ckEditorConfig = {
+  placeholder: "Write Something...",
   toolbar: {
     items: [
       "heading",
@@ -38,49 +39,17 @@ const ckEditorConfigPost = {
   mediaEmbed: {
     previewsInData: true,
   },
-};
-
-const ckEditorConfigComment = {
-  toolbar: {
-    items: [
-      "heading",
-      "|",
-      "bold",
-      "italic",
-      "underline",
-      "link",
-      "strikethrough",
-      "code",
-      "codeBlock",
-      "bulletedList",
-      "numberedList",
-      "|",
-      "outdent",
-      "indent",
-      "|",
-      "blockQuote",
-      "insertTable",
-      "undo",
-      "redo",
+  heading: {
+    options: [
+      { model: "paragraph", title: "Paragraph", class: "text-base" },
+      { model: "heading1", view: "h2", title: "Heading 1", class: "text-2xl" },
+      { model: "heading2", view: "h3", title: "Heading 2", class: "text-xl" },
+      { model: "heading3", view: "h4", title: "Heading 3", class: "text-lg" },
     ],
   },
-  language: "en",
-  image: {
-    toolbar: [
-      "imageTextAlternative",
-      "imageStyle:inline",
-      "imageStyle:block",
-      "imageStyle:side",
-    ],
-  },
-  table: {
-    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+  link: {
+    addTargetToExternalLinks: true,
   },
 };
 
-const exports = {
-  ckEditorConfigPost,
-  ckEditorConfigComment
-}
-
-export default exports;
+export default ckEditorConfig;
