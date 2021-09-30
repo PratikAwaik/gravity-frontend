@@ -15,8 +15,16 @@ const PostFooter = ({ currentUser, post, isPostDetail, setToEdit }) => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const hasUpvotedAlready = hasUpvotedAlreadyHelper(currentUser, post.id);
-  const hasDownvotedAlready = hasDownvotedAlreadyHelper(currentUser, post.id);
+  const hasUpvotedAlready = hasUpvotedAlreadyHelper(
+    currentUser,
+    post.id,
+    "postsUpvoted"
+  );
+  const hasDownvotedAlready = hasDownvotedAlreadyHelper(
+    currentUser,
+    post.id,
+    "postsDownvoted"
+  );
 
   const handleUpvoteClick = () => {
     handleUpvoteHelper(
