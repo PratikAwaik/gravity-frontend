@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
-import { getAllCommentsDispatcher } from "../../dispatchers/forums";
+import { getAllCommentsDispatcher } from "../../dispatchers/comments";
 
-const Comments = ({ post, currentUser }) => {
+const Comments = ({ post }) => {
+  const comments = useSelector((state) => state.comments);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -13,8 +14,8 @@ const Comments = ({ post, currentUser }) => {
 
   return post ? (
     <div>
-      {post.comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} currentUser={currentUser} />
+      {comments.map((comment) => (
+        <Comment key={comment.id} comment={comment} />
       ))}
     </div>
   ) : null;
@@ -22,7 +23,6 @@ const Comments = ({ post, currentUser }) => {
 
 Comments.propTypes = {
   post: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
 };
 
 export default Comments;
