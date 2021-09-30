@@ -10,16 +10,23 @@ const FancyEditor = ({ editorContent, setEditorContent, isPost }) => {
     setEditorContent(data);
   };
 
+  const removeMediaEmbedFromConfig = () => {
+    return {
+      items: editorConfig.toolbar.items.filter((item) =>
+        isPost ? item : item !== "mediaEmbed"
+      ),
+    };
+  };
+
   return (
     <CKEditor
       editor={ClassicEditor}
       data={editorContent}
       onChange={handleChange}
-      config={
-        isPost
-          ? editorConfig.ckEditorConfigPost
-          : editorConfig.ckEditorConfigComment
-      }
+      config={{
+        ...editorConfig,
+        toolbar: removeMediaEmbedFromConfig(),
+      }}
     />
   );
 };
