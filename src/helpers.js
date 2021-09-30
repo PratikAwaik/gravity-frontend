@@ -1,22 +1,24 @@
 import {
-  getAllCommentsDispatcher,
-  handleCommentUpvoteDispatcher,
   handleDownvoteDispatcher,
   handleUpvoteDispatcher,
 } from "./dispatchers/forums";
+import {
+  handleCommentDownvoteDispatcher,
+  handleCommentUpvoteDispatcher,
+} from "./dispatchers/comments";
 import { currentUserDetailsDispatcher } from "./dispatchers/user";
 
-export const hasUpvotedAlreadyHelper = (currentUser, postID) => {
+export const hasUpvotedAlreadyHelper = (currentUser, id, key) => {
   return (
-    currentUser.postsUpvoted &&
-    currentUser.postsUpvoted.find((postid) => postid.toString() === postID)
+    currentUser[key] &&
+    currentUser[key].find((postid) => postid.toString() === id)
   );
 };
 
-export const hasDownvotedAlreadyHelper = (currentUser, postID) => {
+export const hasDownvotedAlreadyHelper = (currentUser, id, key) => {
   return (
-    currentUser.postsDownvoted &&
-    currentUser.postsDownvoted.find((postid) => postid.toString() === postID)
+    currentUser[key] &&
+    currentUser[key].find((postid) => postid.toString() === id)
   );
 };
 
@@ -43,14 +45,12 @@ export const handleUpvoteHelper = async (
     upvotesData,
     currentUser.token
   );
-  await currentUserDetailsDispatcher(dispatch);
-  getAllCommentsDispatcher(dispatch, post.id);
+  currentUserDetailsDispatcher(dispatch);
 };
 
 export const handleCommentUpvoteHelper = async (
   dispatch,
   currentUser,
-  postId,
   comment,
   hasUpvotedAlready,
   hasDownvotedAlready
@@ -67,7 +67,7 @@ export const handleCommentUpvoteHelper = async (
 
   await handleCommentUpvoteDispatcher(
     dispatch,
-    postId,
+    comment.post,
     comment.id,
     upvotesData,
     currentUser.token
@@ -98,8 +98,34 @@ export const handleDownvoteHelper = async (
     downvotesData,
     currentUser.token
   );
-  await currentUserDetailsDispatcher(dispatch);
-  getAllCommentsDispatcher(dispatch, post.id);
+  currentUserDetailsDispatcher(dispatch);
+};
+
+export const handleCommentDownvoteHelper = async (
+  dispatch,
+  currentUser,
+  comment,
+  hasUpvotedAlready,
+  hasDownvotedAlready
+) => {
+  const downvotesData = {
+    downvotes:
+      hasDownvotedAlready && !hasUpvotedAlready
+        ? comment.downvotes - 1
+        : comment.downvotes + 1,
+    upvotes: hasUpvotedAlready ? comment.upvotes - 1 : comment.upvotes,
+    hasDownvotedAlready,
+    hasUpvotedAlready,
+  };
+
+  await handleCommentDownvoteDispatcher(
+    dispatch,
+    comment.post,
+    comment.id,
+    downvotesData,
+    currentUser.token
+  );
+  currentUserDetailsDispatcher(dispatch);
 };
 
 export const sortByDate = (array, mostRecent) => {
