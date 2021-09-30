@@ -8,9 +8,7 @@ import Swal from "sweetalert2";
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
   const [titleLength, setTitleLength] = useState(0);
-  const [editorContent, setEditorContent] = useState(
-    "<p>Write Something...</p>"
-  );
+  const [editorContent, setEditorContent] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
