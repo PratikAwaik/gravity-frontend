@@ -25,79 +25,74 @@ export const hasDownvotedAlreadyHelper = (currentUser, id, key) => {
 export const handleUpvoteHelper = async (
   dispatch,
   currentUser,
-  post,
+  data,
   hasUpvotedAlready,
   hasDownvotedAlready
 ) => {
   const upvotesData = {
     upvotes:
       hasUpvotedAlready && !hasDownvotedAlready
-        ? post.upvotes - 1
-        : post.upvotes + 1,
-    downvotes: hasDownvotedAlready ? post.downvotes - 1 : post.downvotes,
+        ? data.upvotes - 1
+        : data.upvotes + 1,
+    downvotes: hasDownvotedAlready ? data.downvotes - 1 : data.downvotes,
     hasUpvotedAlready,
     hasDownvotedAlready,
   };
 
-  await handleUpvoteDispatcher(
-    dispatch,
-    post.id,
-    upvotesData,
-    currentUser.token
-  );
-  currentUserDetailsDispatcher(dispatch);
-};
+  if (data.post) {
+    await handleCommentUpvoteDispatcher(
+      dispatch,
+      data.post,
+      data.id,
+      upvotesData,
+      currentUser.token
+    );
+  } else {
+    await handleUpvoteDispatcher(
+      dispatch,
+      data.id,
+      upvotesData,
+      currentUser.token
+    );
+  }
 
-export const handleCommentUpvoteHelper = async (
-  dispatch,
-  currentUser,
-  comment,
-  hasUpvotedAlready,
-  hasDownvotedAlready
-) => {
-  const upvotesData = {
-    upvotes:
-      hasUpvotedAlready && !hasDownvotedAlready
-        ? comment.upvotes - 1
-        : comment.upvotes + 1,
-    downvotes: hasDownvotedAlready ? comment.downvotes - 1 : comment.downvotes,
-    hasUpvotedAlready,
-    hasDownvotedAlready,
-  };
-
-  await handleCommentUpvoteDispatcher(
-    dispatch,
-    comment.post,
-    comment.id,
-    upvotesData,
-    currentUser.token
-  );
   currentUserDetailsDispatcher(dispatch);
 };
 
 export const handleDownvoteHelper = async (
   dispatch,
   currentUser,
-  post,
+  data,
   hasUpvotedAlready,
   hasDownvotedAlready
 ) => {
   const downvotesData = {
     downvotes:
       hasDownvotedAlready && !hasUpvotedAlready
-        ? post.downvotes - 1
-        : post.downvotes + 1,
-    upvotes: hasUpvotedAlready ? post.upvotes - 1 : post.upvotes,
+        ? data.downvotes - 1
+        : data.downvotes + 1,
+    upvotes: hasUpvotedAlready ? data.upvotes - 1 : data.upvotes,
     hasDownvotedAlready,
     hasUpvotedAlready,
   };
 
-  await handleDownvoteDispatcher(
-    dispatch,
-    post.id,
-    downvotesData,
-    currentUser.token
-  );
+  if (data.post) {
+    await handleCommentDownvoteDispatcher(
+      dispatch,
+      data.post,
+      data.id,
+      downvotesData,
+      currentUser.token
+    );
+  } else {
+    await handleDownvoteDispatcher(
+      dispatch,
+      data.id,
+      downvotesData,
+      currentUser.token
+    );
+  }
+
   currentUserDetailsDispatcher(dispatch);
 };
 
