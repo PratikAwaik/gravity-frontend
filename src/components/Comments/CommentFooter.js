@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import FancyEditor from "../Editors/FancyEditor";
 import {
-  handleCommentDownvoteHelper,
-  handleCommentUpvoteHelper,
+  handleDownvoteHelper,
+  handleUpvoteHelper,
   hasDownvotedAlreadyHelper,
   hasUpvotedAlreadyHelper,
 } from "../../helpers";
 
-const CommentFooter = ({ comment }) => {
+const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
+  // const [editorContent, setEditorContent] = useState("");
+  // const [replyClicked, setReplyClicked] = useState(false);
   const currentUser = useSelector((state) => state.currentUser);
+  const comments = useSelector((state) => state.comments);
   const dispatch = useDispatch();
 
   const hasUpvotedAlready = hasUpvotedAlreadyHelper(
@@ -25,7 +29,7 @@ const CommentFooter = ({ comment }) => {
   );
 
   const handleCommentUpvoteClick = () => {
-    handleCommentUpvoteHelper(
+    handleUpvoteHelper(
       dispatch,
       currentUser,
       comment,
@@ -35,13 +39,19 @@ const CommentFooter = ({ comment }) => {
   };
 
   const handleCommentDownvoteClick = () => {
-    handleCommentDownvoteHelper(
+    handleDownvoteHelper(
       dispatch,
       currentUser,
       comment,
       hasUpvotedAlready,
       hasDownvotedAlready
     );
+  };
+
+  const getNumberOfReplies = () => {
+    return comments.filter(
+      (c) => c.repliedTo && c.repliedTo.id.toString() === comment.id.toString()
+    ).length;
   };
 
   return (
@@ -86,15 +96,18 @@ const CommentFooter = ({ comment }) => {
         </Link>
       )}
 
-      <div className="mr-4 flex items-center cursor-pointer z-10">
+      <div
+        className="mr-4 flex items-center cursor-pointer z-10"
+        onClick={() => setReplyClicked(true)}
+      >
         <i className="ri-chat-1-line mr-1 text-xl"></i>
         <span className="mr-1">reply</span>
       </div>
 
-      {comment.repliedTo && (
-        <div className="mr-4">
-          <span>view reply</span>
-        </div>
+      {getNumberOfReplies() > 0 && (
+        <button className="mr-4" onClick={() => setShowReplies(true)}>
+          <span>+ view {getNumberOfReplies()} replies</span>
+        </button>
       )}
     </div>
   );
