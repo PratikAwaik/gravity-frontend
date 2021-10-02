@@ -12,6 +12,8 @@ const Comments = ({ post }) => {
     getAllCommentsDispatcher(dispatch, post.id);
   }, [dispatch, post.id]);
 
+  // send repliedTo: null comments to CommentThread
+
   return post ? (
     <div>
       {comments.map((comment) => (
