@@ -7,7 +7,7 @@ import FancyEditor from "../Editors/FancyEditor";
 import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
 
-const Comment = ({ comment }) => {
+const Comment = ({ foundingComment, repliesToFoundingComment }) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const [showReplies, setShowReplies] = useState(false);
@@ -19,25 +19,23 @@ const Comment = ({ comment }) => {
     e.preventDefault();
     const commentData = {
       content: editorContent,
-      repliedTo: comment.id,
+      repliedTo: foundingComment.id,
     };
     await createCommentDispatcher(
       dispatch,
-      comment.post,
+      foundingComment.post,
       currentUser.token,
       commentData
     );
     setEditorContent("");
   };
 
-  console.log(comment);
-
   return (
     <div className="flex flex-col mb-5 comment">
-      <CommentHeader comment={comment} />
-      <CommentBody comment={comment} />
+      <CommentHeader comment={foundingComment} />
+      <CommentBody comment={foundingComment} />
       <CommentFooter
-        comment={comment}
+        foundingComment={foundingComment}
         setReplyClicked={setReplyClicked}
         setShowReplies={setShowReplies}
       />
@@ -59,7 +57,7 @@ const Comment = ({ comment }) => {
 };
 
 Comment.propTypes = {
-  comment: PropTypes.object.isRequired,
+  foundingComment: PropTypes.object.isRequired,
 };
 
 export default Comment;

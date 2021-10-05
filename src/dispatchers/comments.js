@@ -39,7 +39,7 @@ export const createCommentDispatcher = async (
     );
     dispatch(createCommentAction(response.data));
   } catch (err) {
-    console.log(err.response);
+    console.log(err);
     dispatch(setErrorAction(err.response.data));
   }
 };

@@ -10,7 +10,11 @@ import {
   hasUpvotedAlreadyHelper,
 } from "../../helpers";
 
-const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
+const CommentFooter = ({
+  foundingComment,
+  setReplyClicked,
+  setShowReplies,
+}) => {
   // const [editorContent, setEditorContent] = useState("");
   // const [replyClicked, setReplyClicked] = useState(false);
   const currentUser = useSelector((state) => state.currentUser);
@@ -19,12 +23,12 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
 
   const hasUpvotedAlready = hasUpvotedAlreadyHelper(
     currentUser,
-    comment.id,
+    foundingComment.id,
     "commentsUpvoted"
   );
   const hasDownvotedAlready = hasDownvotedAlreadyHelper(
     currentUser,
-    comment.id,
+    foundingComment.id,
     "commentsDownvoted"
   );
 
@@ -32,7 +36,7 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
     handleUpvoteHelper(
       dispatch,
       currentUser,
-      comment,
+      foundingComment,
       hasUpvotedAlready,
       hasDownvotedAlready
     );
@@ -42,17 +46,17 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
     handleDownvoteHelper(
       dispatch,
       currentUser,
-      comment,
+      foundingComment,
       hasUpvotedAlready,
       hasDownvotedAlready
     );
   };
 
-  const getNumberOfReplies = () => {
-    return comments.filter(
-      (c) => c.repliedTo && c.repliedTo.id.toString() === comment.id.toString()
-    ).length;
-  };
+  const repliesToFoundingComment = comments.filter(
+    (comment) =>
+      comment.repliedTo &&
+      comment.repliedTo.toString() === foundingComment.id.toString()
+  );
 
   return (
     <div className="ml-6 flex items-center comment-footer">
@@ -67,12 +71,12 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
             className="ri-rocket-2-line cursor-pointer text-xl z-10"
             onClick={handleCommentUpvoteClick}
           ></i>
-          <span className="text-xl">{comment.upvotes}</span>
+          <span className="text-xl">{foundingComment.upvotes}</span>
         </div>
       ) : (
         <Link to="/login" className="mr-2 flex items-center">
           <i className="ri-rocket-2-line cursor-pointer text-xl z-10"></i>
-          <span className="text-xl">{comment.upvotes}</span>
+          <span className="text-xl">{foundingComment.upvotes}</span>
         </Link>
       )}
 
@@ -87,12 +91,12 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
             className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"
             onClick={handleCommentDownvoteClick}
           ></i>
-          <span className="text-xl">{comment.downvotes}</span>
+          <span className="text-xl">{foundingComment.downvotes}</span>
         </div>
       ) : (
         <Link to="/login" className="mr-4 flex items-center">
           <i className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"></i>
-          <span className="text-xl">{comment.downvotes}</span>
+          <span className="text-xl">{foundingComment.downvotes}</span>
         </Link>
       )}
 
@@ -104,9 +108,9 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
         <span className="mr-1">reply</span>
       </div>
 
-      {getNumberOfReplies() > 0 && (
+      {repliesToFoundingComment.length > 0 && (
         <button className="mr-4" onClick={() => setShowReplies(true)}>
-          <span>+ view {getNumberOfReplies()} replies</span>
+          <span>+ view {repliesToFoundingComment.length} replies</span>
         </button>
       )}
     </div>
@@ -114,7 +118,7 @@ const CommentFooter = ({ comment, setReplyClicked, setShowReplies }) => {
 };
 
 CommentFooter.propTypes = {
-  comment: PropTypes.object.isRequired,
+  foundingComment: PropTypes.object.isRequired,
 };
 
 export default CommentFooter;

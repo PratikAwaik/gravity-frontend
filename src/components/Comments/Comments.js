@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import Comment from "./Comment";
+import CommentThread from "./CommentThread";
 import { getAllCommentsDispatcher } from "../../dispatchers/comments";
 
 const Comments = ({ post }) => {
@@ -12,12 +12,12 @@ const Comments = ({ post }) => {
     getAllCommentsDispatcher(dispatch, post.id);
   }, [dispatch, post.id]);
 
-  // send repliedTo: null comments to CommentThread
+  const foundingComments = comments.filter((comment) => !comment.repliedTo);
 
   return post ? (
     <div>
-      {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+      {foundingComments.map((comment) => (
+        <CommentThread key={comment.id} foundingComment={comment} />
       ))}
     </div>
   ) : null;
