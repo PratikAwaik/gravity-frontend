@@ -4,17 +4,30 @@ import Comment from "./Comment";
 
 const CommentThread = ({ foundingComment }) => {
   const comments = useSelector((state) => state.comments);
-  // this will be a single comment thread
-  // at the top will the foundingComment
-  // get all the comments that have ID of foundingComment (which will have replyId = 1), since these are the comments that replied
-  // to the foundingComment
-  // do the same for other comments in the thread
 
-  return (
-    <div>
-      <Comment foundingComment={foundingComment} />
-    </div>
+  console.log(
+    comments.filter(
+      (comment) =>
+        comment.repliedTo &&
+        comment.repliedTo.toString() === foundingComment.id.toString()
+    )
   );
+
+  const getRepliedComments = (commentId) => {
+    return comments.filter((comment) => comment.repliedTo === commentId);
+  };
+
+  const displayComments = (foundingCommentId) => {
+    const replies = getRepliedComments(foundingCommentId);
+    const allComments = [foundingComment, ...replies];
+    return allComments.map((comment, idx) => (
+      <Comment key={comment.id} comment={comment} paddingIdx={idx} />
+    ));
+  };
+
+  console.log(getRepliedComments(foundingComment.id));
+
+  return displayComments(foundingComment.id);
 };
 
 export default CommentThread;

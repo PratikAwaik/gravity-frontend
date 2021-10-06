@@ -7,40 +7,39 @@ import FancyEditor from "../Editors/FancyEditor";
 import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
 
-const Comment = ({ foundingComment, repliesToFoundingComment }) => {
+const Comment = ({ comment }) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [editorContent, setEditorContent] = useState("");
-  const [showReplies, setShowReplies] = useState(false);
   const currentUser = useSelector((state) => state.currentUser);
-  const comments = useSelector((state) => state.comments);
   const dispatch = useDispatch();
 
   const handleCreateComment = async (e) => {
     e.preventDefault();
     const commentData = {
       content: editorContent,
-      repliedTo: foundingComment.id,
+      repliedTo: comment.id,
+      level: comment.level + 1,
     };
     await createCommentDispatcher(
       dispatch,
-      foundingComment.post,
+      comment.post,
       currentUser.token,
       commentData
     );
     setEditorContent("");
+    setReplyClicked(false);
   };
 
   return (
-    <div className="flex flex-col mb-5 comment">
-      <CommentHeader comment={foundingComment} />
-      <CommentBody comment={foundingComment} />
-      <CommentFooter
-        foundingComment={foundingComment}
-        setReplyClicked={setReplyClicked}
-        setShowReplies={setShowReplies}
-      />
+    <div
+      className="flex flex-col mb-5 comment"
+      style={{ paddingLeft: 16 * comment.level + "px" }}
+    >
+      <CommentHeader comment={comment} />
+      <CommentBody comment={comment} />
+      <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />
       {replyClicked && (
-        <div className="pl-6 my-4">
+        <div className="my-4 pl-6">
           <FancyEditor
             editorContent={editorContent}
             setEditorContent={setEditorContent}
@@ -57,7 +56,7 @@ const Comment = ({ foundingComment, repliesToFoundingComment }) => {
 };
 
 Comment.propTypes = {
-  foundingComment: PropTypes.object.isRequired,
+  comment: PropTypes.object.isRequired,
 };
 
 export default Comment;

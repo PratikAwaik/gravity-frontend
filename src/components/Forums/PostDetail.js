@@ -37,6 +37,7 @@ const PostDetail = () => {
   const handleCreateComment = async () => {
     const commentData = {
       content: editorContent,
+      level: 0,
     };
     await createCommentDispatcher(
       dispatch,
