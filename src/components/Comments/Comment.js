@@ -31,26 +31,32 @@ const Comment = ({ comment }) => {
   };
 
   return (
-    <div
-      className="flex flex-col mb-5 comment"
-      style={{ paddingLeft: 16 * comment.level + "px" }}
-    >
-      <CommentHeader comment={comment} />
-      <CommentBody comment={comment} />
-      <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />
-      {replyClicked && (
-        <div className="my-4 pl-6">
-          <FancyEditor
-            editorContent={editorContent}
-            setEditorContent={setEditorContent}
-            isPost={false}
-          />
+    <div className="w-full h-full">
+      <div
+        className="flex flex-col pt-5 w-full h-full relative comment"
+        style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
+      >
+        <div
+          className="bg-theme-white absolute left-2.5 top-5 z-0 h-full w-0.5"
+          style={{ marginLeft: 16 * 1.5 * comment.level + "px" }}
+        ></div>
+        <CommentHeader comment={comment} />
+        <CommentBody comment={comment} />
+        <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />
+        {replyClicked && (
+          <div className="my-4 pl-6">
+            <FancyEditor
+              editorContent={editorContent}
+              setEditorContent={setEditorContent}
+              isPost={false}
+            />
 
-          <button type="button" onClick={handleCreateComment}>
-            Comment
-          </button>
-        </div>
-      )}
+            <button type="button" onClick={handleCreateComment}>
+              Comment
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

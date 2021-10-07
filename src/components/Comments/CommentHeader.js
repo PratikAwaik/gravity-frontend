@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 
 const CommentHeader = ({ comment }) => {
   return (
-    <div className="flex items-center text-sm text-theme-gray mb-2 comment-header">
-      <span className="w-5 h-5 mr-2 bg-theme-black rounded-full"></span>
+    <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">
+      <span className="w-6 h-6 mr-2 bg-theme-black rounded-full"></span>
       <Link
         to={`/user/${comment.user.username}`}
         className="mr-2 underline comment-user"
