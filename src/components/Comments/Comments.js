@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
 import { getAllCommentsDispatcher } from "../../dispatchers/comments";
+import { orderComments } from "../../helpers";
 
 const Comments = ({ post }) => {
   const comments = useSelector((state) => state.comments);
@@ -12,11 +13,11 @@ const Comments = ({ post }) => {
     getAllCommentsDispatcher(dispatch, post.id);
   }, [dispatch, post.id]);
 
-  // const foundingComments = comments.filter((comment) => !comment.repliedTo);
+  const orderedComments = orderComments(comments);
 
   return post ? (
     <div>
-      {comments.map((comment) => (
+      {orderedComments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
       ))}
     </div>
