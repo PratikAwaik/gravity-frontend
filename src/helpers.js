@@ -134,3 +134,35 @@ export const sortByDate = (array, mostRecent) => {
     );
   }
 };
+
+export const orderComments = (comments) => {
+  const maxLevel = Math.max(...comments.map((c) => c.level));
+  const commentsCopy = [];
+
+  for (let i = 0; i <= maxLevel; i++) {
+    if (i === 0) {
+      commentsCopy.push(...comments.filter((c) => c.level === 0));
+    } else {
+      const parentComments = commentsCopy.filter((c) => c.level === i - 1);
+      const repliedComments = parentComments.map((comment) =>
+        comments.filter((c) => c.repliedTo && c.repliedTo === comment.id)
+      );
+
+      repliedComments.forEach((commentsArray) => {
+        if (commentsArray.length > 0) {
+          const indexOfPreviousLevelComment = commentsCopy.indexOf(
+            commentsCopy.find(
+              (c) => c.level === i - 1 && commentsArray[0].repliedTo === c.id
+            )
+          );
+          commentsCopy.splice(
+            indexOfPreviousLevelComment + 1,
+            0,
+            ...commentsArray
+          );
+        }
+      });
+    }
+  }
+  return commentsCopy;
+};
