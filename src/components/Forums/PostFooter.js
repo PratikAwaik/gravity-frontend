@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
@@ -12,6 +12,7 @@ import {
 import { deletePostDispatcher } from "../../dispatchers/forums";
 
 const PostFooter = ({ currentUser, post, isPostDetail, setToEdit }) => {
+  const comments = useSelector((state) => state.comments);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -135,7 +136,9 @@ const PostFooter = ({ currentUser, post, isPostDetail, setToEdit }) => {
 
         <div className="flex items-center cursor-pointer z-10">
           <i className="ri-chat-1-line mr-1 text-xl"></i>
-          <span className="mr-1">{post.comments.length}</span>
+          <span className="mr-1">
+            {isPostDetail ? comments.length : post.comments.length}
+          </span>
           comments
         </div>
       </div>
