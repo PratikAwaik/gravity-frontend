@@ -30,16 +30,31 @@ const Comment = ({ comment }) => {
     setReplyClicked(false);
   };
 
+  const commentBars = [];
+
+  for (let i = 0; i <= comment.level; i++) {
+    commentBars.push(
+      <div
+        key={i}
+        className={`bg-theme-white absolute z-0 h-full w-0.5`}
+        style={{ marginLeft: 16 * 1.5 * i + "px" }}
+      ></div>
+    );
+  }
+
   return (
     <div className="w-full h-full">
       <div
         className="flex flex-col pt-5 w-full h-full relative comment"
         style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
       >
-        <div
+        {/* <div
           className="bg-theme-white absolute left-2.5 top-5 z-0 h-full w-0.5"
           style={{ marginLeft: 16 * 1.5 * comment.level + "px" }}
-        ></div>
+        ></div> */}
+        <div className="absolute left-2.5 z-0 h-full flex items-center justify-between">
+          {commentBars}
+        </div>
         <CommentHeader comment={comment} />
         <CommentBody comment={comment} />
         <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />

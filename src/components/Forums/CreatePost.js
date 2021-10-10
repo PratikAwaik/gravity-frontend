@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from "../../dispatchers/forums";
 import FancyEditor from "../Editors/FancyEditor";
-import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
@@ -21,24 +20,17 @@ const CreatePost = () => {
     setTitleLength(current.value.length);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (titleLength > 300) {
-      Swal.fire({
-        title: "Title must have maximum of 300 characters.",
-        icon: "warning",
-      });
-    } else {
-      const postData = {
-        title: titleTextareaRef.current.value,
-        content: editorContent,
-        type: "editor",
-      };
+    const postData = {
+      title: titleTextareaRef.current.value,
+      content: editorContent,
+      type: "editor",
+    };
 
-      createPostDispatcher(dispatch, postData, currentUser.token);
-      // redirect to post Detail
-    }
+    await createPostDispatcher(dispatch, postData, currentUser.token);
+    // redirect to post Detail
   };
 
   return (

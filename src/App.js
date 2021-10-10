@@ -10,6 +10,7 @@ import PrivateRoute from "./components/Auth/PrivateRoute";
 
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import loadingIcon from "./images/loading-icon.gif";
+import CreateSubreddit from "./components/Subreddit/CreateSubreddit";
 
 const Forums = React.lazy(() => import("./components/Forums/Forums"));
 const PostDetail = React.lazy(() => import("./components/Forums/PostDetail"));

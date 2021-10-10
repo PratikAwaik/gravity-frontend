@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import NavLink from "./NavLink";
 import { logoutUserAction } from "../../actions/currentUser";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
@@ -18,9 +18,12 @@ const Navbar = () => {
     <div className="w-full fixed top-0 left-0 z-20 shadow-md bg-white">
       <nav className="w-full p-4 flex items-center justify-between">
         <div>
-          <h1 className="text-3xl">Gravity</h1>
+          <Link to="/">
+            <h1 className="text-3xl">Gravity</h1>
+          </Link>
         </div>
         <div className="flex items-center">
+          {/* <NavLink label={<i class="ri-add-line"></i>} slug="/forums/create" /> */}
           <NavLink label="Forums" slug="/" />
           <NavLink label="Blogs" slug="/blogs" />
           {!currentUser.id && <NavLink label="Sign Up" slug="/register" />}
