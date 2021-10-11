@@ -28,6 +28,8 @@ const PostDetail = () => {
         setPost(forums.find((post) => post.id === id));
       }
     })();
+
+    return () => setPost({});
   }, [dispatch, forums, id]);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const PostDetail = () => {
   };
 
   return post && post.id ? (
-    <div className="mt-24 mb-16 mx-auto max-w-3xl bg-transparent border-2 rounded-md shadow-md post-detail-container">
+    <div className="mt-24 mb-16 mx-auto max-w-4xl bg-transparent border-2 rounded-md shadow-md post-detail-container">
       <div className="p-4 post-detail-wrapper">
         <PostHeader post={post} />
         <PostBody

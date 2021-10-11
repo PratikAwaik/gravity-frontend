@@ -24,8 +24,8 @@ const CreatePost = () => {
     e.preventDefault();
 
     const postData = {
-      title: titleTextareaRef.current.value,
-      content: editorContent,
+      title: titleTextareaRef.current.value.trim(),
+      content: editorContent.trim(),
       type: "editor",
     };
 

@@ -53,9 +53,9 @@ function App() {
               <Forums />
             </Route>
 
-            <PrivateRoute exact path="/forums/:id">
+            <Route exact path="/forums/:id">
               <PostDetail />
-            </PrivateRoute>
+            </Route>
           </Switch>
         </div>
       </BrowserRouter>

@@ -25,8 +25,6 @@ const CommentThread = ({ foundingComment }) => {
     ));
   };
 
-  console.log(getRepliedComments(foundingComment.id));
-
   return displayComments(foundingComment.id);
 };
 

@@ -3,13 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import NavLink from "./NavLink";
 import { logoutUserAction } from "../../actions/currentUser";
 import { Link, useHistory } from "react-router-dom";
+import NavIcon from "./NavIcon";
+import ProfileDropdown from "./ProfileDropdown";
 
 const Navbar = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleLogout = () => {
+  const handleSignOut = () => {
     dispatch(logoutUserAction());
     history.push("/");
   };
@@ -19,27 +21,28 @@ const Navbar = () => {
       <nav className="w-full p-4 flex items-center justify-between">
         <div>
           <Link to="/">
-            <h1 className="text-3xl">Gravity</h1>
+            <h1 className="text-2xl font-bold">Gravity</h1>
           </Link>
         </div>
         <div className="flex items-center">
-          {/* <NavLink label={<i class="ri-add-line"></i>} slug="/forums/create" /> */}
-          <NavLink label="Forums" slug="/" />
-          <NavLink label="Blogs" slug="/blogs" />
+          <div className="flex items-center px-3">
+            <NavIcon
+              icon={<i className="ri-home-7-line text-xl p-0.5"></i>}
+              slug="/"
+              tooltipText="Home"
+            />
+            <NavIcon
+              icon={<i className="ri-add-line text-2xl"></i>}
+              slug="/forums/create"
+              tooltipText="Create Post"
+            />
+            {currentUser.id && (
+              <ProfileDropdown handleSignOut={handleSignOut} />
+            )}
+          </div>
+
           {!currentUser.id && <NavLink label="Sign Up" slug="/register" />}
           {!currentUser.id && <NavLink label="Log In" slug="/login" />}
-          {currentUser.id && (
-            <NavLink label="Profile" slug={`/user/${currentUser.username}`} />
-          )}
-          {currentUser.id && (
-            <button
-              type="button"
-              className="mx-4 text-md rounded-md hover:bg-theme-green hover:text-theme-white px-3 py-1"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>
-          )}
         </div>
       </nav>
     </div>

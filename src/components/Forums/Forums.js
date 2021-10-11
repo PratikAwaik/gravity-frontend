@@ -33,7 +33,7 @@ const Forums = () => {
 
   return (
     <div className="mt-16 forums-post-container pt-9 max-w-3xl mx-auto mb-16">
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">Forums</h2>
         <Link
           to="/forums/create"
@@ -43,7 +43,7 @@ const Forums = () => {
         </Link>
       </div>
 
-      <hr className="mb-5" />
+      <hr className="mb-5" /> */}
 
       <div className="forums-post-wrapper">
         {forums.map((post) => (

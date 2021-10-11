@@ -36,16 +36,6 @@
   }
 }
 
-/* scrollbar style */
-body::-webkit-scrollbar {
-  width: 0.5em;
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: #48bb78;
-  border-radius: 3rem;
-}
-
 /* Forum post styles */
 .forum-post-body-title::after {
   position: absolute;
@@ -61,4 +51,8 @@ body::-webkit-scrollbar-thumb {
 
 .forum-post-body-content .image img {
   margin: auto !important;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible !important;
 }

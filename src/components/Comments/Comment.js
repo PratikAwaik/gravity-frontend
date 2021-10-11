@@ -16,7 +16,7 @@ const Comment = ({ comment }) => {
   const handleCreateComment = async (e) => {
     e.preventDefault();
     const commentData = {
-      content: editorContent,
+      content: editorContent.trim(),
       repliedTo: comment.id,
       level: comment.level + 1,
     };
@@ -36,8 +36,10 @@ const Comment = ({ comment }) => {
     commentBars.push(
       <div
         key={i}
-        className={`bg-theme-white absolute z-0 h-full w-0.5`}
-        style={{ marginLeft: 16 * 1.5 * i + "px" }}
+        className={`bg-theme-white absolute z-0 h-full pt-2 w-0.5`}
+        style={{
+          marginLeft: 16 * 1.5 * i + "px",
+        }}
       ></div>
     );
   }
@@ -48,14 +50,12 @@ const Comment = ({ comment }) => {
         className="flex flex-col pt-5 w-full h-full relative comment"
         style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
       >
-        {/* <div
-          className="bg-theme-white absolute left-2.5 top-5 z-0 h-full w-0.5"
-          style={{ marginLeft: 16 * 1.5 * comment.level + "px" }}
-        ></div> */}
+        <CommentHeader comment={comment} />
+
         <div className="absolute left-2.5 z-0 h-full flex items-center justify-between">
           {commentBars}
         </div>
-        <CommentHeader comment={comment} />
+
         <CommentBody comment={comment} />
         <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />
         {replyClicked && (
