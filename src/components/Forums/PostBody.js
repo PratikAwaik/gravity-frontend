@@ -18,7 +18,7 @@ const PostBody = ({ post, isPostDetail, toEdit, setToEdit }) => {
   return (
     <div
       className={`forum-post-body overflow-hidden mb-4 ${
-        !isPostDetail ? "max-h-56" : ""
+        !isPostDetail ? "max-h-52" : ""
       }`}
       style={!isPostDetail ? contentStyle : {}}
     >

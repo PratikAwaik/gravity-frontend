@@ -13,7 +13,7 @@ const ProfileDropdown = ({ handleSignOut }) => {
     <Menu as="div" className="relative inline-block text-left mx-2">
       <div>
         <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-0.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-theme-green">
-          <i className="ri-home-7-line text-xl"></i>
+          <i className="ri-user-line text-xl"></i>
           <i className="ri-arrow-down-s-line text-xl" aria-hidden="false"></i>
         </Menu.Button>
       </div>
