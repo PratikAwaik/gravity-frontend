@@ -16,7 +16,6 @@ const CreateSubreddit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubreddit({ ...subreddit, name: "r/" + subreddit.name });
     createSubredditDispatcher(dispatch, subreddit, currentUser.token);
   };
 
@@ -49,6 +48,7 @@ const CreateSubreddit = () => {
                 value={subreddit.name}
                 className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border-none border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
                 required
+                autoComplete="off"
               />
             </div>
 
