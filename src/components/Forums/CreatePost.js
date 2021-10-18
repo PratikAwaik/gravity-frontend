@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from "../../dispatchers/forums";
 import FancyEditor from "../Editors/FancyEditor";
+import ChooseCommunity from "./ChooseCommunity";
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
@@ -37,13 +38,13 @@ const CreatePost = () => {
     <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto mb-16">
       <div>
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">
-          Post on the Forum
+          Create a Post
         </h2>
         <hr className="mb-5" />
       </div>
 
-      <div className="mb-5">
-        <h4 className="text-xl">Have an interesting thought? Share it!</h4>
+      <div className="my-5">
+        <ChooseCommunity />
       </div>
 
       <div className="create-post-wrapper">

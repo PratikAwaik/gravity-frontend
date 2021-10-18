@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon, UserCircleIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -12,9 +13,12 @@ const ProfileDropdown = ({ handleSignOut }) => {
   return (
     <Menu as="div" className="relative inline-block text-left mx-2">
       <div>
-        <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-0.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-theme-green">
-          <i className="ri-user-line text-xl"></i>
-          <i className="ri-arrow-down-s-line text-xl" aria-hidden="false"></i>
+        <Menu.Button className="inline-flex items-center justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-0.5 bg-white text-sm font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-theme-green">
+          <UserCircleIcon className="w-7 h-7" />
+          <ChevronDownIcon
+            className="w-5 h-5 ml-2 -mr-1 mt-1 text-violet-200 hover:text-violet-100"
+            aria-hidden="true"
+          />
         </Menu.Button>
       </div>
 

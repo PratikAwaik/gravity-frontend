@@ -49,6 +49,10 @@ function App() {
               <CreatePost />
             </PrivateRoute>
 
+            <PrivateRoute exact path="/r/create">
+              <CreateSubreddit />
+            </PrivateRoute>
+
             <Route exact path="/">
               <Forums />
             </Route>

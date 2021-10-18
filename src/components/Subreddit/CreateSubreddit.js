@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 
 const CreateSubreddit = () => {
   // no spaces, 3-21 characters, and only "_" are allowed
@@ -8,9 +10,15 @@ const CreateSubreddit = () => {
     name: "",
     description: "",
   });
+  const currentUser = useSelector((state) => state.currentUser);
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubreddit({ ...subreddit, name: "r/" + subreddit.name });
+    createSubredditDispatcher(dispatch, subreddit, currentUser.token);
+  };
 
   return (
     <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto mb-16">
@@ -68,6 +76,7 @@ const CreateSubreddit = () => {
             <button
               type="submit"
               className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
+              onClick={handleSubmit}
             >
               Create
             </button>
