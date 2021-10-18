@@ -4,14 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from "../../dispatchers/forums";
 import FancyEditor from "../Editors/FancyEditor";
 import ChooseCommunity from "./ChooseCommunity";
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
+  const [subredditSelected, setSubredditSelected] = useState({
+    name: "Choose a Community",
+  });
   const [titleLength, setTitleLength] = useState(0);
   const [editorContent, setEditorContent] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser);
+  const { currentUser } = useSelector((state) => state);
 
   // increase title textarea height when content increases
   const textAreaChangeHandler = () => {
@@ -24,14 +28,22 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const postData = {
-      title: titleTextareaRef.current.value.trim(),
-      content: editorContent.trim(),
-      type: "editor",
-    };
+    if (subredditSelected.id) {
+      const postData = {
+        subreddit: subredditSelected.id,
+        title: titleTextareaRef.current.value.trim(),
+        content: editorContent.trim(),
+        type: "editor",
+      };
 
-    await createPostDispatcher(dispatch, postData, currentUser.token);
-    // redirect to post Detail
+      await createPostDispatcher(dispatch, postData, currentUser.token);
+      // redirect to post Detail
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Please choose a community!",
+      });
+    }
   };
 
   return (
@@ -44,7 +56,10 @@ const CreatePost = () => {
       </div>
 
       <div className="my-5">
-        <ChooseCommunity />
+        <ChooseCommunity
+          subredditSelected={subredditSelected}
+          setSubredditSelected={setSubredditSelected}
+        />
       </div>
 
       <div className="create-post-wrapper">
@@ -56,7 +71,7 @@ const CreatePost = () => {
               name="title"
               placeholder="Title"
               maxLength="300"
-              className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
+              className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-gray-400 rounded-sm outline-none focus-within::bg-transparent"
               rows="1"
               required
             ></textarea>
