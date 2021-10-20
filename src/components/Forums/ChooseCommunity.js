@@ -16,23 +16,19 @@ const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
       <Listbox value={subredditSelected.name} onChange={setSubredditSelected}>
         <div className="relative mt-1">
           <Listbox.Button className="mt-3 relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-sm border border-gray-400 cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-            <span className="block truncate">{subredditSelected.name}</span>
+            <span className="flex items-center text-base truncate">
+              {subredditSelected.communityIcon && (
+                <img
+                  className="w-7 h-7 object-contain rounded-full mr-2"
+                  src={subredditSelected.communityIcon}
+                  alt="Community Icon"
+                />
+              )}
+              {subredditSelected.name}
+            </span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               {/* Selector Icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 9l4-4 4 4m0 6l-4 4-4-4"
-                />
-              </svg>
+              <i className="ri-code-line text-gray-400 transform rotate-90"></i>
             </span>
           </Listbox.Button>
           <Transition
@@ -47,7 +43,7 @@ const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
                   key={subreddit.id}
                   className={({ active }) =>
                     `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
-                          cursor-default select-none relative py-2 pl-5 pr-4 list-none`
+                          cursor-default select-none relative py-2 pl-3 pr-4 list-none`
                   }
                   value={subreddit}
                 >
@@ -56,8 +52,13 @@ const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
                       <span
                         className={`${
                           subredditSelected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        } truncate flex items-center text-base`}
                       >
+                        <img
+                          className="w-7 h-7 object-contain rounded-full mr-2"
+                          src={subreddit.communityIcon}
+                          alt="Community Icon"
+                        />
                         {subreddit.name}
                       </span>
                       {/* {subredditSelected ? (
