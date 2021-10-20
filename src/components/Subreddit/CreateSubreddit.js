@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import ProfilePicture from "../Editors/ProfilePicture";
 import { createSubredditDispatcher } from "../../dispatchers/subreddit";
+import communitySrcImage from "../../images/community.png";
 
 const CreateSubreddit = () => {
-  // no spaces, 3-21 characters, and only "_" are allowed
-  // TODO: pfp input
   const [subreddit, setSubreddit] = useState({
     name: "",
     description: "",
   });
+  const [image, setImage] = useState(communitySrcImage);
   const currentUser = useSelector((state) => state.currentUser);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createSubredditDispatcher(dispatch, subreddit, currentUser.token);
+    createSubredditDispatcher(
+      dispatch,
+      { ...subreddit, image },
+      currentUser.token
+    );
   };
 
   return (
@@ -30,12 +35,13 @@ const CreateSubreddit = () => {
 
       <div className="create-post-wrapper">
         <form onSubmit={handleSubmit}>
+          <ProfilePicture image={image} setImage={setImage} />
           <div className="flex flex-col items-start mb-4">
-            <label htmlFor="subreddit-name" className="mb-1">
+            <label htmlFor="subreddit-name" className="mb-1 text-gray-600">
               Name
             </label>
             <div className="w-full flex items-center border border-theme-gray rounded-sm">
-              <span className="pl-2 text-base">r/</span>
+              <span className="pl-2 text-base text-gray-600">r/</span>
               <input
                 onChange={({ target }) =>
                   setSubreddit({ ...subreddit, name: target.value })
@@ -55,10 +61,22 @@ const CreateSubreddit = () => {
             <span className="text-sm mt-2 text-theme-gray">
               {subreddit.name.length} / 21
             </span>
+
+            <div className="flex items-start mt-2 text-gray-500">
+              <i className="ri-information-line mr-2 text-xl"></i>
+              <span>
+                Names cannot have spaces (e.g. "r/bookclub" not "r/book club"),
+                must be between 3-21 characters, and underscores ("_") are the
+                only special characters allowed.
+              </span>
+            </div>
           </div>
 
           <div className="flex flex-col items-start mb-4">
-            <label htmlFor="subreddit-description" className="mb-1">
+            <label
+              htmlFor="subreddit-description"
+              className="mb-1 text-gray-600"
+            >
               Description
             </label>
             <textarea
