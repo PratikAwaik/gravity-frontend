@@ -10,7 +10,11 @@ const PostHeader = ({ post }) => {
         to={`/r/${post.subreddit.id}`}
         className="flex items-center mr-2 hover:underline"
       >
-        <div className="w-4 h-4 rounded-full bg-theme-black mr-1"></div>
+        <img
+          className="w-6 h-6 rounded-full mr-1"
+          src={post.subreddit.communityIcon}
+          alt="Community Icon"
+        />
         <span className="font-bold">{post.subreddit.name}</span>
       </Link>
       Posted by
