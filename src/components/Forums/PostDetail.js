@@ -70,12 +70,9 @@ const PostDetail = () => {
 
         {currentUser.username && (
           <div className="post-detail-add-comment mb-5">
-            <span className="text-sm mb-3 text-theme-gray">
+            <span className="block text-sm mb-3 text-theme-gray">
               Comment as
-              <Link
-                className="ml-1 underline"
-                to={`/user/${currentUser.username}`}
-              >
+              <Link className="ml-1 underline" to={`/user/${currentUser.id}`}>
                 {currentUser.username}
               </Link>
             </span>
