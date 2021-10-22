@@ -8,7 +8,7 @@ const CommentHeader = ({ comment }) => {
     <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">
       <span className="w-6 h-6 mr-2 bg-theme-black rounded-full"></span>
       <Link
-        to={`/user/${comment.user.username}`}
+        to={`/user/${comment.user.id}`}
         className="mr-2 underline comment-user"
       >
         {comment.user.username}

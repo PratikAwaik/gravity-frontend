@@ -35,7 +35,7 @@ const ProfileDropdown = ({ handleSignOut }) => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to={`/user/${currentUser.username}`}
+                  to={`/user/${currentUser.id}`}
                   className={classNames(
                     active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                     "px-4 py-2 text-sm flex items-center"
