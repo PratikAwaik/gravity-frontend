@@ -32,7 +32,10 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginUserDispatcher(dispatch, userInfo);
+    loginUserDispatcher(dispatch, {
+      ...userInfo,
+      username: "u/" + userInfo.username,
+    });
   };
 
   return (
