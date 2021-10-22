@@ -22,7 +22,11 @@ const currentUserReducer = (state = {}, action) => {
       return action.payload;
     }
     case "GET_USER_DETAILS": {
-      return { ...state, ...action.payload };
+      if (state.id === action.payload.id) {
+        return { ...state, ...action.payload };
+      } else {
+        return action.payload;
+      }
     }
     default:
       return state;
