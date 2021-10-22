@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import CreatePost from "./components/Forums/CreatePost";
+import UserProfile from "./components/User/UserProfile";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
@@ -59,6 +60,10 @@ function App() {
 
             <Route exact path="/forums/:id">
               <PostDetail />
+            </Route>
+
+            <Route exact path="/user/:id">
+              <UserProfile />
             </Route>
           </Switch>
         </div>
