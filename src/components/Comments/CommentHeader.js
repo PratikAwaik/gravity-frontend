@@ -6,7 +6,11 @@ import PropTypes from "prop-types";
 const CommentHeader = ({ comment }) => {
   return (
     <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">
-      <span className="w-6 h-6 mr-2 bg-theme-black rounded-full"></span>
+      <img
+        className="w-6 h-6 rounded-full mr-2"
+        src={comment.user.profilePic}
+        alt="User Profile Pic"
+      />
       <Link
         to={`/user/${comment.user.id}`}
         className="mr-2 underline comment-user"
