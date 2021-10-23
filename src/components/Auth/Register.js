@@ -4,6 +4,8 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { registerUserDispatcher } from "../../dispatchers/user";
 import FormInput from "./FormInput";
 
+import astronautIcon from "../../images/astronaut.png";
+
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
     username: "",
@@ -32,7 +34,10 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerUserDispatcher(dispatch, userInfo);
+    registerUserDispatcher(dispatch, {
+      ...userInfo,
+      profilePic: astronautIcon,
+    });
   };
 
   const displayError = (inputError) => {
