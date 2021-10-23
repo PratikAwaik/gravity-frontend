@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import ProfilePicture from "../Editors/ProfilePicture";
 import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 import communitySrcImage from "../../images/community.png";
+import Swal from "sweetalert2";
 
 const CreateSubreddit = () => {
   const [subreddit, setSubreddit] = useState({
@@ -15,13 +16,28 @@ const CreateSubreddit = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    createSubredditDispatcher(
-      dispatch,
-      { ...subreddit, image },
-      currentUser.token
-    );
+
+    try {
+      await createSubredditDispatcher(
+        dispatch,
+        { ...subreddit, image },
+        currentUser.token
+      );
+      await Swal.fire({
+        icon: "success",
+        title: "Community created successfully",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      history.goBack();
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: error,
+      });
+    }
   };
 
   return (

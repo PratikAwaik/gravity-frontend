@@ -36,7 +36,22 @@ const CreatePost = () => {
         type: "editor",
       };
 
-      await createPostDispatcher(dispatch, postData, currentUser.token);
+      try {
+        await createPostDispatcher(dispatch, postData, currentUser.token);
+        await Swal.fire({
+          icon: "success",
+          title: "Post created Successfully!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        history.goBack();
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: error,
+        });
+      }
+
       // redirect to post Detail
     } else {
       Swal.fire({
