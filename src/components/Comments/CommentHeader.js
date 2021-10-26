@@ -7,7 +7,7 @@ const CommentHeader = ({ comment }) => {
   return (
     <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">
       <img
-        className="w-6 h-6 rounded-full mr-2"
+        className="w-7 h-7 rounded-full mr-2 object-cover"
         src={comment.user.profilePic}
         alt="User Profile Pic"
       />
