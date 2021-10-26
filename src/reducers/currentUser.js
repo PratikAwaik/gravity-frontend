@@ -28,6 +28,8 @@ const currentUserReducer = (state = {}, action) => {
         return action.payload;
       }
     }
+    case "UPDATE_USER":
+      return action.payload;
     default:
       return state;
   }

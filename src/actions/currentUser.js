@@ -33,3 +33,10 @@ export const getCurrentUserDetailsAction = (userInfo) => {
     payload: userInfo,
   };
 };
+
+export const updateCurrentUserAction = (userInfo) => {
+  return {
+    type: "UPDATE_USER",
+    payload: userInfo,
+  };
+};

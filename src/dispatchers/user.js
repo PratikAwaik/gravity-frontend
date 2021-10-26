@@ -3,6 +3,7 @@ import {
   getCurrentUserDetailsAction,
   loginUserAction,
   registerUserAction,
+  updateCurrentUserAction,
 } from "../actions/currentUser";
 import { setErrorAction } from "../actions/error";
 
@@ -42,6 +43,17 @@ export const currentUserDetailsDispatcher = async (dispatch) => {
   try {
     const response = await axios.get(`${baseUrl}/${id}`);
     dispatch(getCurrentUserDetailsAction(response.data));
+  } catch (err) {
+    console.log(err.response);
+    dispatch(setErrorAction(err.response.data));
+  }
+};
+
+export const updateCurrentUserDispatcher = async (dispatch, data) => {
+  const { id } = JSON.parse(window.localStorage.getItem("loggedInGravityUser"));
+  try {
+    const response = await axios.patch(`${baseUrl}/${id}/update`, data);
+    dispatch(updateCurrentUserAction(response.data));
   } catch (err) {
     console.log(err.response);
     dispatch(setErrorAction(err.response.data));
