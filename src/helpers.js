@@ -11,14 +11,14 @@ import { currentUserDetailsDispatcher } from "./dispatchers/user";
 export const hasUpvotedAlreadyHelper = (currentUser, id, key) => {
   return (
     currentUser[key] &&
-    currentUser[key].find((postid) => postid.toString() === id)
+    currentUser[key].find((post) => post.id.toString() === id)
   );
 };
 
 export const hasDownvotedAlreadyHelper = (currentUser, id, key) => {
   return (
     currentUser[key] &&
-    currentUser[key].find((postid) => postid.toString() === id)
+    currentUser[key].find((post) => post.id.toString() === id)
   );
 };
 
