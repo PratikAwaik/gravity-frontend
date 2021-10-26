@@ -10,10 +10,7 @@ import {
 } from "../../helpers";
 
 const CommentFooter = ({ comment, setReplyClicked }) => {
-  // const [editorContent, setEditorContent] = useState("");
-  // const [replyClicked, setReplyClicked] = useState(false);
   const currentUser = useSelector((state) => state.currentUser);
-  // const comments = useSelector((state) => state.comments);
   const dispatch = useDispatch();
 
   const hasUpvotedAlready = hasUpvotedAlreadyHelper(
@@ -91,17 +88,11 @@ const CommentFooter = ({ comment, setReplyClicked }) => {
 
       <div
         className="mr-4 flex items-center cursor-pointer z-10"
-        onClick={() => setReplyClicked(true)}
+        onClick={() => setReplyClicked && setReplyClicked(true)}
       >
         <i className="ri-chat-1-line mr-1 text-xl"></i>
         <span className="mr-1">reply</span>
       </div>
-
-      {/* {repliesTocomment.length > 0 && (
-        <button className="mr-4" onClick={() => setShowReplies(true)}>
-          <span>+ view {repliesTocomment.length} replies</span>
-        </button>
-      )} */}
     </div>
   );
 };
