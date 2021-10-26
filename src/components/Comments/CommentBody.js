@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const CommentBody = ({ comment }) => {
   return (
     <div
-      className="mb-2 pl-6 text-md comment-body"
+      className="mb-2 pl-8 text-md comment-body"
       dangerouslySetInnerHTML={{
         __html: DOMPurify.sanitize(comment.content),
       }}
