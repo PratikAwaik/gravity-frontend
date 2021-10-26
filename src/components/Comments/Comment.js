@@ -6,12 +6,14 @@ import CommentFooter from "./CommentFooter";
 import FancyEditor from "../Editors/FancyEditor";
 import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 const Comment = ({ comment }) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [editorContent, setEditorContent] = useState("");
   const currentUser = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleCreateComment = async (e) => {
     e.preventDefault();
@@ -36,7 +38,9 @@ const Comment = ({ comment }) => {
     commentBars.push(
       <div
         key={i}
-        className={`bg-theme-white absolute z-0 h-full pt-2 w-0.5`}
+        className={`bg-theme-white absolute z-0 pt-2 w-0.5 bottom-0 ${
+          i === comment.level ? "h-5/6" : "h-full"
+        }`}
         style={{
           marginLeft: 16 * 1.5 * i + "px",
         }}
@@ -45,17 +49,21 @@ const Comment = ({ comment }) => {
   }
 
   return (
-    <div className="w-full h-full">
+    <div
+      className={`w-full h-full flex items-center relative ${
+        "#" + comment.id === location.hash && "rounded-md bg-yellow-100"
+      }`}
+      id={comment.id}
+    >
+      <div className="absolute left-3 z-0 h-full flex items-center justify-between">
+        {commentBars}
+      </div>
+
       <div
-        className="flex flex-col pt-5 w-full h-full relative comment"
+        className="flex flex-col pt-5 pb-3 w-full h-full relative comment"
         style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
       >
         <CommentHeader comment={comment} />
-
-        <div className="absolute left-2.5 z-0 h-full flex items-center justify-between">
-          {commentBars}
-        </div>
-
         <CommentBody comment={comment} />
         <CommentFooter comment={comment} setReplyClicked={setReplyClicked} />
         {replyClicked && (
