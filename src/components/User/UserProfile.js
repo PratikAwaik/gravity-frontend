@@ -3,29 +3,39 @@ import { useParams } from "react-router";
 import axios from "axios";
 import ProfilePicture from "../Editors/ProfilePicture";
 import moment from "moment";
-import { useSelector } from "react-redux";
-import SubredditCard from "./SubredditCard";
+import { useDispatch, useSelector } from "react-redux";
+import SubredditCards from "./SubredditCards";
+import Tabs from "./Tabs";
+import { updateCurrentUserDispatcher } from "../../dispatchers/user";
 
 const UserProfile = () => {
   const params = useParams();
   const [user, setUser] = useState({});
+  const [image, setImage] = useState(user.profilePic);
   const currentUser = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
       const response = await axios.get(`/api/users/${params.id}`);
       setUser(response.data);
     })();
-  }, [params.id]);
-
-  console.log(user);
+    return () => {
+      if (image && image !== user.profilePic) {
+        updateCurrentUserDispatcher(dispatch, { profilePic: image });
+      }
+    };
+  }, [params.id, dispatch, image, user.profilePic]);
 
   return (
     <div className="max-w-5xl mx-auto pt-9">
       <div className="user-details">
         <div className="mb-4">
           {user.id === currentUser.id ? (
-            <ProfilePicture image={user.profilePic} />
+            <ProfilePicture
+              image={image ? image : user.profilePic}
+              setImage={setImage}
+            />
           ) : (
             <div className="mx-auto w-32 h-32 border rounded-full relative bg-gray-100 mb-4 shadow-inset">
               <img
@@ -50,30 +60,20 @@ const UserProfile = () => {
         </div>
 
         {user.id && user.moderating.length > 0 && (
-          <div className="flex flex-col mb-5 overflow-x-auto">
-            <div className="bg-gray-500 w-full px-2 py-1 text-lg text-theme-white rounded-md">
-              Moderatoring these communities
-            </div>
-            <div className="flex items-center">
-              {user.moderating.map((subreddit) => (
-                <SubredditCard key={subreddit.id} subreddit={subreddit} />
-              ))}
-            </div>
-          </div>
+          <SubredditCards
+            subreddits={user.moderating}
+            headText="Moderating these communities"
+          />
         )}
 
         {user.id && user.subscriptions.length > 0 && (
-          <div className="flex flex-col mb-5 overflow-x-auto">
-            <div className="bg-gray-500 w-full px-2 py-1 text-lg text-theme-white rounded-md">
-              Subscriptions
-            </div>
-            <div className="flex items-center">
-              {user.subscriptions.map((subreddit) => (
-                <SubredditCard key={subreddit.id} subreddit={subreddit} />
-              ))}
-            </div>
-          </div>
+          <SubredditCards
+            subreddits={user.subscriptions}
+            headText="Subscriptions"
+          />
         )}
+
+        {user.id && <Tabs posts={user.posts} comments={user.comments} />}
       </div>
     </div>
   );
