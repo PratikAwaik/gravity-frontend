@@ -4,32 +4,30 @@ import { useHistory } from "react-router-dom";
 import ProfilePicture from "../Editors/ProfilePicture";
 import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 import communitySrcImage from "../../images/community.png";
-import { errorPopup, successPopup } from "../../helpers";
+import { displayError, successPopup } from "../../helpers";
+import { currentUserDetailsDispatcher } from "../../dispatchers/user";
 
 const CreateSubreddit = () => {
   const [subreddit, setSubreddit] = useState({
     name: "",
     description: "",
+    communityIcon: communitySrcImage,
   });
-  const [image, setImage] = useState(communitySrcImage);
-  const currentUser = useSelector((state) => state.currentUser);
+  const { currentUser, error } = useSelector((state) => state);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const customSetImageDispatcher = (_, obj) => {
+    setSubreddit({ ...subreddit, ...obj });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await createSubredditDispatcher(
-        dispatch,
-        { ...subreddit, image },
-        currentUser.token
-      );
-      await successPopup("Community created successfully");
-      history.goBack();
-    } catch (error) {
-      errorPopup(error);
-    }
+    await createSubredditDispatcher(dispatch, subreddit, currentUser.token);
+    await currentUserDetailsDispatcher(dispatch);
+    await successPopup("Community created successfully");
+    history.goBack();
   };
 
   return (
@@ -43,7 +41,14 @@ const CreateSubreddit = () => {
 
       <div className="create-post-wrapper">
         <form onSubmit={handleSubmit}>
-          <ProfilePicture image={image} setImage={setImage} />
+          <div className="mx-auto rounded-full relative mb-4 shadow-inset w-36">
+            <ProfilePicture
+              icon={communitySrcImage}
+              dispatcher={customSetImageDispatcher}
+              objKey="communityIcon"
+            />
+          </div>
+
           <div className="flex flex-col items-start mb-4">
             <label htmlFor="subreddit-name" className="mb-1 text-gray-600">
               Name
@@ -55,6 +60,7 @@ const CreateSubreddit = () => {
                   setSubreddit({ ...subreddit, name: target.value })
                 }
                 name="name"
+                type="text"
                 id="subreddit-name"
                 minLength="3"
                 maxLength="21"
@@ -69,6 +75,8 @@ const CreateSubreddit = () => {
             <span className="text-sm mt-2 text-theme-gray">
               {subreddit.name.length} / 21
             </span>
+
+            {displayError(error.error && error.error.name)}
 
             <div className="flex items-start mt-2 text-gray-500">
               <i className="ri-information-line mr-2 text-xl"></i>
@@ -93,16 +101,18 @@ const CreateSubreddit = () => {
               }
               value={subreddit.description}
               rows="3"
+              required
               maxLength="350"
               className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
             ></textarea>
+
+            {displayError(error.error && error.error.description)}
           </div>
 
           <div className="flex items-center mt-5">
             <button
               type="submit"
               className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
-              onClick={handleSubmit}
             >
               Create
             </button>
