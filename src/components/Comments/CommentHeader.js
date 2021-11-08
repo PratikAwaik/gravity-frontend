@@ -22,11 +22,20 @@ const CommentHeader = ({ comment }) => {
       ) : (
         <div className="mr-2 comment-user">[deleted]</div>
       )}
+
+      {comment.user &&
+        comment.user.posts.find((post) => post === comment.post) && (
+          <span className="text-theme-green text-sm mr-2 font-bold">OP</span>
+        )}
+
+      <div className="w-1 h-1 bg-theme-black rounded-full mr-2"></div>
+
       {comment.user && (
         <span className="comment-time">
           {moment(comment.createdAt).fromNow()}
         </span>
       )}
+
       {comment.editedAt && <span className="ml-1">(edited)</span>}
     </div>
   );
