@@ -8,10 +8,13 @@ const setStateBasedOnLocation = (
   setSubredditSelected
 ) => {
   const parsedPathname = pathname.split("/").filter((path) => path !== "");
-  if (parsedPathname.length === 0) {
+  if (parsedPathname[0] === "r") {
+    const targetSubreddit = subreddits.find(
+      (sr) => sr.id === parsedPathname[1]
+    );
+    setSubredditSelected(targetSubreddit || {});
+  } else {
     setSubredditSelected({});
-  } else if (parsedPathname[0] === "r") {
-    setSubredditSelected(subreddits.find((sr) => sr.id === parsedPathname[1]));
   }
 };
 
