@@ -25,7 +25,6 @@ const currentUserReducer = (state = {}, action) => {
       return { ...state, ...action.payload };
     }
     case "UPDATE_USER":
-      console.log(action.payload);
       return { ...state, ...action.payload };
     case "USER_VOTE": {
       const { isPost, upvoteClicked } = action.payload;
