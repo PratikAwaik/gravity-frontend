@@ -7,7 +7,7 @@ const PostsPanel = ({ posts, classNames }) => {
   return (
     <Tab.Panel
       className={classNames(
-        "bg-white rounded-xl p-3",
+        "bg-white rounded-xl py-3",
         "focus:outline-none focus:ring-2 ring-offset-2 ring-white ring-opacity-60"
       )}
     >

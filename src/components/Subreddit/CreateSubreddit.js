@@ -31,7 +31,7 @@ const CreateSubreddit = () => {
   };
 
   return (
-    <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto mb-16">
+    <div className="mt-16 create-post-container pt-6 sm:pt-9 px-2 max-w-3xl mx-auto mb-20">
       <div>
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">
           Create a Community
@@ -80,7 +80,7 @@ const CreateSubreddit = () => {
 
             <div className="flex items-start mt-2 text-gray-500">
               <i className="ri-information-line mr-2 text-xl"></i>
-              <span>
+              <span className="text-sm sm:text-md">
                 Names cannot have spaces (e.g. "r/bookclub" not "r/book club"),
                 must be between 3-21 characters, and underscores ("_") are the
                 only special characters allowed.
@@ -112,13 +112,13 @@ const CreateSubreddit = () => {
           <div className="flex items-center mt-5">
             <button
               type="submit"
-              className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
+              className="px-4 sm:px-5 py-1.5 border-2 border-theme-green rounded-md text-md sm:text-base hover:bg-theme-green hover:text-theme-white"
             >
               Create
             </button>
             <button
               type="button"
-              className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red"
+              className="ml-4 px-4 sm:px-5 py-1.5 border-2 border-theme-red rounded-md text-md sm:text-base hover:bg-theme-red"
               onClick={() => history.goBack()}
             >
               Cancel

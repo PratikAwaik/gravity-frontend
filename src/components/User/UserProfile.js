@@ -58,7 +58,7 @@ const UserProfile = () => {
       <img src={loadingIcon} alt="Loading Icon" />
     </div>
   ) : user.id ? (
-    <div className="max-w-5xl mx-auto pt-9">
+    <div className="max-w-5xl mx-auto pt-9 pb-12">
       <div className="user-details">
         <div className="mx-auto rounded-full relative mb-4 shadow-inset w-36">
           {user.id === currentUser.id ? (
@@ -77,12 +77,14 @@ const UserProfile = () => {
             </div>
           )}
         </div>
-        <div className="mb-4 flex items-center justify-center max-w-md mx-auto">
+        <div className="mb-6 flex items-center justify-center max-w-md mx-auto">
           <div className="flex flex-col items-center">
-            <p className="text-2xl font-bold mb-3">{user.prefixedName}</p>
+            <p className="text-xl sm:text-2xl font-bold mb-2">
+              {user.prefixedName}
+            </p>
             <p className="flex items-end">
               <i className="ri-cake-fill inline-block text-theme-red mr-2 text-2xl"></i>{" "}
-              <span className="font-semibold text-lg">
+              <span className="font-semibold text-base sm:text-lg">
                 Cake Day - {calculateCakeDay()}
               </span>
             </p>

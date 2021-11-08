@@ -49,7 +49,7 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="mt-16 create-post-container pt-9 max-w-3xl mx-auto mb-16">
+    <div className="mt-16 create-post-container pt-6 sm:pt-9 px-2 max-w-3xl mx-auto mb-20">
       <div>
         <h2 className="text-2xl mb-2 px-2 py-2 rounded-md font-bold">
           Create a Post
@@ -91,13 +91,13 @@ const CreatePost = () => {
           <div className="flex items-center mt-5">
             <button
               type="submit"
-              className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
+              className="px-4 sm:px-5 py-1.5 border-2 border-theme-green text-md sm:text-base rounded-md hover:bg-theme-green hover:text-theme-white"
             >
               Post
             </button>
             <button
               type="button"
-              className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red"
+              className="ml-4 sm:px-4 px-5 py-1.5 border-2 border-theme-red text-md sm:text-base rounded-md hover:bg-theme-red"
               onClick={() => history.goBack()}
             >
               Cancel

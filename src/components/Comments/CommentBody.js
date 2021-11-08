@@ -8,7 +8,7 @@ const CommentBody = ({ comment, toEdit, setToEdit }) => {
     <EditComment comment={comment} setToEdit={setToEdit} />
   ) : (
     <div
-      className="mb-2 pl-8 text-md comment-body"
+      className="mb-2 pl-8 text-sm sm:text-base comment-body"
       dangerouslySetInnerHTML={{
         __html: comment.content
           ? DOMPurify.sanitize(comment.content)

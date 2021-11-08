@@ -10,7 +10,7 @@ import PostFooter from "../Post/PostFooter";
 
 const ForumPost = ({ post }) => {
   return (
-    <div className="forum-post-container bg-transparent p-4 border-2 rounded-md mb-6 relative shadow-md">
+    <div className="forum-post-container bg-transparent p-4 border-2 sm:rounded-md mb-3 sm:mb-6 relative shadow-md">
       <PostHeader post={post} />
       <PostBody post={post} isPostDetail={false} />
       <PostFooter

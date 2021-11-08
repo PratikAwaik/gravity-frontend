@@ -16,18 +16,18 @@ const CommentsPanel = ({ comments, classNames }) => {
   return (
     <Tab.Panel
       className={classNames(
-        "bg-white rounded-xl p-3",
+        "bg-white rounded-xl py-3",
         "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
       )}
     >
-      <ul className="list-none">
+      <ul className="list-none pl-0">
         {comments.length > 0 ? (
           comments.map(
             (comment) =>
               comment.user && (
                 <div
                   key={comment.id}
-                  className="w-full h-full rounded-md hover:bg-coolGray-100 bg-transparent p-4 border-2 mb-6 shadow-md"
+                  className="w-full h-full sm:rounded-md hover:bg-coolGray-100 bg-transparent p-2 sm:p-4 border-2 mb-3 sm:mb-6 shadow-md"
                 >
                   <HashLink
                     smooth

@@ -46,7 +46,7 @@ const Register = () => {
 
   return (
     <div className="register-form-container w-screen h-screen flex items-center justify-center overflow-hidden -mt-16">
-      <div className="register-form-wrapper border-2 border-theme-green rounded-lg p-4 w-96">
+      <div className="register-form-wrapper sm:border-2 sm:border-theme-green rounded-lg p-4 w-96 overflow-y-auto">
         <h2 className="text-3xl mb-6 text-center">Create an Account</h2>
         <form onSubmit={handleSubmit} className="w-full">
           <div className="mb-4 flex flex-col items-start w-full">

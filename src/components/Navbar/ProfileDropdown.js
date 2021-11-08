@@ -18,7 +18,10 @@ const ProfileDropdown = ({ handleSignOut }) => {
           <i className="ri-user-3-line text-xl"></i>
 
           {/* Down Icon */}
-          <i className="ri-arrow-down-s-line text-xl"></i>
+          <i className="ri-arrow-down-s-line text-xl hidden sm:block"></i>
+
+          {/* Up Icon */}
+          <i className="ri-arrow-up-s-line text-xl block sm:hidden"></i>
         </Menu.Button>
       </div>
 
@@ -31,7 +34,7 @@ const ProfileDropdown = ({ handleSignOut }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="origin-top-right absolute right-0 -top-40 sm:top-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (

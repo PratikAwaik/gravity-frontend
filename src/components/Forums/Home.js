@@ -24,7 +24,7 @@ const Home = () => {
   }
 
   return (
-    <div className="mt-16 forums-post-container pt-9 max-w-4xl mx-auto mb-16">
+    <div className="mt-16 forums-post-container pt-6 sm:pt-9 max-w-4xl mx-auto mb-24 sm:mb-16">
       <Forums posts={forums} />
     </div>
   );

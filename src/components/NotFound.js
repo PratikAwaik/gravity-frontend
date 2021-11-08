@@ -13,31 +13,33 @@ const NotFound = () => {
         loading="lazy"
       />
 
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <span className="text-7xl font-light tracking-wider">404</span>
-        <span className="text-7xl font-bold tracking-wider block">
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-max">
+        <span className="text-4xl sm:text-7xl font-light tracking-wider">
+          404
+        </span>
+        <span className="text-4xl sm:text-7xl font-bold tracking-wider block">
           Lost in Space
         </span>
         <div className="w-48 h-1 bg-white mt-2 mb-5"></div>
-        <span className="block text-lg">
+        <span className="block text-md sm:text-lg">
           You have reached the edge of the universe.
         </span>
-        <span className="block text-lg">
+        <span className="block text-md sm:text-lg">
           The page you requested could not be found.
         </span>
-        <span className="block text-lg">
+        <span className="block text-md sm:text-lg">
           Don't worry and return to the previous page.
         </span>
 
-        <div className="flex items-center my-8 w-max">
+        <div className="flex items-center my-8">
           <Link
             to="/"
-            className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-lg mr-5 bg-theme-green rounded-2xl border-2 border-theme-green"
+            className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-sm sm:text-lg mr-5 bg-theme-green rounded-2xl border-2 border-theme-green"
           >
             go home
           </Link>
           <button
-            className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-lg border-2 border-white rounded-2xl hover:bg-theme-orange hover:border-theme-orange"
+            className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-sm sm:text-lg border-2 border-white rounded-2xl hover:bg-theme-orange hover:border-theme-orange"
             type="button"
             onClick={() => history.goBack()}
           >

@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 const SubredditCards = ({ subreddits, headText }) => {
   return (
-    <div className="flex flex-col mb-7">
+    <div className="flex flex-col mb-7 px-2">
       <div className="tab tab-selected ml-0">{headText}</div>
-      <div className="w-full  overflow-x-auto">
+      <div className="w-full overflow-x-auto">
         <div className="w-max flex items-center">
           {subreddits.map((subreddit) => (
             <Link

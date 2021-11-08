@@ -96,7 +96,7 @@ const SubredditProfile = () => {
       <img src={loadingIcon} alt="Loading Icon" />
     </div>
   ) : subreddit.id ? (
-    <div className="w-full pb-14">
+    <div className="w-full pb-20">
       <div
         className="w-full absolute top-0 h-56"
         style={{ backgroundColor: subreddit.coverColor }}
@@ -151,7 +151,7 @@ const SubredditProfile = () => {
           ) : null}
         </div>
 
-        <div className="mt-4 mb-8">
+        <div className="mt-4 mb-8 px-2">
           <div className="mb-4">
             <h3 className="font-bold mb-2 tab tab-selected ml-0">
               About the Community
@@ -179,7 +179,7 @@ const SubredditProfile = () => {
         </div>
 
         <div>
-          <h3 className="font-bold tab tab-selected mb-3 ml-0">Posts</h3>
+          <h3 className="font-bold tab tab-selected mb-3">Posts</h3>
           {forums.length > 0 ? (
             <Forums posts={forums} />
           ) : (

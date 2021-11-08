@@ -8,10 +8,11 @@ const CommentHeader = ({ comment }) => {
   return (
     <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">
       <img
-        className="w-7 h-7 rounded-full mr-2 object-cover"
+        className="w-6 h-6 sm:w-7 sm:h-7 rounded-full mr-2 object-cover"
         src={comment.user ? comment.user.profilePic : astronautPicture}
         alt="User Profile Pic"
       />
+
       {comment.user ? (
         <Link
           to={`/user/${comment.user.id}`}
@@ -28,12 +29,13 @@ const CommentHeader = ({ comment }) => {
           <span className="text-theme-green text-sm mr-2 font-bold">OP</span>
         )}
 
-      <div className="w-1 h-1 bg-theme-black rounded-full mr-2"></div>
-
       {comment.user && (
-        <span className="comment-time">
-          {moment(comment.createdAt).fromNow()}
-        </span>
+        <>
+          <div className="w-1 h-1 bg-theme-black rounded-full mr-2"></div>
+          <span className="comment-time">
+            {moment(comment.createdAt).fromNow()}
+          </span>
+        </>
       )}
 
       {comment.editedAt && <span className="ml-1">(edited)</span>}

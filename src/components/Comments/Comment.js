@@ -60,7 +60,7 @@ const Comment = ({ comment }) => {
       </div>
 
       <div
-        className="flex flex-col pt-5 pb-3 w-full h-full relative comment"
+        className="flex flex-col pt-3 pb-2 w-full h-full relative comment"
         style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
       >
         <CommentHeader comment={comment} />
@@ -71,7 +71,7 @@ const Comment = ({ comment }) => {
           setToEdit={setToEdit}
         />
         {replyClicked && (
-          <div className="my-4 pl-6">
+          <div className="my-2 sm:my-4 pl-6">
             <FancyEditor
               editorContent={editorContent}
               setEditorContent={setEditorContent}
@@ -80,7 +80,7 @@ const Comment = ({ comment }) => {
 
             <button
               type="button"
-              className="border-2 border-theme-green rounded-md px-2 py-1 my-2 hover:bg-theme-green hover:text-white"
+              className="border-2 border-theme-green text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-green hover:text-white"
               onClick={handleCreateComment}
             >
               Comment
@@ -88,7 +88,7 @@ const Comment = ({ comment }) => {
 
             <button
               type="button"
-              className="border-2 border-theme-red rounded-md px-2 py-1 my-2 hover:bg-theme-red hover:text-white ml-3"
+              className="border-2 border-theme-red text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-red hover:text-white ml-3"
               onClick={() => setReplyClicked(false)}
             >
               Cancel

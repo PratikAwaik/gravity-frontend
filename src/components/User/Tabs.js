@@ -15,9 +15,9 @@ const Tabs = ({ posts, comments }) => {
   });
 
   return (
-    <div className="w-full px-2 pt-4 pb-8 sm:px-0">
+    <div className="w-full pb-8 sm:px-0">
       <Tab.Group>
-        <Tab.List className="flex p-1 space-x-1 bg-blue-900/20 rounded-xl items-center justify-center">
+        <Tab.List className="flex py-1space-x-1 bg-blue-900/20 rounded-xl items-center justify-center">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}

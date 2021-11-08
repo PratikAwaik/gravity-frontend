@@ -18,7 +18,7 @@ const PostBody = ({ post, setPost, isPostDetail, toEdit, setToEdit }) => {
   return (
     <div
       className={`forum-post-body overflow-hidden mb-4 ${
-        !isPostDetail ? "max-h-52" : ""
+        !isPostDetail ? "max-h-44 sm:max-h-52" : ""
       }`}
       style={!isPostDetail ? contentStyle : {}}
     >
@@ -29,11 +29,11 @@ const PostBody = ({ post, setPost, isPostDetail, toEdit, setToEdit }) => {
           className="forum-post-body-title"
           onClick={storeScrollPosition}
         >
-          <h3 className="text-xl font-bold mb-3">{post.title}</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">{post.title}</h3>
         </Link>
       ) : (
         <div>
-          <h3 className="text-xl font-bold mb-3">{post.title}</h3>
+          <h3 className="text-lg sm:text-xl font-bold mb-3">{post.title}</h3>
         </div>
       )}
 
@@ -42,7 +42,7 @@ const PostBody = ({ post, setPost, isPostDetail, toEdit, setToEdit }) => {
         <EditPost post={post} setPost={setPost} setToEdit={setToEdit} />
       ) : (
         <div
-          className="text-base forum-post-body-content"
+          className="text-sm sm:text-base forum-post-body-content"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(post.content, domPurifyConfig),
           }}

@@ -38,13 +38,13 @@ const EditPost = ({ post, setPost, setToEdit }) => {
         <div className="flex items-center mt-5">
           <button
             type="submit"
-            className="px-5 py-2 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
+            className="px-4 sm:px-5 py-1.5 border-2 border-theme-green rounded-md text-sm sm:text-base hover:bg-theme-green hover:text-theme-white"
           >
             Update
           </button>
           <button
             type="button"
-            className="ml-4 px-5 py-2 border-2 border-theme-red rounded-md hover:bg-theme-red"
+            className="ml-4 px-4 sm:px-5 py-1.5 border-2 border-theme-red rounded-md text-sm sm:text-base hover:bg-theme-red"
             onClick={() => {
               setToEdit(false);
             }}

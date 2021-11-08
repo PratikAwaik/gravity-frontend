@@ -101,15 +101,15 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
             <i
               className={`ri-rocket-2-${
                 hasUpvotedAlready ? "fill" : "line"
-              } cursor-pointer text-xl z-10`}
+              } cursor-pointer text-base sm:text-xl z-10`}
               onClick={handleCommentUpvoteClick}
             ></i>
-            <span className="text-xl">{comment.upvotes}</span>
+            <span className="text-base sm:text-xl">{comment.upvotes}</span>
           </div>
         ) : (
           <Link to="/login" className="mr-2 flex items-center">
-            <i className="ri-rocket-2-line cursor-pointer text-xl z-10"></i>
-            <span className="text-xl">{comment.upvotes}</span>
+            <i className="ri-rocket-2-line cursor-pointer text-base sm:text-xl z-10"></i>
+            <span className="text-base sm:text-xl">{comment.upvotes}</span>
           </Link>
         )}
 
@@ -123,15 +123,15 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
             <i
               className={`ri-rocket-2-${
                 hasDownvotedAlready ? "fill" : "line"
-              } transform rotate-180 cursor-pointer text-xl z-10`}
+              } transform rotate-180 cursor-pointer text-base sm:text-xl z-10`}
               onClick={handleCommentDownvoteClick}
             ></i>
-            <span className="text-xl">{comment.downvotes}</span>
+            <span className="text-base sm:text-xl">{comment.downvotes}</span>
           </div>
         ) : (
           <Link to="/login" className="mr-4 flex items-center">
-            <i className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"></i>
-            <span className="text-xl">{comment.downvotes}</span>
+            <i className="ri-rocket-2-line transform rotate-180 cursor-pointer text-base sm:text-xl z-10"></i>
+            <span className="text-base sm:text-xl">{comment.downvotes}</span>
           </Link>
         )}
 
@@ -141,7 +141,7 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
           }`}
           onClick={() => setReplyClicked && setReplyClicked(true)}
         >
-          <i className="ri-reply-line mr-1 text-xl"></i>
+          <i className="ri-reply-line mr-1 text-base sm:text-xl"></i>
           <span className="mr-1">reply</span>
         </div>
       </div>
@@ -153,10 +153,10 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
               onClick={() => setToEdit && setToEdit(true)}
               className="mr-3"
             >
-              <i className="ri-edit-2-line cursor-pointer text-xl z-10 text-theme-blue"></i>
+              <i className="ri-edit-2-line cursor-pointer text-base sm:text-xl z-10 text-theme-blue"></i>
             </button>
             <button onClick={() => setToEdit && handleDeleteComment()}>
-              <i className="ri-delete-bin-5-line cursor-pointer text-xl z-10 text-theme-red"></i>
+              <i className="ri-delete-bin-5-line cursor-pointer text-base sm:text-xl z-10 text-theme-red"></i>
             </button>
           </div>
         </div>
