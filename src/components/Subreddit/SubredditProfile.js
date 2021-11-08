@@ -2,7 +2,7 @@ import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { setPostsDispatcher } from "../../dispatchers/forums";
 import { updateCurrentUserSubscriptionDispatcher } from "../../dispatchers/user";
 import Forums from "../Forums/Forums";
@@ -17,34 +17,38 @@ const SubredditProfile = () => {
   const { forums, currentUser } = useSelector((state) => state);
   const dispatch = useDispatch();
   const params = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
-      const responseSubreddit = await axios.get(`/api/r/${params.id}`);
-      const responseSubredditPosts = await axios.get(
-        `/api/r/${params.id}/posts`
-      );
-      const responseSubredditUsers = await axios.get(
-        `/api/r/${params.id}/users`
-      );
-      responseSubredditPosts.data.posts = responseSubredditPosts.data.posts.map(
-        (post) => {
-          return {
-            ...post,
-            subreddit: responseSubreddit.data,
-          };
-        }
-      );
-      responseSubreddit.data = {
-        ...responseSubreddit.data,
-        ...responseSubredditPosts.data,
-        ...responseSubredditUsers.data,
-      };
-      setSubreddit(responseSubreddit.data);
-      setPostsDispatcher(dispatch, responseSubredditPosts.data.posts);
+      try {
+        const responseSubreddit = await axios.get(`/api/r/${params.id}`);
+        const responseSubredditPosts = await axios.get(
+          `/api/r/${params.id}/posts`
+        );
+        const responseSubredditUsers = await axios.get(
+          `/api/r/${params.id}/users`
+        );
+        responseSubredditPosts.data.posts =
+          responseSubredditPosts.data.posts.map((post) => {
+            return {
+              ...post,
+              subreddit: responseSubreddit.data,
+            };
+          });
+        responseSubreddit.data = {
+          ...responseSubreddit.data,
+          ...responseSubredditPosts.data,
+          ...responseSubredditUsers.data,
+        };
+        setSubreddit(responseSubreddit.data);
+        setPostsDispatcher(dispatch, responseSubredditPosts.data.posts);
+      } catch (error) {
+        history.replace("/404");
+      }
       setLoading(false);
     })();
-  }, [params.id, dispatch]);
+  }, [params.id, dispatch, history]);
 
   const updateIconCustomDispatcher = async (dispatch, data) => {
     const config = {
@@ -92,7 +96,7 @@ const SubredditProfile = () => {
       <img src={loadingIcon} alt="Loading Icon" />
     </div>
   ) : subreddit.id ? (
-    <div className="w-full">
+    <div className="w-full pb-14">
       <div
         className="w-full absolute top-0 h-56"
         style={{ backgroundColor: subreddit.coverColor }}
@@ -176,7 +180,11 @@ const SubredditProfile = () => {
 
         <div>
           <h3 className="font-bold tab tab-selected mb-3 ml-0">Posts</h3>
-          <Forums posts={forums} />
+          {forums.length > 0 ? (
+            <Forums posts={forums} />
+          ) : (
+            <span className="text-2xl block text-center">No posts yet...</span>
+          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import axios from "axios";
 import ProfilePicture from "../Editors/ProfilePicture";
 import moment from "moment";
@@ -17,28 +17,33 @@ const UserProfile = () => {
   const currentUser = useSelector((state) => state.currentUser);
   const forums = useSelector((state) => state.forums);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
-      const responseUser = await axios.get(`/api/users/${params.id}`);
-      const responseSubreddits = await axios.get(
-        `/api/users/${params.id}/subreddits`
-      );
-      const responsePosts = await axios.get(`/api/users/${params.id}/posts`);
-      const responseComments = await axios.get(
-        `/api/users/${params.id}/comments`
-      );
-      responseUser.data = {
-        ...responseUser.data,
-        ...responseSubreddits.data,
-        ...responsePosts.data,
-        ...responseComments.data,
-      };
-      setUser(responseUser.data);
-      setPostsDispatcher(dispatch, responsePosts.data.posts);
+      try {
+        const responseUser = await axios.get(`/api/users/${params.id}`);
+        const responseSubreddits = await axios.get(
+          `/api/users/${params.id}/subreddits`
+        );
+        const responsePosts = await axios.get(`/api/users/${params.id}/posts`);
+        const responseComments = await axios.get(
+          `/api/users/${params.id}/comments`
+        );
+        responseUser.data = {
+          ...responseUser.data,
+          ...responseSubreddits.data,
+          ...responsePosts.data,
+          ...responseComments.data,
+        };
+        setUser(responseUser.data);
+        setPostsDispatcher(dispatch, responsePosts.data.posts);
+      } catch (err) {
+        history.replace("/404");
+      }
       setLoading(false);
     })();
-  }, [params.id, dispatch]);
+  }, [params.id, dispatch, history]);
 
   const calculateCakeDay = () => {
     const currDate = moment(Date.now());
