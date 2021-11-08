@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import Forums from "../Forums/Forums";
+import PropTypes from "prop-types";
 
 const PostsPanel = ({ posts, classNames }) => {
   return (
@@ -13,6 +14,11 @@ const PostsPanel = ({ posts, classNames }) => {
       <Forums posts={posts} />
     </Tab.Panel>
   );
+};
+
+PostsPanel.propTypes = {
+  posts: PropTypes.array.isRequired,
+  classNames: PropTypes.func.isRequired,
 };
 
 export default PostsPanel;

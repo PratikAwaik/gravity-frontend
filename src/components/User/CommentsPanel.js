@@ -4,6 +4,7 @@ import { HashLink } from "react-router-hash-link";
 import CommentBody from "../Comments/CommentBody";
 import moment from "moment";
 import CommentFooter from "../Comments/CommentFooter";
+import PropTypes from "prop-types";
 
 const CommentsPanel = ({ comments, classNames }) => {
   const scrollWithOffset = (el) => {
@@ -68,6 +69,11 @@ const CommentsPanel = ({ comments, classNames }) => {
       </ul>
     </Tab.Panel>
   );
+};
+
+CommentsPanel.propTypes = {
+  comments: PropTypes.array.isRequired,
+  classNames: PropTypes.func.isRequired,
 };
 
 export default CommentsPanel;

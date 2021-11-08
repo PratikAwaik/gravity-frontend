@@ -167,6 +167,8 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
 
 CommentFooter.propTypes = {
   comment: PropTypes.object.isRequired,
+  setReplyClicked: PropTypes.func,
+  setToEdit: PropTypes.func,
 };
 
 export default CommentFooter;

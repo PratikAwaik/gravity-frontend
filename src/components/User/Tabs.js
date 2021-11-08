@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tab } from "@headlessui/react";
 import PostsPanel from "./PostsPanel";
 import CommentsPanel from "./CommentsPanel";
+import PropTypes from "prop-types";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -41,6 +42,11 @@ const Tabs = ({ posts, comments }) => {
       </Tab.Group>
     </div>
   );
+};
+
+Tabs.propTypes = {
+  posts: PropTypes.array.isRequired,
+  comments: PropTypes.array.isRequired,
 };
 
 export default Tabs;

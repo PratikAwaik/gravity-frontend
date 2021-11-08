@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 const ProfilePicture = ({ icon, dispatcher, objKey }) => {
   const [image, setImage] = useState(icon);
@@ -45,6 +46,12 @@ const ProfilePicture = ({ icon, dispatcher, objKey }) => {
       />
     </div>
   );
+};
+
+ProfilePicture.propTypes = {
+  icon: PropTypes.string.isRequired,
+  dispatcher: PropTypes.func.isRequired,
+  objKey: PropTypes.string.isRequired,
 };
 
 export default ProfilePicture;

@@ -20,6 +20,8 @@ const CommentBody = ({ comment, toEdit, setToEdit }) => {
 
 CommentBody.propTypes = {
   comment: PropTypes.object.isRequired,
+  toEdit: PropTypes.bool,
+  setToEdit: PropTypes.func,
 };
 
 export default CommentBody;

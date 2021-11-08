@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const NavIcon = ({ iconClass, slug, tooltipText }) => {
   const { pathname } = useLocation();
@@ -20,6 +21,12 @@ const NavIcon = ({ iconClass, slug, tooltipText }) => {
       )}
     </div>
   );
+};
+
+NavIcon.propTypes = {
+  iconClass: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  tooltipText: PropTypes.string.isRequired,
 };
 
 export default NavIcon;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const ForumPost = React.lazy(() => import("./ForumPost"));
 
@@ -12,6 +13,10 @@ const Forums = ({ posts }) => {
       ))}
     </div>
   );
+};
+
+ForumPost.propTypes = {
+  posts: PropTypes.array.isRequired,
 };
 
 export default Forums;

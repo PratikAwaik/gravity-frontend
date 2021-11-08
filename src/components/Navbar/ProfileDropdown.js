@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -80,6 +81,10 @@ const ProfileDropdown = ({ handleSignOut }) => {
       </Transition>
     </Menu>
   );
+};
+
+ProfileDropdown.propTypes = {
+  handleSignOut: PropTypes.func.isRequired,
 };
 
 export default ProfileDropdown;

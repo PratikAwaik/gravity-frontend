@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const MembersDisplay = ({ members, label }) => {
   return (
@@ -25,6 +26,11 @@ const MembersDisplay = ({ members, label }) => {
       </div>
     </div>
   );
+};
+
+MembersDisplay.propTypes = {
+  members: PropTypes.array.isRequired,
+  label: PropTypes.string.isRequired,
 };
 
 export default MembersDisplay;
