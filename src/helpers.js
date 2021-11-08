@@ -8,6 +8,7 @@ import {
 } from "./dispatchers/comments";
 import { updateCurrentUserVotesDispatcher } from "./dispatchers/user";
 import Swal from "sweetalert2";
+import { setErrorAction } from "./actions/error";
 
 export const hasUpvotedAlreadyHelper = (currentUser, id, key) => {
   return (
@@ -151,6 +152,26 @@ export const orderComments = (comments) => {
     }
   }
   return commentsCopy;
+};
+
+export const displayError = (inputError) => {
+  return (
+    inputError && (
+      <span className="text-sm text-theme-red w-full flex items-start mt-1">
+        <i className="ri-information-line text-theme-red text-sm mr-1"></i>
+        {inputError.message}
+      </span>
+    )
+  );
+};
+
+export const setError = (dispatch, err) => {
+  console.log(err.response);
+  dispatch(setErrorAction(err.response.data));
+
+  setTimeout(() => {
+    dispatch(setErrorAction({}));
+  }, 5000);
 };
 
 export const successPopup = async (message) => {
