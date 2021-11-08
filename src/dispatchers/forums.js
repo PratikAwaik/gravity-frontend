@@ -1,15 +1,14 @@
 import axios from "axios";
-import { setErrorAction } from "../actions/error";
 import {
   createPostAction,
   deletePostAction,
   editPostAction,
   getAllPostsAction,
-  // getSinglePostAction,
   handleDownvotesAction,
   handleUpvotesAction,
   setPostsAction,
 } from "../actions/forums";
+import { setError } from "../helpers";
 
 const baseUrl = "/api/forums";
 
@@ -18,24 +17,13 @@ export const getAllPostsDispatcher = async (dispatch) => {
     const response = await axios.get(baseUrl);
     dispatch(getAllPostsAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
 export const setPostsDispatcher = (dispatch, posts) => {
   dispatch(setPostsAction(posts));
 };
-
-// export const getSinglePostDispatcher = async (dispatch, id) => {
-//   try {
-//     const response = await axios.get(`${baseUrl}/${id}`);
-//     dispatch(getSinglePostAction(response.data));
-//   } catch (err) {
-//     console.log(err.response);
-//     dispatch(setErrorAction(err.response.data));
-//   }
-// };
 
 export const handleUpvoteDispatcher = async (
   dispatch,
@@ -59,8 +47,7 @@ export const handleUpvoteDispatcher = async (
       })
     );
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -86,8 +73,7 @@ export const handleDownvoteDispatcher = async (
       })
     );
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -102,8 +88,7 @@ export const createPostDispatcher = async (dispatch, postData, userToken) => {
     const response = await axios.post(baseUrl, postData, config);
     dispatch(createPostAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -118,8 +103,7 @@ export const deletePostDispatcher = async (dispatch, id, userToken) => {
     await axios.delete(`${baseUrl}/${id}`, config);
     dispatch(deletePostAction(id));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -139,7 +123,6 @@ export const editPostDispatcher = async (
     await axios.patch(`${baseUrl}/${postId}/edit`, postData, config);
     dispatch(editPostAction({ ...postData, id: postId }));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };

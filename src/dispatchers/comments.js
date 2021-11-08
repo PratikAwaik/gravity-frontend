@@ -8,7 +8,7 @@ import {
   handleCommentUpvoteAction,
   unsetCommentsAction,
 } from "../actions/comments";
-import { setErrorAction } from "../actions/error";
+import { setError } from "../helpers";
 
 const baseUrl = "/api/forums";
 
@@ -17,8 +17,7 @@ export const getAllCommentsDispatcher = async (dispatch, postId) => {
     const response = await axios.get(`${baseUrl}/${postId}/comments`);
     dispatch(getAllCommentsAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -46,8 +45,7 @@ export const createCommentDispatcher = async (
     );
     dispatch(createCommentAction(response.data));
   } catch (err) {
-    console.log(err);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -78,8 +76,7 @@ export const handleCommentUpvoteDispatcher = async (
       })
     );
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -110,8 +107,7 @@ export const handleCommentDownvoteDispatcher = async (
       })
     );
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -136,8 +132,7 @@ export const editCommentDispatcher = async (
     );
     dispatch(editCommentAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -161,7 +156,6 @@ export const deleteCommentDispatcher = async (
     );
     dispatch(deleteCommentAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };

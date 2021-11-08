@@ -1,10 +1,10 @@
 import axios from "axios";
-import { setErrorAction } from "../actions/error";
 import {
   createSubredditAction,
   getAllSubredditsAction,
   updateSubredditIconAction,
 } from "../actions/subreddits";
+import { setError } from "../helpers";
 
 const baseUrl = "/api/r";
 
@@ -13,8 +13,7 @@ export const getAllSubredditsDispatcher = async (dispatch) => {
     const response = await axios.get(`${baseUrl}/all`);
     dispatch(getAllSubredditsAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -37,8 +36,7 @@ export const createSubredditDispatcher = async (
     );
     dispatch(createSubredditAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 

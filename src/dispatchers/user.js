@@ -8,6 +8,7 @@ import {
   updateCurrentUserVotesAction,
 } from "../actions/currentUser";
 import { setErrorAction } from "../actions/error";
+import { setError } from "../helpers";
 
 const baseUrl = "/api/users";
 
@@ -25,9 +26,7 @@ export const registerUserDispatcher = async (dispatch, userInfo) => {
     const response = await axios.post(`${baseUrl}/register`, userInfo);
     dispatch(registerUserAction(response.data));
   } catch (err) {
-    console.log(err.message);
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
@@ -36,8 +35,7 @@ export const loginUserDispatcher = async (dispatch, userInfo) => {
     const response = await axios.post(`${baseUrl}/login`, userInfo);
     dispatch(loginUserAction(response.data));
   } catch (err) {
-    console.log(err.response);
-    dispatch(setErrorAction(err.response.data));
+    setError(dispatch, err);
   }
 };
 
