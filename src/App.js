@@ -5,8 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar/Navbar";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
-import CreatePost from "./components/Forums/CreatePost";
+import CreatePost from "./components/Post/CreatePost";
 import PrivateRoute from "./components/Auth/PrivateRoute";
+import NotFound from "./components/NotFound";
 
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import loadingIcon from "./images/loading-icon.gif";
@@ -15,7 +16,7 @@ import { currentUserDetailsDispatcher } from "./dispatchers/user";
 import { getAllSubredditsDispatcher } from "./dispatchers/subreddit";
 
 const Home = React.lazy(() => import("./components/Forums/Home"));
-const PostDetail = React.lazy(() => import("./components/Forums/PostDetail"));
+const PostDetail = React.lazy(() => import("./components/Post/PostDetail"));
 const UserProfile = React.lazy(() => import("./components/User/UserProfile"));
 const SubredditProfile = React.lazy(() =>
   import("./components/Subreddit/SubredditProfile")
@@ -79,6 +80,10 @@ function App() {
 
             <Route exact path="/r/:id">
               <SubredditProfile />
+            </Route>
+
+            <Route>
+              <NotFound />
             </Route>
           </Switch>
         </div>
