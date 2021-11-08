@@ -5,6 +5,8 @@ import { registerUserDispatcher } from "../../dispatchers/user";
 import FormInput from "./FormInput";
 
 import astronautIcon from "../../images/astronaut.png";
+import { setErrorAction } from "../../actions/error";
+import { displayError } from "../../helpers";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
@@ -23,6 +25,8 @@ const Register = () => {
       const { from } = location.state || { from: { pathname: "/" } };
       history.replace(from);
     }
+
+    return () => setErrorAction({});
   }, [currentUser, location, history]);
 
   const handleInputChange = (e) => {
@@ -40,17 +44,6 @@ const Register = () => {
     });
   };
 
-  const displayError = (inputError) => {
-    return (
-      inputError && (
-        <span className="text-sm text-theme-red w-full flex items-start mt-1">
-          <i className="ri-information-line text-theme-red text-sm mr-1"></i>
-          {inputError.message}
-        </span>
-      )
-    );
-  };
-
   return (
     <div className="register-form-container w-screen h-screen flex items-center justify-center overflow-hidden -mt-16">
       <div className="register-form-wrapper border-2 border-theme-green rounded-lg p-4 w-96">
@@ -63,7 +56,21 @@ const Register = () => {
               label="Username"
               value={userInfo.username}
               handleChange={handleInputChange}
+              error={error.error && error.error.username}
+              extraProps={{
+                minLength: "3",
+                maxLength: "21",
+                pattern: "^[a-zA-Z0-9_]+$",
+              }}
             />
+            <div className="flex items-start mt-2 text-gray-500 text-sm">
+              <i className="ri-information-line mr-2 text-xl"></i>
+              <span>
+                Usernames cannot have spaces (e.g. "goodusername" not "good
+                username"), must be between 3-21 characters, and underscores
+                ("_") are the only special characters allowed.
+              </span>
+            </div>
             {displayError(error.error && error.error.username)}
           </div>
 
@@ -74,6 +81,7 @@ const Register = () => {
               label="Email"
               value={userInfo.email}
               handleChange={handleInputChange}
+              error={error.error && error.error.email}
             />
             {displayError(error.error && error.error.email)}
           </div>
