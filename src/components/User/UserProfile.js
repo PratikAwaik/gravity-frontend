@@ -22,13 +22,17 @@ const UserProfile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const responseUser = await axios.get(`/api/users/${params.id}`);
-        const responseSubreddits = await axios.get(
-          `/api/users/${params.id}/subreddits`
+        const responseUser = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/users/${params.id}`
         );
-        const responsePosts = await axios.get(`/api/users/${params.id}/posts`);
+        const responseSubreddits = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/subreddits`
+        );
+        const responsePosts = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/posts`
+        );
         const responseComments = await axios.get(
-          `/api/users/${params.id}/comments`
+          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/comments`
         );
         responseUser.data = {
           ...responseUser.data,

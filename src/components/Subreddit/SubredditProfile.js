@@ -22,12 +22,14 @@ const SubredditProfile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const responseSubreddit = await axios.get(`/api/r/${params.id}`);
+        const responseSubreddit = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/r/${params.id}`
+        );
         const responseSubredditPosts = await axios.get(
-          `/api/r/${params.id}/posts`
+          `${process.env.REACT_APP_API_URL}/api/r/${params.id}/posts`
         );
         const responseSubredditUsers = await axios.get(
-          `/api/r/${params.id}/users`
+          `${process.env.REACT_APP_API_URL}/api/r/${params.id}/users`
         );
         responseSubredditPosts.data.posts =
           responseSubredditPosts.data.posts.map((post) => {
