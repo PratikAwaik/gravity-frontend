@@ -6,7 +6,7 @@ import {
 } from "../actions/subreddits";
 import { setError } from "../helpers";
 
-const baseUrl = "/api/r";
+const baseUrl = process.env.REACT_APP_API_URL + "/api/r";
 
 export const getAllSubredditsDispatcher = async (dispatch) => {
   try {

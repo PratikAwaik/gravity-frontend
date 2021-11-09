@@ -10,7 +10,7 @@ import {
 import { setErrorAction } from "../actions/error";
 import { setError } from "../helpers";
 
-const baseUrl = "/api/users";
+const baseUrl = process.env.REACT_APP_API_URL + "/api/users";
 
 export const getSingleUserDispatcher = async (dispatch, id) => {
   try {

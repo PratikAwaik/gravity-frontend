@@ -10,7 +10,7 @@ import {
 } from "../actions/comments";
 import { setError } from "../helpers";
 
-const baseUrl = "/api/forums";
+const baseUrl = process.env.REACT_APP_API_URL + "/api/forums";
 
 export const getAllCommentsDispatcher = async (dispatch, postId) => {
   try {
