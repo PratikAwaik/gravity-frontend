@@ -101,14 +101,14 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
             <i
               className={`ri-rocket-2-${
                 hasUpvotedAlready ? "fill" : "line"
-              } cursor-pointer text-xl z-10`}
+              } cursor-pointer text-lg sm:text-xl z-10`}
               onClick={handleUpvoteClick}
             ></i>
             <span className="text-xl">{post.upvotes}</span>
           </div>
         ) : (
           <Link to="/login" className="mr-2 flex items-center">
-            <i className="ri-rocket-2-line cursor-pointer text-xl z-10"></i>
+            <i className="ri-rocket-2-line cursor-pointer text-lg sm:text-xl z-10"></i>
             <span className="text-xl">{post.upvotes}</span>
           </Link>
         )}
@@ -122,20 +122,20 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
             <i
               className={`ri-rocket-2-${
                 hasDownvotedAlready ? "fill" : "line"
-              } transform rotate-180 cursor-pointer text-xl z-10`}
+              } transform rotate-180 cursor-pointer text-lg sm:text-xl z-10`}
               onClick={handleDownvoteClick}
             ></i>
             <span className="text-xl">{post.downvotes}</span>
           </div>
         ) : (
           <Link to="/login" className="mr-4 flex items-center">
-            <i className="ri-rocket-2-line transform rotate-180 cursor-pointer text-xl z-10"></i>
+            <i className="ri-rocket-2-line transform rotate-180 cursor-pointer text-lg sm:text-xl z-10"></i>
             <span className="text-xl">{post.downvotes}</span>
           </Link>
         )}
 
         <div className="flex items-center cursor-pointer z-10">
-          <i className="ri-chat-1-line mr-1 text-xl"></i>
+          <i className="ri-chat-1-line mr-1 text-lg sm:text-xl"></i>
           <span className="mr-1">
             {isPostDetail ? comments.length : post.comments.length}
           </span>

@@ -25,7 +25,7 @@ const PostDetail = () => {
     (async function () {
       if (
         (forums.length === 0 || !forums.find((post) => post.id === id)) &&
-        iter < 1
+        iter.current < 1
       ) {
         await getAllPostsDispatcher(dispatch);
         iter.current += 1;
@@ -61,7 +61,7 @@ const PostDetail = () => {
   };
 
   return post && post.id ? (
-    <div className="mt-20 sm:mt-24 mb-16 mx-auto max-w-4xl bg-transparent border-2 rounded-md shadow-md post-detail-container">
+    <div className="mt-20 sm:mt-24 mb-16 mx-auto max-w-4xl bg-transparent border-2 sm:rounded-md shadow-md post-detail-container">
       <div className="p-2 sm:p-4 post-detail-wrapper">
         <PostHeader post={post} />
         <PostBody
