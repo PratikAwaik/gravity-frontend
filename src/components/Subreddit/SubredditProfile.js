@@ -58,7 +58,11 @@ const SubredditProfile = () => {
         Authorization: "Bearer " + currentUser.token,
       },
     };
-    await axios.patch(`/api/r/${subreddit.id}/update`, data, config);
+    await axios.patch(
+      `${process.env.REACT_APP_API_URL}/api/r/${subreddit.id}/update`,
+      data,
+      config
+    );
     updateSubredditIconDispatcher(dispatch, subreddit.id, data.communityIcon);
   };
 
@@ -82,7 +86,7 @@ const SubredditProfile = () => {
     }
 
     await axios.patch(
-      `/api/r/${subreddit.id}/subscribe`,
+      `${process.env.REACT_APP_API_URL}/api/r/${subreddit.id}/subscribe`,
       { subscribe },
       config
     );
