@@ -135,15 +135,28 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
           </Link>
         )}
 
-        <div
-          className={`mr-4 flex items-center cursor-pointer z-10 ${
-            !comment.user && "pointer-events-none"
-          }`}
-          onClick={() => setReplyClicked && setReplyClicked(true)}
-        >
-          <i className="ri-reply-line mr-1 text-base sm:text-xl"></i>
-          <span className="mr-1">reply</span>
-        </div>
+        {/* reply */}
+        {currentUser.username ? (
+          <div
+            className={`mr-4 flex items-center cursor-pointer z-10 ${
+              !comment.user && "pointer-events-none"
+            }`}
+            onClick={() => setReplyClicked && setReplyClicked(true)}
+          >
+            <i className="ri-reply-line mr-1 text-base sm:text-xl"></i>
+            <span className="mr-1">reply</span>
+          </div>
+        ) : (
+          <Link
+            to="/login"
+            className={`mr-4 flex items-center cursor-pointer z-10 ${
+              !comment.user && "pointer-events-none"
+            }`}
+          >
+            <i className="ri-reply-line mr-1 text-base sm:text-xl"></i>
+            <span className="mr-1">reply</span>
+          </Link>
+        )}
       </div>
 
       {comment.user && comment.user.id === currentUser.id && (

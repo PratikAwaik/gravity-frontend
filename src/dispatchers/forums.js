@@ -38,7 +38,6 @@ export const handleUpvoteDispatcher = async (
   };
 
   try {
-    await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
     dispatch(
       handleUpvotesAction({
         upvotes: upvotesData.upvotes,
@@ -46,6 +45,7 @@ export const handleUpvoteDispatcher = async (
         id,
       })
     );
+    await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
   } catch (err) {
     setError(dispatch, err);
   }
@@ -64,7 +64,6 @@ export const handleDownvoteDispatcher = async (
   };
 
   try {
-    await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
     dispatch(
       handleDownvotesAction({
         upvotes: downvotesData.upvotes,
@@ -72,6 +71,7 @@ export const handleDownvoteDispatcher = async (
         id,
       })
     );
+    await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
   } catch (err) {
     setError(dispatch, err);
   }

@@ -63,17 +63,17 @@ export const handleCommentUpvoteDispatcher = async (
   };
 
   try {
-    await axios.patch(
-      `${baseUrl}/${postId}/comments/${commentId}/upvote`,
-      upvotesData,
-      config
-    );
     dispatch(
       handleCommentUpvoteAction({
         upvotes: upvotesData.upvotes,
         downvotes: upvotesData.downvotes,
         id: commentId,
       })
+    );
+    await axios.patch(
+      `${baseUrl}/${postId}/comments/${commentId}/upvote`,
+      upvotesData,
+      config
     );
   } catch (err) {
     setError(dispatch, err);
@@ -94,17 +94,17 @@ export const handleCommentDownvoteDispatcher = async (
   };
 
   try {
-    await axios.patch(
-      `${baseUrl}/${postId}/comments/${commentId}/downvote`,
-      downvotesData,
-      config
-    );
     dispatch(
       handleCommentDownvoteAction({
         upvotes: downvotesData.upvotes,
         downvotes: downvotesData.downvotes,
         id: commentId,
       })
+    );
+    await axios.patch(
+      `${baseUrl}/${postId}/comments/${commentId}/downvote`,
+      downvotesData,
+      config
     );
   } catch (err) {
     setError(dispatch, err);

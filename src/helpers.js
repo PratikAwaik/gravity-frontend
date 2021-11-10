@@ -41,6 +41,14 @@ export const handleUpvoteHelper = async (
     hasDownvotedAlready,
   };
 
+  updateCurrentUserVotesDispatcher(dispatch, {
+    hasUpvotedAlready,
+    hasDownvotedAlready,
+    postId: data.id,
+    isPost: data.post ? false : true,
+    upvoteClicked: true,
+  });
+
   if (data.post) {
     await handleCommentUpvoteDispatcher(
       dispatch,
@@ -57,14 +65,6 @@ export const handleUpvoteHelper = async (
       currentUser.token
     );
   }
-
-  updateCurrentUserVotesDispatcher(dispatch, {
-    hasUpvotedAlready,
-    hasDownvotedAlready,
-    postId: data.id,
-    isPost: data.post ? false : true,
-    upvoteClicked: true,
-  });
 };
 
 export const handleDownvoteHelper = async (
@@ -84,6 +84,14 @@ export const handleDownvoteHelper = async (
     hasUpvotedAlready,
   };
 
+  updateCurrentUserVotesDispatcher(dispatch, {
+    hasUpvotedAlready,
+    hasDownvotedAlready,
+    postId: data.id,
+    isPost: data.post ? false : true,
+    upvoteClicked: false,
+  });
+
   if (data.post) {
     await handleCommentDownvoteDispatcher(
       dispatch,
@@ -100,14 +108,6 @@ export const handleDownvoteHelper = async (
       currentUser.token
     );
   }
-
-  updateCurrentUserVotesDispatcher(dispatch, {
-    hasUpvotedAlready,
-    hasDownvotedAlready,
-    postId: data.id,
-    isPost: data.post ? false : true,
-    upvoteClicked: false,
-  });
 };
 
 export const sortByDate = (array, mostRecent) => {
