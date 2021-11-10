@@ -27,13 +27,6 @@ const Home = () => {
   const forums = useSelector((state) => state.forums);
 
   useEffect(() => {
-    // (async function () {
-    //   scrollToPreviousPosition();
-    //   await getAllPostsDispatcher(dispatch, {
-    //     page: forums.page + 1,
-    //     limit: forums.limit,
-    //   });
-    // })();
     fetchData(dispatch, { page: 0, limit: forums.limit });
   }, [dispatch, forums.limit]);
 
@@ -44,7 +37,7 @@ const Home = () => {
         next={() =>
           fetchData(dispatch, { page: forums.page, limit: forums.limit })
         }
-        hasMore={true}
+        hasMore={forums.results.length % forums.limit === 0}
         loader={
           <div>
             <img src={loading} alt="Loading Icon" />
