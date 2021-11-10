@@ -7,7 +7,7 @@ import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
 import CreatePost from "./components/Post/CreatePost";
 import PrivateRoute from "./components/Auth/PrivateRoute";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/Utils/NotFound";
 
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import loadingIcon from "./images/loading-icon.gif";

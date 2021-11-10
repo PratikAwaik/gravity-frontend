@@ -12,9 +12,9 @@ import { setError } from "../helpers";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/forums";
 
-export const getAllPostsDispatcher = async (dispatch) => {
+export const getAllPostsDispatcher = async (dispatch, { page, limit }) => {
   try {
-    const response = await axios.get(baseUrl);
+    const response = await axios.get(`${baseUrl}?page=${page}&limit=${limit}`);
     dispatch(getAllPostsAction(response.data));
   } catch (err) {
     setError(dispatch, err);

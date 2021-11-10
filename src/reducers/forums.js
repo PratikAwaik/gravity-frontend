@@ -1,7 +1,17 @@
-const forumsReducer = (state = [], action) => {
+const initialState = {
+  results: [],
+  page: 0,
+  limit: 5,
+};
+
+const forumsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "GET_ALL_POSTS":
-      return action.payload;
+      return {
+        ...state,
+        page: state.page + 1,
+        results: [...state.results, ...action.payload],
+      };
     case "SET_POSTS":
       return action.payload;
     case "UPVOTE_POST_FORUMS":
