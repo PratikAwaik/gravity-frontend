@@ -1,7 +1,7 @@
 const initialState = {
   results: [],
   page: 0,
-  limit: 5,
+  limit: 8,
 };
 
 const forumsReducer = (state = initialState, action) => {
