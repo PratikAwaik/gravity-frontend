@@ -12,13 +12,6 @@ export const setPostsAction = (posts) => {
   };
 };
 
-// export const getSinglePostAction = (postData) => {
-//   return {
-//     type: "GET_SINGLE_POST",
-//     payload: [postData],
-//   };
-// };
-
 export const handleUpvotesAction = (postData) => {
   return {
     type: "UPVOTE_FORUMS_POST",
