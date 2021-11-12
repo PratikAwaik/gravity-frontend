@@ -8,7 +8,7 @@ import { updateCurrentUserSubscriptionDispatcher } from "../../dispatchers/user"
 import Forums from "../Forums/Forums";
 import MembersDisplay from "./MembersDisplay";
 import loadingIcon from "../../images/loading-icon.gif";
-import ProfilePicture from "../Editors/ProfilePicture";
+import ProfilePicture from "../Utils/ProfilePicture";
 import { updateSubredditIconDispatcher } from "../../dispatchers/subreddit";
 
 const SubredditProfile = () => {

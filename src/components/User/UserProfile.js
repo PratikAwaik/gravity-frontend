@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
-import ProfilePicture from "../Editors/ProfilePicture";
+import ProfilePicture from "../Utils/ProfilePicture";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import SubredditCards from "./SubredditCards";
@@ -109,7 +109,7 @@ const UserProfile = () => {
           />
         )}
 
-        <Tabs posts={forums} comments={user.comments} />
+        <Tabs posts={forums.results} comments={user.comments} />
       </div>
     </div>
   ) : null;

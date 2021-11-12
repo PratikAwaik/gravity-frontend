@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import ProfilePicture from "../Editors/ProfilePicture";
+import ProfilePicture from "../Utils/ProfilePicture";
 import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 import communitySrcImage from "../../images/community.png";
 import { displayError, successPopup } from "../../helpers";
