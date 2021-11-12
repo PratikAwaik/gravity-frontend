@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import EditPost from "./EditPost";
 import domPurifyConfig from "../../configs/domPurifyConfig";
 

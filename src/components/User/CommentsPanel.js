@@ -5,14 +5,9 @@ import CommentBody from "../Comments/CommentBody";
 import moment from "moment";
 import CommentFooter from "../Comments/CommentFooter";
 import PropTypes from "prop-types";
+import { scrollWithOffset } from "../../helpers";
 
 const CommentsPanel = ({ comments, classNames }) => {
-  const scrollWithOffset = (el) => {
-    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
-    const yOffset = -80;
-    window.scrollTo({ top: yCoordinate + yOffset, behavior: "smooth" });
-  };
-
   return (
     <Tab.Panel
       className={classNames(
@@ -32,7 +27,7 @@ const CommentsPanel = ({ comments, classNames }) => {
                   <HashLink
                     smooth
                     to={`/forums/${comment.post}#${comment.id}`}
-                    scroll={(el) => scrollWithOffset(el)}
+                    scroll={(el) => scrollWithOffset(el, "smooth")}
                   >
                     {/* Comment Header */}
                     <div className="flex items-center text-sm text-theme-gray mb-2 z-10 comment-header">

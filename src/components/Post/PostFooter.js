@@ -10,7 +10,8 @@ import {
   hasDownvotedAlreadyHelper,
   hasUpvotedAlreadyHelper,
 } from "../../helpers";
-import { deletePostDispatcher } from "../../dispatchers/forums";
+import { deleteForumsPostDispatcher } from "../../dispatchers/forums";
+import { deletePostDispatcher } from "../../dispatchers/post";
 
 const PostFooter = ({ post, isPostDetail, setToEdit }) => {
   const { currentUser, comments } = useSelector((state) => state);
@@ -34,7 +35,8 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
       currentUser,
       post,
       hasUpvotedAlready,
-      hasDownvotedAlready
+      hasDownvotedAlready,
+      isPostDetail
     );
   };
 
@@ -44,7 +46,8 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
       currentUser,
       post,
       hasUpvotedAlready,
-      hasDownvotedAlready
+      hasDownvotedAlready,
+      isPostDetail
     );
   };
 
@@ -71,14 +74,15 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
     const result = await Swal.fire(swalObject);
     if (result.isConfirmed) {
       try {
-        await deletePostDispatcher(dispatch, post.id, currentUser.token);
-        history.goBack();
+        await deleteForumsPostDispatcher(dispatch, post.id);
+        await deletePostDispatcher(dispatch, currentUser.token, post.id);
         Swal.fire({
           icon: "success",
           title: "Post deleted Successfully!",
           showConfirmButton: false,
           timer: 2000,
         });
+        history.goBack();
       } catch (err) {
         errorPopup(err);
       }

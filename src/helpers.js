@@ -1,6 +1,6 @@
 import {
-  handleDownvoteDispatcher,
-  handleUpvoteDispatcher,
+  handleForumsPostDownvoteDispatcher,
+  handleForumsPostUpvoteDispatcher,
 } from "./dispatchers/forums";
 import {
   handleCommentDownvoteDispatcher,
@@ -9,6 +9,10 @@ import {
 import { updateCurrentUserVotesDispatcher } from "./dispatchers/user";
 import Swal from "sweetalert2";
 import { setErrorAction } from "./actions/error";
+import {
+  handlePostDownvoteDispatcher,
+  handlePostUpvoteDispatcher,
+} from "./dispatchers/post";
 
 export const hasUpvotedAlreadyHelper = (currentUser, id, key) => {
   return (
@@ -29,7 +33,8 @@ export const handleUpvoteHelper = async (
   currentUser,
   data,
   hasUpvotedAlready,
-  hasDownvotedAlready
+  hasDownvotedAlready,
+  isPostDetail
 ) => {
   const upvotesData = {
     upvotes:
@@ -58,11 +63,20 @@ export const handleUpvoteHelper = async (
       currentUser.token
     );
   } else {
-    await handleUpvoteDispatcher(
+    if (isPostDetail) {
+      await handlePostUpvoteDispatcher(
+        dispatch,
+        data.id,
+        upvotesData,
+        currentUser.token
+      );
+    }
+    await handleForumsPostUpvoteDispatcher(
       dispatch,
       data.id,
       upvotesData,
-      currentUser.token
+      currentUser.token,
+      isPostDetail
     );
   }
 };
@@ -72,7 +86,8 @@ export const handleDownvoteHelper = async (
   currentUser,
   data,
   hasUpvotedAlready,
-  hasDownvotedAlready
+  hasDownvotedAlready,
+  isPostDetail
 ) => {
   const downvotesData = {
     downvotes:
@@ -101,7 +116,15 @@ export const handleDownvoteHelper = async (
       currentUser.token
     );
   } else {
-    await handleDownvoteDispatcher(
+    if (isPostDetail) {
+      await handlePostDownvoteDispatcher(
+        dispatch,
+        data.id,
+        downvotesData,
+        currentUser.token
+      );
+    }
+    await handleForumsPostDownvoteDispatcher(
       dispatch,
       data.id,
       downvotesData,
@@ -167,7 +190,7 @@ export const displayError = (inputError) => {
 
 export const setError = (dispatch, err) => {
   console.log(err.response);
-  dispatch(setErrorAction(err.response.data));
+  dispatch(setErrorAction(err.response ? err.response.data : {}));
 
   setTimeout(() => {
     dispatch(setErrorAction({}));
@@ -188,4 +211,10 @@ export const errorPopup = async (message) => {
     icon: "error",
     title: message,
   });
+};
+
+export const scrollWithOffset = (el, behavior) => {
+  const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+  const yOffset = -80;
+  window.scrollTo({ top: yCoordinate + yOffset, behavior });
 };

@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
   createPostAction,
-  deletePostAction,
-  editPostAction,
+  deleteForumsPostAction,
+  editForumsPostAction,
   getAllPostsAction,
   handleDownvotesAction,
   handleUpvotesAction,
@@ -25,11 +25,12 @@ export const setPostsDispatcher = (dispatch, posts) => {
   dispatch(setPostsAction(posts));
 };
 
-export const handleUpvoteDispatcher = async (
+export const handleForumsPostUpvoteDispatcher = async (
   dispatch,
   id,
   upvotesData,
-  userToken
+  userToken,
+  isPostDetail
 ) => {
   const config = {
     headers: {
@@ -45,17 +46,20 @@ export const handleUpvoteDispatcher = async (
         id,
       })
     );
-    await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
+    if (!isPostDetail) {
+      await axios.patch(`${baseUrl}/${id}/upvote`, upvotesData, config);
+    }
   } catch (err) {
     setError(dispatch, err);
   }
 };
 
-export const handleDownvoteDispatcher = async (
+export const handleForumsPostDownvoteDispatcher = async (
   dispatch,
   id,
   downvotesData,
-  userToken
+  userToken,
+  isPostDetail
 ) => {
   const config = {
     headers: {
@@ -71,7 +75,9 @@ export const handleDownvoteDispatcher = async (
         id,
       })
     );
-    await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
+    if (!isPostDetail) {
+      await axios.patch(`${baseUrl}/${id}/downvote`, downvotesData, config);
+    }
   } catch (err) {
     setError(dispatch, err);
   }
@@ -92,37 +98,10 @@ export const createPostDispatcher = async (dispatch, postData, userToken) => {
   }
 };
 
-export const deletePostDispatcher = async (dispatch, id, userToken) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
-  try {
-    await axios.delete(`${baseUrl}/${id}`, config);
-    dispatch(deletePostAction(id));
-  } catch (err) {
-    setError(dispatch, err);
-  }
+export const deleteForumsPostDispatcher = async (dispatch, id) => {
+  dispatch(deleteForumsPostAction(id));
 };
 
-export const editPostDispatcher = async (
-  dispatch,
-  postId,
-  postData,
-  userToken
-) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
-  try {
-    await axios.patch(`${baseUrl}/${postId}/edit`, postData, config);
-    dispatch(editPostAction({ ...postData, id: postId }));
-  } catch (err) {
-    setError(dispatch, err);
-  }
+export const editForumsPostDispatcher = async (dispatch, postData) => {
+  dispatch(editForumsPostAction(postData));
 };

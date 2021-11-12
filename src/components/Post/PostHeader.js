@@ -19,13 +19,9 @@ const PostHeader = ({ post }) => {
       </Link>
       <div className="ml-5 sm:ml-0 flex flex-wrap items-center">
         Posted by
-        {post.user && post.user.username ? (
-          <Link to={`/user/${post.user.id}`} className="ml-1 hover:underline">
-            {post.user.prefixedName}
-          </Link>
-        ) : (
-          <span className="ml-1 underline">{"u/[deleted]"}</span>
-        )}
+        <Link to={`/user/${post.user.id}`} className="ml-1 hover:underline">
+          {post.user.prefixedName}
+        </Link>
         <div className="mx-2 inline-block w-1 h-1 bg-theme-black rounded-full"></div>
         {moment(post.createdAt).fromNow()}
         {post.editedAt && <span className="ml-1">(edited)</span>}

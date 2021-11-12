@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import FancyEditor from "../Editors/FancyEditor";
-import { editPostDispatcher } from "../../dispatchers/forums";
+import { editPostDispatcher } from "../../dispatchers/post";
 import { successPopup } from "../../helpers";
+import { editForumsPostDispatcher } from "../../dispatchers/forums";
 
-const EditPost = ({ post, setPost, setToEdit }) => {
+const EditPost = ({ post, setToEdit }) => {
   const [editorState, setEditorState] = useState(post.content);
   const currentUser = useSelector((state) => state.currentUser);
   const { id } = useParams();
@@ -15,13 +16,13 @@ const EditPost = ({ post, setPost, setToEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await editPostDispatcher(
-      dispatch,
+    const postData = {
       id,
-      { content: editorState },
-      currentUser.token
-    );
-    setPost({ ...post, content: editorState });
+      content: editorState,
+    };
+
+    await editPostDispatcher(dispatch, currentUser.token, postData);
+    await editForumsPostDispatcher(dispatch, postData);
     await successPopup("Post updated successfully!");
     setToEdit(false);
   };
@@ -59,7 +60,6 @@ const EditPost = ({ post, setPost, setToEdit }) => {
 
 EditPost.propTypes = {
   post: PropTypes.object.isRequired,
-  setPost: PropTypes.func.isRequired,
   setToEdit: PropTypes.func.isRequired,
 };
 

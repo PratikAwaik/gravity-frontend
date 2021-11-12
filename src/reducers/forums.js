@@ -13,24 +13,30 @@ const forumsReducer = (state = initialState, action) => {
         results: [...state.results, ...action.payload],
       };
     case "SET_POSTS":
-      return action.payload;
-    case "UPVOTE_POST_FORUMS":
-      return setPost(state, action);
-    case "DOWNVOTE_POST_FORUMS":
-      return setPost(state, action);
+      console.log(action.payload);
+      return { ...state, results: action.payload };
+    case "UPVOTE_FORUMS_POST":
+      return { ...state, results: setPost(state.results, action) };
+    case "DOWNVOTE_FORUMS_POST":
+      return { ...state, results: setPost(state.results, action) };
     case "NEW_POST":
-      return [...state, action.payload];
-    case "DELETE_POST_FORUMS":
-      return state.filter((post) => post.id.toString() !== action.payload);
-    case "EDIT_POST_FORUMS":
-      return setPost(state, action);
+      return { ...state, results: [action.payload, ...state.results] };
+    case "DELETE_FORUMS_POST":
+      return {
+        ...state,
+        results: state.results.filter(
+          (post) => post.id.toString() !== action.payload
+        ),
+      };
+    case "EDIT_FORUMS_POST":
+      return { ...state, results: setPost(state.results, action) };
     default:
       return state;
   }
 };
 
-function setPost(state, action) {
-  return state.map((post) =>
+function setPost(posts, action) {
+  return posts.map((post) =>
     post.id.toString() === action.payload.id.toString()
       ? { ...post, ...action.payload }
       : post

@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-
-const ForumPost = React.lazy(() => import("./ForumPost"));
+import ForumPost from "./ForumPost";
 
 const Forums = ({ posts }) => {
+  useEffect(() => {
+    scrollToPreviousPosition();
+  }, []);
+
+  function scrollToPreviousPosition() {
+    const yPosition = window.localStorage.getItem("gravityScrollPosition");
+    if (yPosition) {
+      window.scrollTo(0, parseInt(yPosition));
+      window.localStorage.removeItem("gravityScrollPosition");
+    }
+  }
+
   return (
     <div className="forums-post-wrapper">
       {posts.map((post) => (
-        <React.Suspense key={post.id}>
-          <ForumPost post={post} />
-        </React.Suspense>
+        <ForumPost key={post.id} post={post} />
       ))}
     </div>
   );
 };
 
-ForumPost.propTypes = {
+Forums.propTypes = {
   posts: PropTypes.array.isRequired,
 };
 

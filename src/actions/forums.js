@@ -21,14 +21,14 @@ export const setPostsAction = (posts) => {
 
 export const handleUpvotesAction = (postData) => {
   return {
-    type: "UPVOTE_POST_FORUMS",
+    type: "UPVOTE_FORUMS_POST",
     payload: postData,
   };
 };
 
 export const handleDownvotesAction = (postData) => {
   return {
-    type: "DOWNVOTE_POST_FORUMS",
+    type: "DOWNVOTE_FORUMS_POST",
     payload: postData,
   };
 };
@@ -40,16 +40,16 @@ export const createPostAction = (postData) => {
   };
 };
 
-export const deletePostAction = (id) => {
+export const deleteForumsPostAction = (id) => {
   return {
-    type: "DELETE_POST_FORUMS",
+    type: "DELETE_FORUMS_POST",
     payload: id,
   };
 };
 
-export const editPostAction = (postData) => {
+export const editForumsPostAction = (postData) => {
   return {
-    type: "EDIT_POST_FORUMS",
+    type: "EDIT_FORUMS_POST",
     payload: postData,
   };
 };
