@@ -6,7 +6,7 @@ import {
   handleCommentDownvoteDispatcher,
   handleCommentUpvoteDispatcher,
 } from "./dispatchers/comments";
-import { updateCurrentUserVotesDispatcher } from "./dispatchers/user";
+import { updateCurrentUserVotesDispatcher } from "./dispatchers/currentUser";
 import Swal from "sweetalert2";
 import { setErrorAction } from "./actions/error";
 import {

@@ -27,7 +27,7 @@ const SubredditCards = ({ subreddits, headText }) => {
                   />
                 </div>
                 <span className="mt-2 font-bold text-base">
-                  {subreddit.name}
+                  {subreddit.prefixedName}
                 </span>
               </div>
 

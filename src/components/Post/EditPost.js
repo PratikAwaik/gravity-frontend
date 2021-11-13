@@ -37,15 +37,12 @@ const EditPost = ({ post, setToEdit }) => {
         />
 
         <div className="flex items-center mt-5">
-          <button
-            type="submit"
-            className="px-4 sm:px-5 py-1.5 border-2 border-theme-green rounded-md text-sm sm:text-base hover:bg-theme-green hover:text-theme-white"
-          >
+          <button type="submit" className="success-btn">
             Update
           </button>
           <button
             type="button"
-            className="ml-4 px-4 sm:px-5 py-1.5 border-2 border-theme-red rounded-md text-sm sm:text-base hover:bg-theme-red"
+            className="cancel-btn"
             onClick={() => {
               setToEdit(false);
             }}

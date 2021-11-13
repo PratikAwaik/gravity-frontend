@@ -54,6 +54,14 @@
   .tab-selected {
     @apply bg-theme-white shadow border-2;
   }
+
+  .success-btn {
+    @apply border-2 border-theme-green text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-green hover:text-white;
+  }
+
+  .cancel-btn {
+    @apply border-2 border-theme-red text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-red hover:text-white ml-3;
+  }
 }
 
 /* Forum post styles */

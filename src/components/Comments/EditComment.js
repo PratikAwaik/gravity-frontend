@@ -46,15 +46,12 @@ const EditComment = ({ comment, setToEdit }) => {
         />
 
         <div className="flex items-center mt-5">
-          <button
-            type="submit"
-            className="px-2 py-1 border-2 border-theme-green rounded-md hover:bg-theme-green hover:text-theme-white"
-          >
+          <button type="submit" className="success-btn">
             Update
           </button>
           <button
             type="button"
-            className="ml-3 px-2 py-1 border-2 border-theme-red rounded-md hover:bg-theme-red"
+            className="cancel-btn"
             onClick={() => {
               setToEdit(false);
             }}

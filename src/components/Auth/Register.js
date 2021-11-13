@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { registerUserDispatcher } from "../../dispatchers/user";
+import { registerUserDispatcher } from "../../dispatchers/currentUser";
 import FormInput from "./FormInput";
 
 import astronautIcon from "../../images/astronaut.png";

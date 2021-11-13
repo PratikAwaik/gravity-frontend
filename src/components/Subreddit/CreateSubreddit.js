@@ -5,7 +5,7 @@ import ProfilePicture from "../Utils/ProfilePicture";
 import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 import communitySrcImage from "../../images/community.png";
 import { displayError, successPopup } from "../../helpers";
-import { currentUserDetailsDispatcher } from "../../dispatchers/user";
+import { currentUserDetailsDispatcher } from "../../dispatchers/currentUser";
 
 const CreateSubreddit = () => {
   const [subreddit, setSubreddit] = useState({

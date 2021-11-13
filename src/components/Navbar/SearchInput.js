@@ -56,7 +56,7 @@ const SearchInput = () => {
     setValue(value);
     const result = {
       posts: value
-        ? forums.filter((post) =>
+        ? forums.results.filter((post) =>
             post.title.toLowerCase().trim().includes(value.toLowerCase().trim())
           )
         : [],

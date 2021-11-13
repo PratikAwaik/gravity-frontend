@@ -71,7 +71,7 @@ const Comment = ({ comment }) => {
           setToEdit={setToEdit}
         />
         {replyClicked && (
-          <div className="my-2 sm:my-4 pl-6">
+          <div className="my-2 sm:my-4 pl-6 w-full">
             <FancyEditor
               editorContent={editorContent}
               setEditorContent={setEditorContent}
@@ -80,7 +80,7 @@ const Comment = ({ comment }) => {
 
             <button
               type="button"
-              className="border-2 border-theme-green text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-green hover:text-white"
+              className="success-btn"
               onClick={handleCreateComment}
             >
               Comment
@@ -88,7 +88,7 @@ const Comment = ({ comment }) => {
 
             <button
               type="button"
-              className="border-2 border-theme-red text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-red hover:text-white ml-3"
+              className="cancel-btn"
               onClick={() => setReplyClicked(false)}
             >
               Cancel

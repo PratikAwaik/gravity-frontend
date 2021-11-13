@@ -7,7 +7,7 @@ import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
 import FancyEditor from "../Editors/FancyEditor";
 import Comments from "../Comments/Comments";
-import { currentUserDetailsDispatcher } from "../../dispatchers/user";
+import { currentUserDetailsDispatcher } from "../../dispatchers/currentUser";
 import { getPostDispatcher, unsetPostDispatcher } from "../../dispatchers/post";
 import LoadingWrapper from "../Utils/LoadingWrapper";
 
@@ -48,7 +48,7 @@ const PostDetail = () => {
   };
 
   return (
-    <LoadingWrapper loading={loading}>
+    <LoadingWrapper loading={loading} width="w-screen" height="h-screen">
       <div className="mt-20 sm:mt-24 mb-16 mx-auto max-w-4xl bg-transparent border-2 sm:rounded-md shadow-md post-detail-container">
         <div className="p-2 sm:p-4 post-detail-wrapper">
           <PostHeader post={post} />

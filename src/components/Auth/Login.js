@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { setErrorAction } from "../../actions/error";
-import { loginUserDispatcher } from "../../dispatchers/user";
+import { loginUserDispatcher } from "../../dispatchers/currentUser";
 import FormInput from "./FormInput";
 
 const Login = () => {

@@ -89,15 +89,12 @@ const CreatePost = () => {
           />
 
           <div className="flex items-center mt-5">
-            <button
-              type="submit"
-              className="px-4 sm:px-5 py-1.5 border-2 border-theme-green text-md sm:text-base rounded-md hover:bg-theme-green hover:text-theme-white"
-            >
+            <button type="submit" className="success-btn">
               Post
             </button>
             <button
               type="button"
-              className="ml-4 sm:px-4 px-5 py-1.5 border-2 border-theme-red text-md sm:text-base rounded-md hover:bg-theme-red"
+              className="cancel-btn"
               onClick={() => history.goBack()}
             >
               Cancel

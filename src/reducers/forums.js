@@ -1,6 +1,6 @@
 const initialState = {
   results: [],
-  page: 0,
+  page: 1,
   limit: 8,
 };
 
@@ -13,7 +13,6 @@ const forumsReducer = (state = initialState, action) => {
         results: [...state.results, ...action.payload],
       };
     case "SET_POSTS":
-      console.log(action.payload);
       return { ...state, results: action.payload };
     case "UPVOTE_FORUMS_POST":
       return { ...state, results: setPost(state.results, action) };
