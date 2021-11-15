@@ -1,16 +1,19 @@
-import { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
   const currentUser = useSelector((state) => state.currentUser);
-  const subreddits = useSelector((state) =>
-    state.subreddits.filter(
-      (sr) =>
-        currentUser.subscriptions && currentUser.subscriptions.includes(sr.id)
-    )
-  );
+  const [subreddits, setSubreddits] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/${currentUser.id}/subreddits`);
+      setSubreddits(response.data.subscriptions);
+    })();
+  }, [currentUser.id]);
 
   return (
     <div className="w-72 z-20">

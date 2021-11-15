@@ -6,14 +6,14 @@ const initialState = {
 
 const forumsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_ALL_POSTS":
+    case "SET_NEXT_POSTS":
       return {
         ...state,
         page: state.page + 1,
         results: [...state.results, ...action.payload],
       };
     case "SET_POSTS":
-      return { ...state, results: action.payload };
+      return { ...state, page: 2, results: action.payload };
     case "UPVOTE_FORUMS_POST":
       return { ...state, results: setPost(state.results, action) };
     case "DOWNVOTE_FORUMS_POST":

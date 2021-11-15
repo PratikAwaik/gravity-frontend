@@ -1,9 +1,16 @@
-export const getAllCommentsAction = (comments) => {
+export const setCommentsAction = (comments) => {
   return {
     type: "SET_COMMENTS",
     payload: comments,
   };
 };
+
+export const setNextCommentsAction = (comments) => {
+  return {
+    type: "SET_NEXT_COMMENTS",
+    payload: comments
+  }
+}
 
 export const unsetCommentsAction = () => {
   return {

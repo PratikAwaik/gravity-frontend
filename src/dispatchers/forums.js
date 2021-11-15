@@ -1,29 +1,40 @@
 import axios from "axios";
+import { setErrorAction } from "../actions/error";
 import {
   createPostAction,
   deleteForumsPostAction,
   editForumsPostAction,
-  getAllPostsAction,
+  // getAllPostsAction,
   handleDownvotesAction,
   handleUpvotesAction,
+  setNextPostsAction,
   setPostsAction,
 } from "../actions/forums";
 import { setError } from "../helpers";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/forums";
 
-export const getAllPostsDispatcher = async (dispatch, { page, limit }) => {
-  try {
-    const response = await axios.get(`${baseUrl}?page=${page}&limit=${limit}`);
-    dispatch(getAllPostsAction(response.data));
-  } catch (err) {
-    setError(dispatch, err);
+export const setPostsDispatcher = async (dispatch, posts) => {
+  if (posts) {
+    dispatch(setPostsAction(posts));
+  } else {
+    try {
+      const response = await axios.get(`${baseUrl}?page=1&limit=8`);
+      dispatch(setPostsAction(response.data));
+    } catch (err) {
+      setError(dispatch, err);
+    }
   }
 };
 
-export const setPostsDispatcher = (dispatch, posts) => {
-  dispatch(setPostsAction(posts));
-};
+export const setNextPostsDispatcher = async (dispatch, { page, limit }, url) => {
+  try {
+    const response = await axios.get(`${url || baseUrl}?page=${page}&limit=${limit}`);
+    dispatch(setNextPostsAction(response.data));
+  } catch (error) {
+    setErrorAction(dispatch, error);
+  }
+}
 
 export const handleForumsPostUpvoteDispatcher = async (
   dispatch,

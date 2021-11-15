@@ -1,6 +1,6 @@
-export const getAllPostsAction = (posts) => {
+export const setNextPostsAction = (posts) => {
   return {
-    type: "GET_ALL_POSTS",
+    type: "SET_NEXT_POSTS",
     payload: posts,
   };
 };

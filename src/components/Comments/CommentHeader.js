@@ -24,10 +24,10 @@ const CommentHeader = ({ comment }) => {
         <div className="mr-2 comment-user">[deleted]</div>
       )}
 
-      {comment.user &&
+      {/* {comment.user &&
         comment.user.posts.find((post) => post === comment.post) && (
           <span className="text-theme-green text-sm mr-2 font-bold">OP</span>
-        )}
+        )} */}
 
       {comment.user && (
         <>

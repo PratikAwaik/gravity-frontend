@@ -9,9 +9,11 @@ import { scrollWithOffset } from "../../helpers";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
 import { getUserCommentsDispatcher } from "../../dispatchers/userProfile";
 import { useDispatch, useSelector } from "react-redux";
+import { setNextCommentsDispatcher } from "../../dispatchers/comments";
+import { useParams } from "react-router";
 
 const CommentsPanel = ({ comments, classNames }) => {
-  const userProfile = useSelector((state) => state.userProfile);
+  const params = useParams();
   const dispatch = useDispatch();
 
   return (
@@ -22,18 +24,18 @@ const CommentsPanel = ({ comments, classNames }) => {
       )}
     >
       <ul className="list-none pl-0">
-        {comments.length > 0 ? (
+        {comments.results.length > 0 ? (
           <InfiniteScrollWrapper
-            dataLength={comments.length}
+            dataLength={comments.results.length}
             nextFunc={() =>
-              getUserCommentsDispatcher(dispatch, userProfile.user.id, {
-                page: userProfile.comments.page,
-                limit: userProfile.comments.limit,
-              })
+              setNextCommentsDispatcher(dispatch, {
+                page: comments.page,
+                limit: comments.limit,
+              }, `${process.env.REACT_APP_API_URL}/api/${params.id}`)
             }
-            hasMore={comments.length % userProfile.comments.limit === 0}
+            hasMore={comments.results.length % comments.limit === 0}
           >
-            {comments.map(
+            {comments.results.map(
               (comment) =>
                 comment.user && (
                   <div

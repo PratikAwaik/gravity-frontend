@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
 import {
-  getAllCommentsDispatcher,
+  setCommentsDispatcher,
   unsetCommentsDispatcher,
 } from "../../dispatchers/comments";
 import { orderComments } from "../../helpers";
 
 const Comments = ({ post }) => {
-  const comments = useSelector((state) => orderComments(state.comments));
+  const comments = useSelector((state) => orderComments(state.comments.results));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getAllCommentsDispatcher(dispatch, post.id);
+    (async () => {
+      await setCommentsDispatcher(dispatch, null, post.id);
+    })();
     return () => unsetCommentsDispatcher(dispatch);
   }, [dispatch, post.id]);
 

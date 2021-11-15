@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     dispatch(setUserFromLocalStorageAction());
-    getAllSubredditsDispatcher(dispatch);
+    // getAllSubredditsDispatcher(dispatch);
   }, [dispatch]);
 
   useEffect(() => {
