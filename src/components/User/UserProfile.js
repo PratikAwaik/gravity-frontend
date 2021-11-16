@@ -7,13 +7,6 @@ import SubredditCards from "./SubredditCards";
 import Tabs from "./Tabs";
 import { updateCurrentUserDispatcher } from "../../dispatchers/currentUser";
 import LoadingWrapper from "../Utils/LoadingWrapper";
-import {
-  getUserDispatcher,
-  getUserSubredditsDispatcher,
-  getUserPostsDispatcher,
-  getUserCommentsDispatcher,
-  unsetUserDispatcher,
-} from "../../dispatchers/userProfile";
 import axios from "axios";
 import { setPostsDispatcher } from "../../dispatchers/forums";
 import { setCommentsDispatcher } from "../../dispatchers/comments";
@@ -51,17 +44,6 @@ const UserProfile = () => {
       } catch (err) {
         history.replace("/404");
       }
-      // await unsetUserDispatcher(dispatch);
-      // await getUserDispatcher(dispatch, params.id, history);
-      // await getUserSubredditsDispatcher(dispatch, params.id);
-      // await getUserPostsDispatcher(dispatch, params.id, {
-      //   page: 1,
-      //   limit: userProfile.posts.limit,
-      // });
-      // await getUserCommentsDispatcher(dispatch, params.id, {
-      //   page: 1,
-      //   limit: userProfile.comments.limit,
-      // });
       setLoading(false);
     })();
   }, [dispatch, history, params.id]);
@@ -127,7 +109,7 @@ const UserProfile = () => {
               )}
 
             <Tabs
-              posts={forums.results}
+              forums={forums}
               comments={comments}
             />
           </div>

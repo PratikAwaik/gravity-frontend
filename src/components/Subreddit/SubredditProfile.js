@@ -10,11 +10,6 @@ import MembersDisplay from "./MembersDisplay";
 import ProfilePicture from "../Utils/ProfilePicture";
 import { updateSubredditIconDispatcher } from "../../dispatchers/subreddit";
 import LoadingWrapper from "../Utils/LoadingWrapper";
-import {
-  getSubredditDispatcher,
-  getSubredditPostsDispatcher,
-  getSubredditUsersDispatchers,
-} from "../../dispatchers/subredditProfile";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
 
 const SubredditProfile = () => {
@@ -54,12 +49,6 @@ const SubredditProfile = () => {
       } catch (error) {
         history.replace("/404");
       }
-      // await getSubredditDispatcher(dispatch, params.id, history);
-      // await getSubredditUsersDispatchers(dispatch, params.id);
-      // await getSubredditPostsDispatcher(dispatch, params.id, {
-      //   page: 1,
-      //   limit: subredditProfile.posts.limit,
-      // });
       setLoading(false);
     })();
   }, [params.id, dispatch, history]);

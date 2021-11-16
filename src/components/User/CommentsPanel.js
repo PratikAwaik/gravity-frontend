@@ -7,8 +7,7 @@ import CommentFooter from "../Comments/CommentFooter";
 import PropTypes from "prop-types";
 import { scrollWithOffset } from "../../helpers";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
-import { getUserCommentsDispatcher } from "../../dispatchers/userProfile";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setNextCommentsDispatcher } from "../../dispatchers/comments";
 import { useParams } from "react-router";
 

@@ -16,7 +16,6 @@ import SubredditProfile from "./components/Subreddit/SubredditProfile";
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import CreateSubreddit from "./components/Subreddit/CreateSubreddit";
 import { currentUserDetailsDispatcher } from "./dispatchers/currentUser";
-import { getAllSubredditsDispatcher } from "./dispatchers/subreddit";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +23,6 @@ function App() {
 
   useEffect(() => {
     dispatch(setUserFromLocalStorageAction());
-    // getAllSubredditsDispatcher(dispatch);
   }, [dispatch]);
 
   useEffect(() => {

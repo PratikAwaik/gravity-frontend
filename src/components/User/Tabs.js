@@ -8,9 +8,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Tabs = ({ posts, comments }) => {
+const Tabs = ({ forums, comments }) => {
   const [categories] = useState({
-    Posts: posts,
+    Posts: forums.results,
     Comments: comments,
   });
 
@@ -36,7 +36,7 @@ const Tabs = ({ posts, comments }) => {
           ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <PostsPanel posts={posts} classNames={classNames} />
+          <PostsPanel forums={forums} classNames={classNames} />
           <CommentsPanel comments={comments} classNames={classNames} />
         </Tab.Panels>
       </Tab.Group>

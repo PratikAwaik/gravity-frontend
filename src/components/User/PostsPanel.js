@@ -3,11 +3,12 @@ import { Tab } from "@headlessui/react";
 import Forums from "../Forums/Forums";
 import PropTypes from "prop-types";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
-import { getUserPostsDispatcher } from "../../dispatchers/userProfile";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setNextPostsDispatcher } from "../../dispatchers/forums";
+import { useParams } from "react-router";
 
-const PostsPanel = ({ posts, classNames }) => {
-  const userProfile = useSelector((state) => state.userProfile);
+const PostsPanel = ({ forums, classNames }) => {
+  const params = useParams();
   const dispatch = useDispatch();
 
   return (
@@ -18,16 +19,16 @@ const PostsPanel = ({ posts, classNames }) => {
       )}
     >
       <InfiniteScrollWrapper
-        dataLength={posts.length}
+        dataLength={forums.results.length}
         nextFunc={() =>
-          getUserPostsDispatcher(dispatch, userProfile.user.id, {
-            page: userProfile.posts.page,
-            limit: userProfile.posts.limit,
-          })
+          setNextPostsDispatcher(dispatch, {
+            page: forums.page,
+            limit: forums.limit,
+          }, `${process.env.REACT_APP_API_URL}/api/users/${params.id}/posts`)
         }
-        hasMore={posts.length % userProfile.posts.limit === 0}
+        hasMore={forums.results.length % forums.limit === 0}
       >
-        <Forums posts={posts} />
+        <Forums posts={forums.results} />
       </InfiniteScrollWrapper>
     </Tab.Panel>
   );
