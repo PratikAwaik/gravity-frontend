@@ -37,9 +37,13 @@ const CreatePost = () => {
           type: "editor",
         };
 
-        await createPostDispatcher(dispatch, postData, currentUser.token);
+        await createPostDispatcher(
+          dispatch,
+          history,
+          postData,
+          currentUser.token
+        );
         await successPopup("Post created successfully!");
-        history.goBack();
       } else {
         errorPopup("Please choose a community!");
       }
@@ -89,12 +93,12 @@ const CreatePost = () => {
           />
 
           <div className="flex items-center mt-5">
-            <button type="submit" className="success-btn">
+            <button type="submit" className="success-btn px-4 sm:px-5 py-1.5">
               Post
             </button>
             <button
               type="button"
-              className="cancel-btn"
+              className="cancel-btn px-4 sm:px-5 py-1.5"
               onClick={() => history.goBack()}
             >
               Cancel

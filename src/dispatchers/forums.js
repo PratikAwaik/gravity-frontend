@@ -4,37 +4,49 @@ import {
   createPostAction,
   deleteForumsPostAction,
   editForumsPostAction,
-  // getAllPostsAction,
   handleDownvotesAction,
   handleUpvotesAction,
   setNextPostsAction,
   setPostsAction,
+  setSubredditPostsAction,
+  setUserPostsAction,
 } from "../actions/forums";
 import { setError } from "../helpers";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/forums";
 
-export const setPostsDispatcher = async (dispatch, posts) => {
-  if (posts) {
-    dispatch(setPostsAction(posts));
-  } else {
-    try {
-      const response = await axios.get(`${baseUrl}?page=1&limit=8`);
-      dispatch(setPostsAction(response.data));
-    } catch (err) {
-      setError(dispatch, err);
-    }
+export const setPostsDispatcher = async (dispatch) => {
+  try {
+    const response = await axios.get(`${baseUrl}?page=1&limit=6`);
+    dispatch(setPostsAction(response.data));
+  } catch (err) {
+    setError(dispatch, err);
   }
 };
 
-export const setNextPostsDispatcher = async (dispatch, { page, limit }, url) => {
+export const setUserPostsDispatcher = async (dispatch, posts) => {
+  dispatch(setUserPostsAction(posts));
+};
+
+export const setSubredditPostsDispatcher = async (dispatch, posts) => {
+  dispatch(setSubredditPostsAction(posts));
+};
+
+export const setNextPostsDispatcher = async (
+  dispatch,
+  pageName,
+  { page, limit },
+  url
+) => {
   try {
-    const response = await axios.get(`${url || baseUrl}?page=${page}&limit=${limit}`);
-    dispatch(setNextPostsAction(response.data));
+    const response = await axios.get(
+      `${url || baseUrl}?page=${page}&limit=${limit}`
+    );
+    dispatch(setNextPostsAction({ results: response.data, pageName }));
   } catch (error) {
     setErrorAction(dispatch, error);
   }
-}
+};
 
 export const handleForumsPostUpvoteDispatcher = async (
   dispatch,
@@ -94,7 +106,12 @@ export const handleForumsPostDownvoteDispatcher = async (
   }
 };
 
-export const createPostDispatcher = async (dispatch, postData, userToken) => {
+export const createPostDispatcher = async (
+  dispatch,
+  history,
+  postData,
+  userToken
+) => {
   const config = {
     headers: {
       Authorization: "Bearer " + userToken,
@@ -104,6 +121,7 @@ export const createPostDispatcher = async (dispatch, postData, userToken) => {
   try {
     const response = await axios.post(baseUrl, postData, config);
     dispatch(createPostAction(response.data));
+    history.push(`/forums/${response.data.id}`);
   } catch (err) {
     setError(dispatch, err);
   }

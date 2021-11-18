@@ -5,10 +5,8 @@ import PropTypes from "prop-types";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
 import { useDispatch } from "react-redux";
 import { setNextPostsDispatcher } from "../../dispatchers/forums";
-import { useParams } from "react-router";
 
-const PostsPanel = ({ forums, classNames }) => {
-  const params = useParams();
+const PostsPanel = ({ forums, classNames, baseUrl }) => {
   const dispatch = useDispatch();
 
   return (
@@ -21,12 +19,17 @@ const PostsPanel = ({ forums, classNames }) => {
       <InfiniteScrollWrapper
         dataLength={forums.results.length}
         nextFunc={() =>
-          setNextPostsDispatcher(dispatch, {
-            page: forums.page,
-            limit: forums.limit,
-          }, `${process.env.REACT_APP_API_URL}/api/users/${params.id}/posts`)
+          setNextPostsDispatcher(
+            dispatch,
+            "userPage",
+            {
+              page: forums.userPage,
+              limit: forums.limit,
+            },
+            `${baseUrl}/posts`
+          )
         }
-        hasMore={forums.results.length % forums.limit === 0}
+        hasMore={forums.hasMore}
       >
         <Forums posts={forums.results} />
       </InfiniteScrollWrapper>
@@ -35,8 +38,9 @@ const PostsPanel = ({ forums, classNames }) => {
 };
 
 PostsPanel.propTypes = {
-  posts: PropTypes.array.isRequired,
+  forums: PropTypes.object.isRequired,
   classNames: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 };
 
 export default PostsPanel;

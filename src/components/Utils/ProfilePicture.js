@@ -21,7 +21,7 @@ const ProfilePicture = ({ icon, dispatcher, objKey }) => {
       setLoading(true);
       setImage(e.target.result);
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/gravityuploads/image/upload`,
+        `${process.env.REACT_APP_CLOUDINARY_UPLOAD_URL}`,
         data
       );
       dispatcher(dispatch, { [objKey]: response.data.secure_url });

@@ -8,7 +8,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Tabs = ({ forums, comments }) => {
+const Tabs = ({ forums, comments, baseUrl }) => {
   const [categories] = useState({
     Posts: forums.results,
     Comments: comments,
@@ -36,8 +36,16 @@ const Tabs = ({ forums, comments }) => {
           ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
-          <PostsPanel forums={forums} classNames={classNames} />
-          <CommentsPanel comments={comments} classNames={classNames} />
+          <PostsPanel
+            forums={forums}
+            classNames={classNames}
+            baseUrl={baseUrl}
+          />
+          <CommentsPanel
+            comments={comments}
+            classNames={classNames}
+            baseUrl={baseUrl}
+          />
         </Tab.Panels>
       </Tab.Group>
     </div>
@@ -45,8 +53,9 @@ const Tabs = ({ forums, comments }) => {
 };
 
 Tabs.propTypes = {
-  posts: PropTypes.array.isRequired,
-  comments: PropTypes.array.isRequired,
+  forums: PropTypes.object.isRequired,
+  comments: PropTypes.object.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 };
 
 export default Tabs;

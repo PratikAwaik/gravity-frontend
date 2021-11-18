@@ -24,6 +24,7 @@ const PostDetail = () => {
     (async function () {
       await getPostDispatcher(dispatch, id, history);
       setLoading(false);
+      window.scrollTo(0, 0);
     })();
 
     return () => unsetPostDispatcher(dispatch);

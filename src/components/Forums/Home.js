@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setNextPostsDispatcher, setPostsDispatcher } from "../../dispatchers/forums";
+import {
+  setNextPostsDispatcher,
+  setPostsDispatcher,
+} from "../../dispatchers/forums";
 import Forums from "./Forums";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
 import LoadingWrapper from "../Utils/LoadingWrapper";
@@ -12,10 +15,13 @@ const Home = () => {
 
   useEffect(() => {
     (async () => {
-      await setPostsDispatcher(dispatch);
+      if (forums.page === 1) {
+        await setPostsDispatcher(dispatch);
+      }
       setLoading(false);
+      window.scrollTo(0, 0);
     })();
-  }, [dispatch]);
+  }, [dispatch, forums.page]);
 
   return (
     <LoadingWrapper loading={loading} width="w-screen" height="h-screen">
@@ -23,12 +29,12 @@ const Home = () => {
         <InfiniteScrollWrapper
           dataLength={forums.results.length}
           nextFunc={() =>
-            setNextPostsDispatcher(dispatch, {
+            setNextPostsDispatcher(dispatch, "page", {
               page: forums.page,
               limit: forums.limit,
             })
           }
-          hasMore={forums.results.length % forums.limit === 0}
+          hasMore={forums.hasMore}
         >
           <Forums posts={forums.results} />
         </InfiniteScrollWrapper>

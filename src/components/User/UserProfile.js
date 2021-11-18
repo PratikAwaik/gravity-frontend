@@ -8,7 +8,7 @@ import Tabs from "./Tabs";
 import { updateCurrentUserDispatcher } from "../../dispatchers/currentUser";
 import LoadingWrapper from "../Utils/LoadingWrapper";
 import axios from "axios";
-import { setPostsDispatcher } from "../../dispatchers/forums";
+import { setUserPostsDispatcher } from "../../dispatchers/forums";
 import { setCommentsDispatcher } from "../../dispatchers/comments";
 
 const UserProfile = () => {
@@ -19,34 +19,33 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const baseUrl = process.env.REACT_APP_API_URL + "/api/users/" + params.id;
+
   useEffect(() => {
     (async () => {
       try {
-        const responseUser = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/users/${params.id}`
-        );
-        const responseSubreddits = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/subreddits`
-        );
+        const responseUser = await axios.get(baseUrl);
+        const responseSubreddits = await axios.get(`${baseUrl}/subreddits`);
         const responsePosts = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/posts?page=1&limit=8`
+          `${baseUrl}/posts?page=1&limit=6`
         );
         const responseComments = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/users/${params.id}/comments?page=1&limit=20`
+          `${baseUrl}/comments?page=1&limit=12`
         );
         responseUser.data = {
           ...responseUser.data,
           ...responseSubreddits.data,
         };
         setUser(responseUser.data);
-        setPostsDispatcher(dispatch, responsePosts.data.posts);
-        setCommentsDispatcher(dispatch, responseComments.data.comments);
+        setUserPostsDispatcher(dispatch, responsePosts.data);
+        setCommentsDispatcher(dispatch, responseComments.data);
       } catch (err) {
         history.replace("/404");
       }
       setLoading(false);
+      window.scrollTo(0, 0);
     })();
-  }, [dispatch, history, params.id]);
+  }, [dispatch, history, params.id, baseUrl]);
 
   const calculateCakeDay = () => {
     const currDate = moment(Date.now());
@@ -92,26 +91,21 @@ const UserProfile = () => {
               </div>
             </div>
 
-            {user.moderating &&
-              user.moderating.length > 0 && (
-                <SubredditCards
-                  subreddits={user.moderating}
-                  headText="Moderating these communities"
-                />
-              )}
+            {user.moderating && user.moderating.length > 0 && (
+              <SubredditCards
+                subreddits={user.moderating}
+                headText="Moderating these communities"
+              />
+            )}
 
-            {user.subscriptions &&
-              user.subscriptions.length > 0 && (
-                <SubredditCards
-                  subreddits={user.subscriptions}
-                  headText="Subscriptions"
-                />
-              )}
+            {user.subscriptions && user.subscriptions.length > 0 && (
+              <SubredditCards
+                subreddits={user.subscriptions}
+                headText="Subscriptions"
+              />
+            )}
 
-            <Tabs
-              forums={forums}
-              comments={comments}
-            />
+            <Tabs forums={forums} comments={comments} baseUrl={baseUrl} />
           </div>
         </div>
       ) : null}

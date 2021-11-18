@@ -19,6 +19,7 @@ export const getAllSubredditsDispatcher = async (dispatch) => {
 
 export const createSubredditDispatcher = async (
   dispatch,
+  history,
   subredditData,
   userToken
 ) => {
@@ -35,6 +36,7 @@ export const createSubredditDispatcher = async (
       config
     );
     dispatch(createSubredditAction(response.data));
+    history.push(`/r/${response.data.id}`);
   } catch (err) {
     setError(dispatch, err);
   }

@@ -3,7 +3,10 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
-import { setNextPostsDispatcher, setPostsDispatcher } from "../../dispatchers/forums";
+import {
+  setNextPostsDispatcher,
+  setSubredditPostsDispatcher,
+} from "../../dispatchers/forums";
 import { updateCurrentUserSubscriptionDispatcher } from "../../dispatchers/currentUser";
 import Forums from "../Forums/Forums";
 import MembersDisplay from "./MembersDisplay";
@@ -20,38 +23,37 @@ const SubredditProfile = () => {
   const params = useParams();
   const history = useHistory();
 
+  const baseUrl = process.env.REACT_APP_API_URL + "/api/r/" + params.id;
+
   useEffect(() => {
     (async () => {
       try {
-        const responseSubreddit = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/r/${params.id}`
-        );
+        const responseSubreddit = await axios.get(baseUrl);
         const responseSubredditPosts = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/r/${params.id}/posts?page=1&limit=8`
+          `${baseUrl}/posts?page=1&limit=6`
         );
-        const responseSubredditUsers = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/r/${params.id}/users`
-        );
-        responseSubredditPosts.data.posts =
-          responseSubredditPosts.data.posts.map((post) => {
+        const responseSubredditUsers = await axios.get(`${baseUrl}/users`);
+        responseSubredditPosts.data = responseSubredditPosts.data.map(
+          (post) => {
             return {
               ...post,
               subreddit: responseSubreddit.data,
             };
-          });
+          }
+        );
         responseSubreddit.data = {
           ...responseSubreddit.data,
-          ...responseSubredditPosts.data,
           ...responseSubredditUsers.data,
         };
         setSubreddit(responseSubreddit.data);
-        setPostsDispatcher(dispatch, responseSubredditPosts.data.posts);
+        setSubredditPostsDispatcher(dispatch, responseSubredditPosts.data);
       } catch (error) {
         history.replace("/404");
       }
       setLoading(false);
+      window.scrollTo(0, 0);
     })();
-  }, [params.id, dispatch, history]);
+  }, [params.id, dispatch, history, baseUrl]);
 
   const updateIconCustomDispatcher = async (dispatch, data) => {
     const config = {
@@ -59,11 +61,7 @@ const SubredditProfile = () => {
         Authorization: "Bearer " + currentUser.token,
       },
     };
-    await axios.patch(
-      `${process.env.REACT_APP_API_URL}/api/r/${subreddit.id}/update`,
-      data,
-      config
-    );
+    await axios.patch(`${baseUrl}/update`, data, config);
     updateSubredditIconDispatcher(dispatch, subreddit.id, data.communityIcon);
   };
 
@@ -111,9 +109,7 @@ const SubredditProfile = () => {
             <div className="flex items-center flex-col">
               <div className="w-36 rounded-full z-10 bg-white">
                 {currentUser.id &&
-                currentUser.moderating.includes(
-                  subreddit.id
-                ) ? (
+                currentUser.moderating.includes(subreddit.id) ? (
                   <ProfilePicture
                     icon={subreddit.communityIcon}
                     dispatcher={updateIconCustomDispatcher}
@@ -139,17 +135,13 @@ const SubredditProfile = () => {
               {currentUser.id ? (
                 subreddit.moderators &&
                 subreddit.moderators.length < 2 &&
-                currentUser.moderating.includes(
-                  subreddit.id
-                ) ? null : (
+                currentUser.moderating.includes(subreddit.id) ? null : (
                   <button
                     type="button"
                     className="px-4 py-0.5 w-24 flex items-center justify-center text-md border-2 rounded-md border-gray-400 hover:bg-gray-200 group"
                     onClick={handleClick}
                   >
-                    {currentUser.subscriptions.includes(
-                      subreddit.id
-                    ) ? (
+                    {currentUser.subscriptions.includes(subreddit.id) ? (
                       <>
                         <span className="group-hover:hidden">Joined</span>
                         <span className="hidden group-hover:inline-block">
@@ -172,23 +164,18 @@ const SubredditProfile = () => {
                 <div className="px-3">
                   <p className="font-bold my-2">
                     About:{" "}
-                    <span className="font-normal">
-                      {subreddit.description}
-                    </span>
+                    <span className="font-normal">{subreddit.description}</span>
                   </p>
                   <p className="font-bold my-2">
                     Established On:{" "}
                     <span className="font-normal">
-                      {moment(subreddit.createdAt).format(
-                        "LL"
-                      )}
+                      {moment(subreddit.createdAt).format("LL")}
                     </span>
                   </p>
                   <p className="font-bold my-2">
                     Members:{" "}
                     <span className="font-normal">
-                      {subreddit.members &&
-                       subreddit.members.length}
+                      {subreddit.members && subreddit.members.length}
                     </span>
                   </p>
                 </div>
@@ -198,24 +185,29 @@ const SubredditProfile = () => {
                 members={subreddit.moderators}
                 label="Moderators"
               />
-              <MembersDisplay
-                members={subreddit.members}
-                label="Members"
-              />
+              <MembersDisplay members={subreddit.members} label="Members" />
             </div>
 
             <div>
               <h3 className="font-bold tab tab-selected mb-3">Posts</h3>
               {forums.results.length > 0 ? (
                 <InfiniteScrollWrapper
-                dataLength={forums.results.length}
-                nextFunc={() =>
-                  setNextPostsDispatcher(dispatch, { page: forums.page, limit: forums.limit }, `${process.env.REACT_APP_API_URL}/api/r`)
-                }
-                hasMore={forums.results.length % forums.limit === 0}
-              >
-                <Forums posts={forums.results} />
-              </InfiniteScrollWrapper>
+                  dataLength={forums.results.length}
+                  nextFunc={() =>
+                    setNextPostsDispatcher(
+                      dispatch,
+                      "subredditPage",
+                      {
+                        page: forums.subredditPage,
+                        limit: forums.limit,
+                      },
+                      `${baseUrl}/posts`
+                    )
+                  }
+                  hasMore={forums.hasMore}
+                >
+                  <Forums posts={forums.results} />
+                </InfiniteScrollWrapper>
               ) : (
                 <span className="text-2xl block text-center">
                   No posts yet...

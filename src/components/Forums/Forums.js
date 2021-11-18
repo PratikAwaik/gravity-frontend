@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import ForumPost from "./ForumPost";
 
 const Forums = ({ posts }) => {
+  const location = useLocation();
   useEffect(() => {
-    scrollToPreviousPosition();
-  }, []);
+    if (location.pathname === "/") {
+      scrollToPreviousPosition();
+    }
+  }, [location]);
 
   function scrollToPreviousPosition() {
     const yPosition = window.localStorage.getItem("gravityScrollPosition");

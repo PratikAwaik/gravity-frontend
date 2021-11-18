@@ -24,10 +24,14 @@ const CreateSubreddit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await createSubredditDispatcher(dispatch, subreddit, currentUser.token);
+    await createSubredditDispatcher(
+      dispatch,
+      history,
+      subreddit,
+      currentUser.token
+    );
     await currentUserDetailsDispatcher(dispatch);
     await successPopup("Community created successfully");
-    history.goBack();
   };
 
   return (

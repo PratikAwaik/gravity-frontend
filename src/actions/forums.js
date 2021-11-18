@@ -12,6 +12,20 @@ export const setPostsAction = (posts) => {
   };
 };
 
+export const setUserPostsAction = (posts) => {
+  return {
+    type: "SET_USER_POSTS",
+    payload: posts,
+  };
+};
+
+export const setSubredditPostsAction = (posts) => {
+  return {
+    type: "SET_SUBREDDIT_POSTS",
+    payload: posts,
+  };
+};
+
 export const handleUpvotesAction = (postData) => {
   return {
     type: "UPVOTE_FORUMS_POST",

@@ -1,27 +1,39 @@
 const initialState = {
-  page: 1, 
-  limit: 15,
-  results: []
-}
+  page: 1,
+  limit: 12,
+  results: [],
+  hasMore: true,
+};
 
 const commentsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "SET_COMMENTS":
-      return { ...state, page: 2, results: action.payload };
+      return { ...state, page: 2, hasMore: true, results: action.payload };
     case "SET_NEXT_COMMENTS":
-      return { ...state, page: state.page + 1, results: [...state.results, ...action.payload] };
+      if (action.payload.results === 0) {
+        return {
+          ...state,
+          hasMore: false,
+        };
+      } else {
+        return {
+          ...state,
+          page: state.page + 1,
+          results: [...state.results, ...action.payload],
+        };
+      }
     case "UNSET_COMMENTS":
       return initialState;
     case "ADD_COMMENT":
-      return { ...state, results: [...state, action.payload] };
+      return { ...state, results: [...state.results, action.payload] };
     case "UPVOTE_COMMENT":
-      return {...state, results: mapComment(state.results, action) };
+      return { ...state, results: mapComment(state.results, action) };
     case "DOWNVOTE_COMMENT":
-      return {...state, results: mapComment(state.results, action) };
+      return { ...state, results: mapComment(state.results, action) };
     case "DELETE_COMMENT":
-      return {...state, results: mapComment(state.results, action) };
+      return { ...state, results: mapComment(state.results, action) };
     case "EDIT_COMMENT":
-      return {...state, results: mapComment(state.results, action) };
+      return { ...state, results: mapComment(state.results, action) };
     default:
       return state;
   }

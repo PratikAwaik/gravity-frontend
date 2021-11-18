@@ -17,6 +17,8 @@ import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import CreateSubreddit from "./components/Subreddit/CreateSubreddit";
 import { currentUserDetailsDispatcher } from "./dispatchers/currentUser";
 
+// TODO: new post does not show subreddit icon
+
 function App() {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);

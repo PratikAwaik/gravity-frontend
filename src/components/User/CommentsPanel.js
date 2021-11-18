@@ -9,10 +9,8 @@ import { scrollWithOffset } from "../../helpers";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
 import { useDispatch } from "react-redux";
 import { setNextCommentsDispatcher } from "../../dispatchers/comments";
-import { useParams } from "react-router";
 
-const CommentsPanel = ({ comments, classNames }) => {
-  const params = useParams();
+const CommentsPanel = ({ comments, classNames, baseUrl }) => {
   const dispatch = useDispatch();
 
   return (
@@ -27,12 +25,16 @@ const CommentsPanel = ({ comments, classNames }) => {
           <InfiniteScrollWrapper
             dataLength={comments.results.length}
             nextFunc={() =>
-              setNextCommentsDispatcher(dispatch, {
-                page: comments.page,
-                limit: comments.limit,
-              }, `${process.env.REACT_APP_API_URL}/api/${params.id}`)
+              setNextCommentsDispatcher(
+                dispatch,
+                {
+                  page: comments.page,
+                  limit: comments.limit,
+                },
+                baseUrl
+              )
             }
-            hasMore={comments.results.length % comments.limit === 0}
+            hasMore={comments.hasMore}
           >
             {comments.results.map(
               (comment) =>
@@ -85,8 +87,9 @@ const CommentsPanel = ({ comments, classNames }) => {
 };
 
 CommentsPanel.propTypes = {
-  comments: PropTypes.array.isRequired,
+  comments: PropTypes.object.isRequired,
   classNames: PropTypes.func.isRequired,
+  baseUrl: PropTypes.string.isRequired,
 };
 
 export default CommentsPanel;

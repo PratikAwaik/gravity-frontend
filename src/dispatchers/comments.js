@@ -27,14 +27,20 @@ export const setCommentsDispatcher = async (dispatch, comments, postId) => {
   }
 };
 
-export const setNextCommentsDispatcher = async (dispatch, { page, limit }, url) => {
+export const setNextCommentsDispatcher = async (
+  dispatch,
+  { page, limit },
+  url
+) => {
   try {
-    const response = await axios.get(`${url || baseUrl}/comments?page=${page}&limit=${limit}`);
+    const response = await axios.get(
+      `${url || baseUrl}/comments?page=${page}&limit=${limit}`
+    );
     dispatch(setNextCommentsAction(response.data));
   } catch (error) {
     setErrorAction(dispatch, error);
   }
-}
+};
 
 export const unsetCommentsDispatcher = (dispatch) => {
   dispatch(unsetCommentsAction());
