@@ -6,7 +6,7 @@ const LoadingWrapper = ({ loading, children, width, height }) => {
     <div
       className={`${width || "w-full"} ${
         height || "h-full"
-      } flex items-center justify-center`}
+      } flex items-center justify-center -mt-16 overflow-hidden`}
     >
       <img className="w-10 h-10" src={loadingIcon} alt="Loading Icon" />
     </div>
