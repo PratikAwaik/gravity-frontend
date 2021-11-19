@@ -17,9 +17,9 @@ const Home = () => {
     (async () => {
       if (forums.page === 1) {
         await setPostsDispatcher(dispatch);
+        window.scrollTo(0, 0);
       }
       setLoading(false);
-      window.scrollTo(0, 0);
     })();
   }, [dispatch, forums.page]);
 
