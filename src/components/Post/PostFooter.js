@@ -14,7 +14,7 @@ import { deleteForumsPostDispatcher } from "../../dispatchers/forums";
 import { deletePostDispatcher } from "../../dispatchers/post";
 
 const PostFooter = ({ post, isPostDetail, setToEdit }) => {
-  const { currentUser, comments } = useSelector((state) => state);
+  const { currentUser } = useSelector((state) => state);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -140,14 +140,12 @@ const PostFooter = ({ post, isPostDetail, setToEdit }) => {
 
         <div className="flex items-center cursor-pointer z-10">
           <i className="ri-chat-1-line mr-1 text-lg sm:text-xl"></i>
-          <span className="mr-1">
-            {isPostDetail ? comments.length : post.comments.length}
-          </span>
+          <span className="mr-1">{post.commentsCount}</span>
           comments
         </div>
       </div>
 
-      {post.user && post.user.id === currentUser.id && isPostDetail && (
+      {post.user.id === currentUser.id && isPostDetail && (
         <div className="flex items-center mr-5">
           <button
             to={`/forums/${post.id}/edit`}
