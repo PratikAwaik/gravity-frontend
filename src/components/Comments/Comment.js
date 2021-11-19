@@ -8,7 +8,7 @@ import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, post }) => {
   const [replyClicked, setReplyClicked] = useState(false);
   const [toEdit, setToEdit] = useState(false);
   const [editorContent, setEditorContent] = useState("");
@@ -63,7 +63,7 @@ const Comment = ({ comment }) => {
         className="flex flex-col pt-3 pb-2 w-full h-full relative comment"
         style={{ paddingLeft: 16 * 1.5 * comment.level + "px" }}
       >
-        <CommentHeader comment={comment} />
+        <CommentHeader comment={comment} post={post} />
         <CommentBody comment={comment} toEdit={toEdit} setToEdit={setToEdit} />
         <CommentFooter
           comment={comment}
@@ -102,6 +102,7 @@ const Comment = ({ comment }) => {
 
 Comment.propTypes = {
   comment: PropTypes.object.isRequired,
+  post: PropTypes.object.isRequired,
 };
 
 export default Comment;
