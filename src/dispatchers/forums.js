@@ -24,11 +24,11 @@ export const setPostsDispatcher = async (dispatch) => {
   }
 };
 
-export const setUserPostsDispatcher = async (dispatch, posts) => {
+export const setUserPostsDispatcher = (dispatch, posts) => {
   dispatch(setUserPostsAction(posts));
 };
 
-export const setSubredditPostsDispatcher = async (dispatch, posts) => {
+export const setSubredditPostsDispatcher = (dispatch, posts) => {
   dispatch(setSubredditPostsAction(posts));
 };
 
