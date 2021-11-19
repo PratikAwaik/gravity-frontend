@@ -9,7 +9,9 @@ import {
 import { orderComments } from "../../helpers";
 
 const Comments = ({ post }) => {
-  const comments = useSelector((state) => orderComments(state.comments.results));
+  const comments = useSelector((state) =>
+    orderComments(state.comments.results)
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,13 +21,13 @@ const Comments = ({ post }) => {
     return () => unsetCommentsDispatcher(dispatch);
   }, [dispatch, post.id]);
 
-  return post ? (
+  return (
     <div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} post={post} />
       ))}
     </div>
-  ) : null;
+  );
 };
 
 Comments.propTypes = {
