@@ -38,7 +38,7 @@ const UserProfile = () => {
         };
         setUser(responseUser.data);
         setUserPostsDispatcher(dispatch, responsePosts.data);
-        setCommentsDispatcher(dispatch, responseComments.data);
+        await setCommentsDispatcher(dispatch, responseComments.data);
       } catch (err) {
         history.replace("/404");
       }
