@@ -10,7 +10,9 @@ const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/users/${currentUser.id}/subreddits`);
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/users/${currentUser.id}/subreddits`
+      );
       setSubreddits(response.data.subscriptions);
     })();
   }, [currentUser.id]);
@@ -50,7 +52,7 @@ const ChooseCommunity = ({ subredditSelected, setSubredditSelected }) => {
                   key={subreddit.id}
                   className={({ active }) =>
                     `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
-                          cursor-default select-none relative py-2 pl-3 pr-4 list-none`
+                          cursor-pointer select-none relative py-2 pl-3 pr-4 list-none hover:bg-gray-300`
                   }
                   value={subreddit}
                 >
