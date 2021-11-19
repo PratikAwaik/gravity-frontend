@@ -10,7 +10,7 @@ const commentsReducer = (state = initialState, action) => {
     case "SET_COMMENTS":
       return { ...state, page: 2, hasMore: true, results: action.payload };
     case "SET_NEXT_COMMENTS":
-      if (action.payload.results === 0) {
+      if (action.payload.length === 0) {
         return {
           ...state,
           hasMore: false,
