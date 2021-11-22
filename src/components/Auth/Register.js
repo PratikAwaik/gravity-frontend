@@ -50,6 +50,12 @@ const Register = () => {
         <h2 className="text-3xl mb-6 text-center">Create an Account</h2>
         <form onSubmit={handleSubmit} className="w-full">
           <div className="mb-4 flex flex-col items-start w-full">
+            <span className="text-sm w-full flex items-start justify-center mb-3 text-theme-gray">
+              <i className="ri-information-line text-sm mr-1"></i>
+              If you are too lazy sign up, head onto login and use "snooo" as
+              both username and password!
+            </span>
+
             <FormInput
               type="text"
               name="username"

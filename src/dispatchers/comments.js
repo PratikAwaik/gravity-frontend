@@ -10,6 +10,7 @@ import {
   unsetCommentsAction,
 } from "../actions/comments";
 import { setErrorAction } from "../actions/error";
+import userConfig from "../configs/userConfig";
 import { setError } from "../helpers";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/forums";
@@ -52,17 +53,11 @@ export const createCommentDispatcher = async (
   userToken,
   commentData
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     const response = await axios.post(
       `${baseUrl}/${postId}/comments`,
       commentData,
-      config
+      userConfig(userToken)
     );
     dispatch(createCommentAction(response.data));
   } catch (err) {
@@ -77,12 +72,6 @@ export const handleCommentUpvoteDispatcher = async (
   upvotesData,
   userToken
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     dispatch(
       handleCommentUpvoteAction({
@@ -94,7 +83,7 @@ export const handleCommentUpvoteDispatcher = async (
     await axios.patch(
       `${baseUrl}/${postId}/comments/${commentId}/upvote`,
       upvotesData,
-      config
+      userConfig(userToken)
     );
   } catch (err) {
     setError(dispatch, err);
@@ -108,12 +97,6 @@ export const handleCommentDownvoteDispatcher = async (
   downvotesData,
   userToken
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     dispatch(
       handleCommentDownvoteAction({
@@ -125,7 +108,7 @@ export const handleCommentDownvoteDispatcher = async (
     await axios.patch(
       `${baseUrl}/${postId}/comments/${commentId}/downvote`,
       downvotesData,
-      config
+      userConfig(userToken)
     );
   } catch (err) {
     setError(dispatch, err);
@@ -139,17 +122,11 @@ export const editCommentDispatcher = async (
   commentData,
   userToken
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     const response = await axios.patch(
       `${baseUrl}/${postId}/comments/${commentId}/edit`,
       commentData,
-      config
+      userConfig(userToken)
     );
     dispatch(editCommentAction(response.data));
   } catch (err) {
@@ -163,17 +140,11 @@ export const deleteCommentDispatcher = async (
   commentId,
   userToken
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     const response = await axios.patch(
       `${baseUrl}/${postId}/comments/${commentId}/delete`,
       {},
-      config
+      userConfig(userToken)
     );
     dispatch(deleteCommentAction(response.data));
   } catch (err) {

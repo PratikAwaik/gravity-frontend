@@ -26,6 +26,13 @@ export const setSubredditPostsAction = (posts) => {
   };
 };
 
+export const setSearchPostsAction = (posts) => {
+  return {
+    type: "SET_SEARCH_POSTS",
+    payload: posts,
+  };
+};
+
 export const handleUpvotesAction = (postData) => {
   return {
     type: "UPVOTE_FORUMS_POST",

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import FancyEditor from "../Editors/FancyEditor";
+import FancyEditor from "../Utils/FancyEditor";
 import { editCommentDispatcher } from "../../dispatchers/comments";
 import Swal from "sweetalert2";
 

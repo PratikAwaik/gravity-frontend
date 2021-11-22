@@ -14,6 +14,7 @@ import ProfilePicture from "../Utils/ProfilePicture";
 import { updateSubredditIconDispatcher } from "../../dispatchers/subreddit";
 import LoadingWrapper from "../Utils/LoadingWrapper";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
+import { Link } from "react-router-dom";
 
 const SubredditProfile = () => {
   const [subreddit, setSubreddit] = useState({});
@@ -28,25 +29,17 @@ const SubredditProfile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const responseSubreddit = await axios.get(baseUrl);
-        const responseSubredditPosts = await axios.get(
-          `${baseUrl}/posts?page=1&limit=6`
-        );
-        const responseSubredditUsers = await axios.get(`${baseUrl}/users`);
-        responseSubredditPosts.data = responseSubredditPosts.data.map(
-          (post) => {
-            return {
-              ...post,
-              subreddit: responseSubreddit.data,
-            };
-          }
-        );
-        responseSubreddit.data = {
-          ...responseSubreddit.data,
-          ...responseSubredditUsers.data,
+        const result = await Promise.all([
+          axios.get(baseUrl),
+          axios.get(`${baseUrl}/users`),
+          axios.get(`${baseUrl}/posts?page=1&limit=6`),
+        ]);
+        result[0].data = {
+          ...result[0].data,
+          ...result[1].data,
         };
-        setSubreddit(responseSubreddit.data);
-        setSubredditPostsDispatcher(dispatch, responseSubredditPosts.data);
+        setSubreddit(result[0].data);
+        setSubredditPostsDispatcher(dispatch, result[2].data);
       } catch (error) {
         history.replace("/404");
       }
@@ -56,13 +49,12 @@ const SubredditProfile = () => {
   }, [params.id, dispatch, history, baseUrl]);
 
   const updateIconCustomDispatcher = async (dispatch, data) => {
-    const config = {
-      headers: {
-        Authorization: "Bearer " + currentUser.token,
-      },
-    };
-    await axios.patch(`${baseUrl}/update`, data, config);
-    updateSubredditIconDispatcher(dispatch, subreddit.id, data.communityIcon);
+    updateSubredditIconDispatcher(
+      dispatch,
+      subreddit.id,
+      data,
+      currentUser.token
+    );
   };
 
   const handleClick = async () => {
@@ -108,8 +100,7 @@ const SubredditProfile = () => {
           <div className="max-w-4xl mx-auto mt-44">
             <div className="flex items-center flex-col">
               <div className="w-36 rounded-full z-10 bg-white">
-                {currentUser.id &&
-                currentUser.moderating.includes(subreddit.id) ? (
+                {currentUser.id && currentUser.id === subreddit.moderator.id ? (
                   <ProfilePicture
                     icon={subreddit.communityIcon}
                     dispatcher={updateIconCustomDispatcher}
@@ -133,15 +124,14 @@ const SubredditProfile = () => {
               </div>
 
               {currentUser.id ? (
-                subreddit.moderators &&
-                subreddit.moderators.length < 2 &&
-                currentUser.moderating.includes(subreddit.id) ? null : (
+                currentUser.id === subreddit.moderator.id ? null : (
                   <button
                     type="button"
                     className="px-4 py-0.5 w-24 flex items-center justify-center text-md border-2 rounded-md border-gray-400 hover:bg-gray-200 group"
                     onClick={handleClick}
                   >
-                    {currentUser.subscriptions.includes(subreddit.id) ? (
+                    {currentUser.subscriptions &&
+                    currentUser.subscriptions.includes(subreddit.id) ? (
                       <>
                         <span className="group-hover:hidden">Joined</span>
                         <span className="hidden group-hover:inline-block">
@@ -172,19 +162,31 @@ const SubredditProfile = () => {
                       {moment(subreddit.createdAt).format("LL")}
                     </span>
                   </p>
+                  <p className="font-bold my-2 flex items-center">
+                    Moderator:{" "}
+                    <Link
+                      to={`/user/${subreddit.moderator.id}`}
+                      className="flex items-center font-normal ml-3"
+                    >
+                      <img
+                        className="w-7 h-7 rounded-full object-cover mr-1"
+                        src={subreddit.moderator.profilePic}
+                        alt="Moderator's profile icon"
+                      />
+                      <span className="text-md hover:underline">
+                        {subreddit.moderator.prefixedName}
+                      </span>
+                    </Link>
+                  </p>
                   <p className="font-bold my-2">
                     Members:{" "}
                     <span className="font-normal">
-                      {subreddit.members && subreddit.members.length}
+                      {subreddit.membersCount}
                     </span>
                   </p>
                 </div>
               </div>
 
-              <MembersDisplay
-                members={subreddit.moderators}
-                label="Moderators"
-              />
               <MembersDisplay members={subreddit.members} label="Members" />
             </div>
 

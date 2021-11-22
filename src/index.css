@@ -62,6 +62,10 @@
   .cancel-btn {
     @apply border-2 border-theme-red text-sm sm:text-base rounded-md px-2 py-1 my-2 hover:bg-theme-red hover:text-white ml-3;
   }
+
+  .mini-dot {
+    @apply w-0.5 h-0.5 bg-theme-gray rounded-full mx-1.5 inline-block;
+  }
 }
 
 /* Forum post styles */
@@ -87,4 +91,28 @@
 
 .ck-sticky-panel__content {
   margin-top: 68px;
+}
+
+pre {
+  padding: 1em;
+  color: #353535;
+  background: hsla(0, 0%, 78%, 0.3);
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
+  text-align: left;
+  direction: ltr;
+  tab-size: 4;
+  white-space: pre-wrap;
+  font-style: normal;
+  min-width: 200px;
+}
+
+code {
+  padding: 0.15em;
+  border-radius: 2px;
+  background-color: hsla(0, 0%, 78%, 0.5);
+}
+
+pre code {
+  background: transparent;
 }

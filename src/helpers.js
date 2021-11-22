@@ -14,6 +14,10 @@ import {
   handlePostUpvoteDispatcher,
 } from "./dispatchers/post";
 
+export const classNames = (...classes) => {
+  return classes.filter(Boolean).join(" ");
+};
+
 export const hasUpvotedAlreadyHelper = (currentUser, id, key) => {
   return (
     currentUser[key] &&

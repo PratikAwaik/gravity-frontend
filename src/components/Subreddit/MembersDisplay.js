@@ -15,7 +15,7 @@ const MembersDisplay = ({ members, label }) => {
               className="flex items-center mr-5"
             >
               <img
-                className="w-7 h-7 rounded-full object-cover mr-2"
+                className="w-7 h-7 rounded-full object-cover mr-1"
                 src={member.profilePic}
                 alt="User Profile Pic"
               />

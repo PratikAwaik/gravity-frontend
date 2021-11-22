@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createPostDispatcher } from "../../dispatchers/forums";
-import FancyEditor from "../Editors/FancyEditor";
+import FancyEditor from "../Utils/FancyEditor";
 import ChooseCommunity from "./ChooseCommunity";
 import { errorPopup, successPopup } from "../../helpers";
 

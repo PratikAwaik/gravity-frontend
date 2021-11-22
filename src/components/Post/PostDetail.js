@@ -5,7 +5,7 @@ import { createCommentDispatcher } from "../../dispatchers/comments";
 import PostHeader from "./PostHeader";
 import PostBody from "./PostBody";
 import PostFooter from "./PostFooter";
-import FancyEditor from "../Editors/FancyEditor";
+import FancyEditor from "../Utils/FancyEditor";
 import Comments from "../Comments/Comments";
 import { currentUserDetailsDispatcher } from "../../dispatchers/currentUser";
 import { getPostDispatcher, unsetPostDispatcher } from "../../dispatchers/post";

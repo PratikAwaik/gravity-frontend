@@ -42,6 +42,13 @@ const Login = () => {
     <div className="login-form-container w-screen h-screen flex items-center justify-center overflow-hidden -mt-16">
       <div className="login-form-wrapper sm:border-2 sm:border-theme-green rounded-lg p-4 w-96 relative">
         <h2 className="text-3xl mb-6 text-center">Welcome back</h2>
+
+        <span className="text-sm w-full flex items-start justify-center mb-3 text-theme-gray">
+          <i className="ri-information-line text-sm mr-1"></i>
+          If you are too lazy sign up, use "snooo" as both username and
+          password!
+        </span>
+
         <form onSubmit={handleSubmit} className="w-100 mb-5">
           <div className="mb-4 flex flex-col items-start">
             <FormInput

@@ -16,20 +16,20 @@ const CommentHeader = ({ comment, post }) => {
       {comment.user ? (
         <Link
           to={`/user/${comment.user.id}`}
-          className="mr-2 comment-user font-bold hover:underline"
+          className="comment-user font-bold hover:underline"
         >
           {comment.user.username}
         </Link>
       ) : (
-        <div className="mr-2 comment-user">[deleted]</div>
+        <div className="comment-user">[deleted]</div>
       )}
 
-      {comment.user.id === post.user.id && (
-        <span className="text-theme-green text-sm mr-2 font-bold">OP</span>
+      {comment.user && comment.user.id === post.user.id && (
+        <span className="text-theme-green text-sm ml-2 font-bold">OP</span>
       )}
 
       <>
-        <div className="w-1 h-1 bg-theme-black rounded-full mr-2"></div>
+        <span className="mini-dot"></span>
         <span className="comment-time">
           {moment(comment.createdAt).fromNow()}
         </span>

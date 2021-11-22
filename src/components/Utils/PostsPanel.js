@@ -3,10 +3,12 @@ import { Tab } from "@headlessui/react";
 import Forums from "../Forums/Forums";
 import PropTypes from "prop-types";
 import InfiniteScrollWrapper from "../Utils/InfiniteScrollWrapper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setNextPostsDispatcher } from "../../dispatchers/forums";
+import { classNames } from "../../helpers";
 
-const PostsPanel = ({ forums, classNames, baseUrl }) => {
+const PostsPanel = ({ pageName, baseUrl, searchString }) => {
+  const forums = useSelector((state) => state.forums);
   const dispatch = useDispatch();
 
   return (
@@ -21,12 +23,13 @@ const PostsPanel = ({ forums, classNames, baseUrl }) => {
         nextFunc={() =>
           setNextPostsDispatcher(
             dispatch,
-            "userPage",
+            pageName,
             {
-              page: forums.userPage,
+              page: forums[pageName],
               limit: forums.limit,
+              searchString,
             },
-            `${baseUrl}/posts`
+            baseUrl
           )
         }
         hasMore={forums.hasMore}
@@ -38,9 +41,9 @@ const PostsPanel = ({ forums, classNames, baseUrl }) => {
 };
 
 PostsPanel.propTypes = {
-  forums: PropTypes.object.isRequired,
-  classNames: PropTypes.func.isRequired,
+  pageName: PropTypes.string.isRequired,
   baseUrl: PropTypes.string.isRequired,
+  searchString: PropTypes.string,
 };
 
 export default PostsPanel;

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import FancyEditor from "../Editors/FancyEditor";
+import FancyEditor from "../Utils/FancyEditor";
 import { editPostDispatcher } from "../../dispatchers/post";
 import { successPopup } from "../../helpers";
 import { editForumsPostDispatcher } from "../../dispatchers/forums";

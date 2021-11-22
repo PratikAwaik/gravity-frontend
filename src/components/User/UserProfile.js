@@ -3,19 +3,28 @@ import { useHistory, useParams } from "react-router";
 import ProfilePicture from "../Utils/ProfilePicture";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
-import SubredditCards from "./SubredditCards";
-import Tabs from "./Tabs";
+import Tabs from "../Utils/Tabs";
 import { updateCurrentUserDispatcher } from "../../dispatchers/currentUser";
 import LoadingWrapper from "../Utils/LoadingWrapper";
 import axios from "axios";
 import { setUserPostsDispatcher } from "../../dispatchers/forums";
 import { setCommentsDispatcher } from "../../dispatchers/comments";
+import PostsPanel from "../Utils/PostsPanel";
+import CommentsPanel from "./CommentsPanel";
+import { classNames } from "../../helpers";
+import SubredditsPanel from "../Utils/SubredditsPanel";
 
 const UserProfile = () => {
   const params = useParams();
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const { currentUser, forums, comments } = useSelector((state) => state);
+  const [categories] = useState({
+    Moderating: user.moderating,
+    Subscriptions: user.subscriptions,
+    Posts: forums.results,
+    Comments: comments,
+  });
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -24,21 +33,19 @@ const UserProfile = () => {
   useEffect(() => {
     (async () => {
       try {
-        const responseUser = await axios.get(baseUrl);
-        const responseSubreddits = await axios.get(`${baseUrl}/subreddits`);
-        const responsePosts = await axios.get(
-          `${baseUrl}/posts?page=1&limit=6`
-        );
-        const responseComments = await axios.get(
-          `${baseUrl}/comments?page=1&limit=12`
-        );
-        responseUser.data = {
-          ...responseUser.data,
-          ...responseSubreddits.data,
+        const result = await Promise.all([
+          axios.get(baseUrl),
+          axios.get(`${baseUrl}/subreddits`),
+          axios.get(`${baseUrl}/posts?page=1&limit=6`),
+          axios.get(`${baseUrl}/comments?page=1&limit=12`),
+        ]);
+        result[0].data = {
+          ...result[0].data,
+          ...result[1].data,
         };
-        setUser(responseUser.data);
-        setUserPostsDispatcher(dispatch, responsePosts.data);
-        await setCommentsDispatcher(dispatch, responseComments.data);
+        setUser(result[0].data);
+        setUserPostsDispatcher(dispatch, result[2].data);
+        await setCommentsDispatcher(dispatch, result[3].data);
       } catch (err) {
         history.replace("/404");
       }
@@ -46,14 +53,6 @@ const UserProfile = () => {
       window.scrollTo(0, 0);
     })();
   }, [dispatch, history, params.id, baseUrl]);
-
-  const calculateCakeDay = () => {
-    const currDate = moment(Date.now());
-    const diff = currDate.diff(user.createdAt, "years");
-    return moment(user.createdAt)
-      .add(diff + 1, "years")
-      .format("LL");
-  };
 
   return (
     <LoadingWrapper loading={loading} width="w-screen" height="h-screen">
@@ -79,33 +78,25 @@ const UserProfile = () => {
             </div>
             <div className="mb-6 flex items-center justify-center max-w-md mx-auto">
               <div className="flex flex-col items-center">
-                <p className="text-xl sm:text-2xl font-bold mb-2">
-                  {user.prefixedName}
-                </p>
-                <p className="flex items-end">
-                  <i className="ri-cake-fill inline-block text-theme-red mr-2 text-2xl"></i>{" "}
-                  <span className="font-semibold text-base sm:text-lg">
-                    Cake Day - {calculateCakeDay()}
-                  </span>
-                </p>
+                <p className="text-xl sm:text-2xl font-bold">{user.username}</p>
+                <div className="mb-2 text-md text-theme-gray flex items-center">
+                  <p>{user.prefixedName}</p>
+                  <div className="w-0.5 h-0.5 bg-gray-500 rounded-full mx-1.5"></div>
+                  <span>{moment(user.createdAt).format("LL")}</span>
+                </div>
               </div>
             </div>
 
-            {user.moderating && user.moderating.length > 0 && (
-              <SubredditCards
-                subreddits={user.moderating}
-                headText="Moderating these communities"
+            <Tabs categories={categories}>
+              <SubredditsPanel subreddits={user.moderating} />
+              <SubredditsPanel subreddits={user.subscriptions} />
+              <PostsPanel pageName="userPage" baseUrl={baseUrl + "/posts"} />
+              <CommentsPanel
+                comments={comments}
+                classNames={classNames}
+                baseUrl={baseUrl}
               />
-            )}
-
-            {user.subscriptions && user.subscriptions.length > 0 && (
-              <SubredditCards
-                subreddits={user.subscriptions}
-                headText="Subscriptions"
-              />
-            )}
-
-            <Tabs forums={forums} comments={comments} baseUrl={baseUrl} />
+            </Tabs>
           </div>
         </div>
       ) : null}

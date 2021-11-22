@@ -2,9 +2,11 @@ import axios from "axios";
 import {
   createSubredditAction,
   getAllSubredditsAction,
+  setSearchSubredditsAction,
   updateSubredditIconAction,
 } from "../actions/subreddits";
 import { setError } from "../helpers";
+import userConfig from "../configs/userConfig";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/r";
 
@@ -17,23 +19,31 @@ export const getAllSubredditsDispatcher = async (dispatch) => {
   }
 };
 
+export const setSearchSubredditsDispatcher = async (
+  dispatch,
+  { searchString }
+) => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/search?search=${searchString}`
+    );
+    dispatch(setSearchSubredditsAction(response.data));
+  } catch (error) {
+    setError(dispatch, error);
+  }
+};
+
 export const createSubredditDispatcher = async (
   dispatch,
   history,
   subredditData,
   userToken
 ) => {
-  const config = {
-    headers: {
-      Authorization: "Bearer " + userToken,
-    },
-  };
-
   try {
     const response = await axios.post(
       `${baseUrl}/create`,
       subredditData,
-      config
+      userConfig(userToken)
     );
     dispatch(createSubredditAction(response.data));
     history.push(`/r/${response.data.id}`);
@@ -42,6 +52,18 @@ export const createSubredditDispatcher = async (
   }
 };
 
-export const updateSubredditIconDispatcher = (dispatch, subredditId, icon) => {
-  dispatch(updateSubredditIconAction({ subredditId, icon }));
+export const updateSubredditIconDispatcher = async (
+  dispatch,
+  subredditId,
+  data,
+  userToken
+) => {
+  await axios.patch(
+    `${baseUrl}/${subredditId}/update`,
+    data,
+    userConfig(userToken)
+  );
+  dispatch(
+    updateSubredditIconAction({ subredditId, icon: data.communityIcon })
+  );
 };

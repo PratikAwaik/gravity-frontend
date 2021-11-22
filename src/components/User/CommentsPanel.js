@@ -17,7 +17,7 @@ const CommentsPanel = ({ comments, classNames, baseUrl }) => {
     <Tab.Panel
       className={classNames(
         "bg-white rounded-xl py-3",
-        "focus:outline-none focus:ring-2 ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60"
+        "focus:outline-none ring-white ring-opacity-60"
       )}
     >
       <ul className="list-none pl-0">

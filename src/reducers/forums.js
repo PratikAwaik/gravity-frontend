@@ -3,6 +3,7 @@ const initialState = {
   page: 1,
   userPage: 1,
   subredditPage: 1,
+  searchPage: 1,
   limit: 6,
   hasMore: true,
 };
@@ -15,20 +16,20 @@ const forumsReducer = (state = initialState, action) => {
           ...state,
           hasMore: false,
         };
-      } else {
-        return {
-          ...state,
-          [action.payload.pageName]: state[action.payload.pageName] + 1,
-          results: [...state.results, ...action.payload.results],
-        };
       }
+      return {
+        ...state,
+        [action.payload.pageName]: state[action.payload.pageName] + 1,
+        results: [...state.results, ...action.payload.results],
+      };
     case "SET_POSTS":
       return {
         ...state,
         page: 2,
         userPage: 1,
         subredditPage: 1,
-        hasMore: true,
+        searchPage: 1,
+        hasMore: !(action.payload.length < state.limit),
         results: action.payload,
       };
     case "SET_USER_POSTS":
@@ -37,7 +38,8 @@ const forumsReducer = (state = initialState, action) => {
         userPage: 2,
         page: 1,
         subredditPage: 1,
-        hasMore: true,
+        searchPage: 1,
+        hasMore: !(action.payload.length < state.limit),
         results: action.payload,
       };
     case "SET_SUBREDDIT_POSTS":
@@ -46,7 +48,18 @@ const forumsReducer = (state = initialState, action) => {
         subredditPage: 2,
         page: 1,
         userPage: 1,
-        hasMore: true,
+        searchPage: 1,
+        hasMore: !(action.payload.length < state.limit),
+        results: action.payload,
+      };
+    case "SET_SEARCH_POSTS":
+      return {
+        ...state,
+        searchPage: 2,
+        page: 1,
+        userPage: 1,
+        subredditPage: 1,
+        hasMore: !(action.payload.length < state.limit),
         results: action.payload,
       };
     case "UPVOTE_FORUMS_POST":

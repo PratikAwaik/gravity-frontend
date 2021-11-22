@@ -1,23 +1,15 @@
-import { useState } from "react";
 import { Tab } from "@headlessui/react";
-import PostsPanel from "./PostsPanel";
-import CommentsPanel from "./CommentsPanel";
 import PropTypes from "prop-types";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Tabs = ({ forums, comments, baseUrl }) => {
-  const [categories] = useState({
-    Posts: forums.results,
-    Comments: comments,
-  });
-
+const Tabs = ({ categories, children }) => {
   return (
     <div className="w-full pb-8 sm:px-0">
       <Tab.Group>
-        <Tab.List className="flex py-1space-x-1 bg-blue-900/20 rounded-xl items-center justify-center">
+        <Tab.List className="flex p-1 space-x-1 rounded-xl items-center justify-center overflow-x-auto">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
@@ -35,27 +27,15 @@ const Tabs = ({ forums, comments, baseUrl }) => {
             </Tab>
           ))}
         </Tab.List>
-        <Tab.Panels className="mt-2">
-          <PostsPanel
-            forums={forums}
-            classNames={classNames}
-            baseUrl={baseUrl}
-          />
-          <CommentsPanel
-            comments={comments}
-            classNames={classNames}
-            baseUrl={baseUrl}
-          />
-        </Tab.Panels>
+        <Tab.Panels className="mt-2">{children}</Tab.Panels>
       </Tab.Group>
     </div>
   );
 };
 
 Tabs.propTypes = {
-  forums: PropTypes.object.isRequired,
-  comments: PropTypes.object.isRequired,
-  baseUrl: PropTypes.string.isRequired,
+  categories: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Tabs;

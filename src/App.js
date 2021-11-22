@@ -16,8 +16,7 @@ import SubredditProfile from "./components/Subreddit/SubredditProfile";
 import { setUserFromLocalStorageAction } from "./actions/currentUser";
 import CreateSubreddit from "./components/Subreddit/CreateSubreddit";
 import { currentUserDetailsDispatcher } from "./dispatchers/currentUser";
-
-// TODO: new post does not show subreddit icon
+import SearchResults from "./components/SearchResults/SearchResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +44,14 @@ function App() {
             <Login />
           </Route>
 
+          <Route exact path="/">
+            <Home />
+          </Route>
+
+          <Route exact path="/search">
+            <SearchResults />
+          </Route>
+
           <PrivateRoute exact path="/forums/create">
             <CreatePost />
           </PrivateRoute>
@@ -52,10 +59,6 @@ function App() {
           <PrivateRoute exact path="/r/create">
             <CreateSubreddit />
           </PrivateRoute>
-
-          <Route exact path="/">
-            <Home />
-          </Route>
 
           <Route exact path="/forums/:id">
             <PostDetail />

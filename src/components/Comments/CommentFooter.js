@@ -159,7 +159,7 @@ const CommentFooter = ({ comment, setReplyClicked, setToEdit }) => {
         )}
       </div>
 
-      {comment.user.id === currentUser.id && (
+      {comment.user && comment.user.id === currentUser.id && (
         <div className="flex items-center">
           <div className="flex items-center mr-5">
             <button

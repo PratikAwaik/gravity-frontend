@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import CommentHeader from "./CommentHeader";
 import CommentBody from "./CommentBody";
 import CommentFooter from "./CommentFooter";
-import FancyEditor from "../Editors/FancyEditor";
+import FancyEditor from "../Utils/FancyEditor";
 import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
