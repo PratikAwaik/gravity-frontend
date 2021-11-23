@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
@@ -7,8 +7,10 @@ import {
   unsetCommentsDispatcher,
 } from "../../dispatchers/comments";
 import { orderComments } from "../../helpers";
+import LoadingWrapper from "../Utils/LoadingWrapper";
 
 const Comments = ({ post }) => {
+  const [loading, setLoading] = useState(true);
   const comments = useSelector((state) =>
     orderComments(state.comments.results)
   );
@@ -17,16 +19,17 @@ const Comments = ({ post }) => {
   useEffect(() => {
     (async () => {
       await setCommentsDispatcher(dispatch, null, post.id);
+      setLoading(false);
     })();
     return () => unsetCommentsDispatcher(dispatch);
   }, [dispatch, post.id]);
 
   return (
-    <div>
+    <LoadingWrapper loading={loading}>
       {comments.map((comment) => (
         <Comment key={comment.id} comment={comment} post={post} />
       ))}
-    </div>
+    </LoadingWrapper>
   );
 };
 
