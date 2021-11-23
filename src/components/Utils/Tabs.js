@@ -9,7 +9,7 @@ const Tabs = ({ categories, children }) => {
   return (
     <div className="w-full pb-8 sm:px-0">
       <Tab.Group>
-        <Tab.List className="flex p-1 space-x-1 rounded-xl items-center justify-center overflow-x-auto">
+        <Tab.List className="flex p-1 space-x-1 rounded-xl items-center sm:justify-center overflow-x-auto">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
