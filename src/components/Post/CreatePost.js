@@ -5,6 +5,7 @@ import { createPostDispatcher } from "../../dispatchers/forums";
 import FancyEditor from "../Utils/FancyEditor";
 import ChooseCommunity from "./ChooseCommunity";
 import { errorPopup, successPopup } from "../../helpers";
+import Swal from "sweetalert2";
 
 const CreatePost = () => {
   const titleTextareaRef = useRef(null);
@@ -37,12 +38,14 @@ const CreatePost = () => {
           type: "editor",
         };
 
+        Swal.showLoading();
         await createPostDispatcher(
           dispatch,
           history,
           postData,
           currentUser.token
         );
+        Swal.hideLoading();
         await successPopup("Post created successfully!");
       } else {
         errorPopup("Please choose a community!");

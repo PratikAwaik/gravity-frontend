@@ -6,6 +6,7 @@ import FancyEditor from "../Utils/FancyEditor";
 import { editPostDispatcher } from "../../dispatchers/post";
 import { successPopup } from "../../helpers";
 import { editForumsPostDispatcher } from "../../dispatchers/forums";
+import Swal from "sweetalert2";
 
 const EditPost = ({ post, setToEdit }) => {
   const [editorState, setEditorState] = useState(post.content);
@@ -21,6 +22,7 @@ const EditPost = ({ post, setToEdit }) => {
       content: editorState,
     };
 
+    Swal.showLoading();
     await editPostDispatcher(dispatch, currentUser.token, postData);
     await editForumsPostDispatcher(dispatch, postData);
     await successPopup("Post updated successfully!");

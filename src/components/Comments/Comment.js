@@ -7,6 +7,8 @@ import FancyEditor from "../Utils/FancyEditor";
 import { createCommentDispatcher } from "../../dispatchers/comments";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
+import Swal from "sweetalert2";
+import { successPopup } from "../../helpers";
 
 const Comment = ({ comment, post }) => {
   const [replyClicked, setReplyClicked] = useState(false);
@@ -23,12 +25,14 @@ const Comment = ({ comment, post }) => {
       repliedTo: comment.id,
       level: comment.level + 1,
     };
+    Swal.showLoading();
     await createCommentDispatcher(
       dispatch,
       comment.post,
       currentUser.token,
       commentData
     );
+    await successPopup("Replied successfully!");
     setEditorContent("");
     setReplyClicked(false);
   };

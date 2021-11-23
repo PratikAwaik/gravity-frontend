@@ -6,7 +6,8 @@ import FormInput from "./FormInput";
 
 import astronautIcon from "../../images/astronaut.png";
 import { setErrorAction } from "../../actions/error";
-import { displayError } from "../../helpers";
+import { displayError, successPopup } from "../../helpers";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
@@ -36,12 +37,14 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    registerUserDispatcher(dispatch, {
+    Swal.showLoading();
+    await registerUserDispatcher(dispatch, {
       ...userInfo,
       profilePic: astronautIcon,
     });
+    await successPopup("Successfully Registered!");
   };
 
   return (

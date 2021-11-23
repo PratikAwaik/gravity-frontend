@@ -10,6 +10,8 @@ import Comments from "../Comments/Comments";
 import { currentUserDetailsDispatcher } from "../../dispatchers/currentUser";
 import { getPostDispatcher, unsetPostDispatcher } from "../../dispatchers/post";
 import LoadingWrapper from "../Utils/LoadingWrapper";
+import Swal from "sweetalert2";
+import { successPopup } from "../../helpers";
 
 const PostDetail = () => {
   const [editorContent, setEditorContent] = useState("");
@@ -39,12 +41,14 @@ const PostDetail = () => {
       content: editorContent,
       level: 0,
     };
+    Swal.showLoading();
     await createCommentDispatcher(
       dispatch,
       post.id,
       currentUser.token,
       commentData
     );
+    await successPopup("Commented Successfully!");
     setEditorContent("");
   };
 

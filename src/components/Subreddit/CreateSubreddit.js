@@ -6,6 +6,7 @@ import { createSubredditDispatcher } from "../../dispatchers/subreddit";
 import communitySrcImage from "../../images/community.png";
 import { displayError, successPopup } from "../../helpers";
 import { currentUserDetailsDispatcher } from "../../dispatchers/currentUser";
+import Swal from "sweetalert2";
 
 const CreateSubreddit = () => {
   const [subreddit, setSubreddit] = useState({
@@ -23,7 +24,8 @@ const CreateSubreddit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
+    Swal.showLoading();
     await createSubredditDispatcher(
       dispatch,
       history,
