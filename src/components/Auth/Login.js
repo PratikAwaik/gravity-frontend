@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import { setErrorAction } from "../../actions/error";
 import { loginUserDispatcher } from "../../dispatchers/currentUser";
-import { successPopup } from "../../helpers";
 import FormInput from "./FormInput";
 
 const Login = () => {
@@ -37,9 +35,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    Swal.showLoading();
     await loginUserDispatcher(dispatch, userInfo);
-    await successPopup("Successfully Logged In!");
   };
 
   return (

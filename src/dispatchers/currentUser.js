@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 import {
   getCurrentUserDetailsAction,
   loginUserAction,
@@ -8,7 +9,7 @@ import {
   updateCurrentUserVotesAction,
 } from "../actions/currentUser";
 import { setErrorAction } from "../actions/error";
-import { setError } from "../helpers";
+import { setError, successPopup } from "../helpers";
 
 const baseUrl = process.env.REACT_APP_API_URL + "/api/users";
 
@@ -32,9 +33,13 @@ export const registerUserDispatcher = async (dispatch, userInfo) => {
 
 export const loginUserDispatcher = async (dispatch, userInfo) => {
   try {
+    Swal.showLoading();
     const response = await axios.post(`${baseUrl}/login`, userInfo);
     dispatch(loginUserAction(response.data));
+    await successPopup("Successfully Logged In!");
   } catch (err) {
+    Swal.hideLoading();
+    Swal.clickConfirm();
     setError(dispatch, err);
   }
 };
