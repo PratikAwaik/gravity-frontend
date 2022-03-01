@@ -1,27 +1,22 @@
 module.exports = {
-  important: true,
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-  darkMode: false, // or 'media' or 'class'
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
-        "theme-black": "#141821",
-        "theme-green": "#48bb78",
-        "theme-purple": "#805ad5",
-        "theme-orange": "#ed8936",
-        "theme-red": "#e53e3e",
-        "theme-blue": "#3182ce",
-        "theme-white": "#e2e8f0",
-        "theme-gray": "#4a5568",
+        "theme-gray-400": "#242728",
+        "theme-gray-300": "#3e4345",
+        "theme-gray-200": "#5E6366", //
+        "theme-blue": "#367bf5", // icons when clicked or hovered or buttons
+        "theme-red": "#f26771",
+        "theme-green": "B8EF81",
+        "theme-dark-white": "#c6cacc", // icons
       },
       fontFamily: {
-        "theme-font": "Ubuntu, sans-serif",
+        "theme-font-family": "'Roboto', sans-serif",
       },
-    },
-  },
-  variants: {
-    extend: {
-      display: ["group-hover"],
     },
   },
   plugins: [],
