@@ -4,7 +4,7 @@ import SearchInput from "./SearchInput";
 function Navbar() {
   return (
     <div className="w-full fixed top-0 left-0 z-40 shadow-md">
-      <nav className="w-full px-2 sm:px-4 py-3 flex items-center justify-between">
+      <nav className="w-full px-2 sm:px-4 py-2.5 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center justify-center">
           <Link href="/">
@@ -26,13 +26,13 @@ function Navbar() {
 
         <div className="flex items-center mx-4">
           <Link href="/login">
-            <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-gray-200 text-white text-base transition duration-200 hover:bg-theme-blue mr-5">
+            <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-gray-200 text-base transition duration-200 hover:bg-theme-blue mr-5">
               Log In
             </a>
           </Link>
 
           <Link href="/register">
-            <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-blue text-white text-base transition duration-200 hover:bg-theme-blue">
+            <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-blue text-base transition duration-200 hover:bg-theme-blue">
               Sign Up
             </a>
           </Link>

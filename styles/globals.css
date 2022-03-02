@@ -6,6 +6,6 @@
 
 @layer base {
   body {
-    @apply bg-theme-gray-300 font-theme-font-family text-white;
+    @apply bg-theme-gray-300 font-theme-font-family text-theme-white-300;
   }
 }
