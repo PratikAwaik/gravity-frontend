@@ -21,7 +21,7 @@ function Icons() {
             router.pathname === "/" ? "bg-theme-blue" : "bg-theme-gray-200 "
           }`}
         >
-          <i className="ri-home-smile-2-line text-theme-white-400 text-2xl"></i>
+          <i className="ri-home-smile-2-line text-theme-white-400 text-xl"></i>
         </a>
       </Link>
 
@@ -33,7 +33,7 @@ function Icons() {
               : "bg-theme-gray-200 "
           }`}
         >
-          <i className="ri-pencil-fill text-theme-white-400 text-2xl"></i>
+          <i className="ri-pencil-fill text-theme-white-400 text-xl"></i>
         </a>
       </Link>
     </div>
