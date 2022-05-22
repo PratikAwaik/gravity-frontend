@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { LOGIN_USER } from "../../graphql/mutations";
+import DisplayError from "../Utils/DisplayError";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -11,7 +12,6 @@ function LoginForm() {
   const router = useRouter();
   const [loginUser, result] = useMutation(LOGIN_USER, {
     onError: (error) => {
-      console.log(error.graphQLErrors[0].message);
       setError(error.graphQLErrors[0].message);
     },
   });
@@ -43,7 +43,7 @@ function LoginForm() {
 
       <form onSubmit={handleSubmit}>
         <div className="mb-4 flex flex-col items-start">
-          <label htmlFor="username" className="mb-1 font-bold">
+          <label htmlFor="username" className="mb-1 font-bold required">
             Username
           </label>
           <input
@@ -61,7 +61,7 @@ function LoginForm() {
         </div>
 
         <div className="mb-8 flex flex-col items-start">
-          <label htmlFor="password" className="mb-1 font-bold">
+          <label htmlFor="password" className="mb-1 font-bold required">
             Password
           </label>
           <input
@@ -77,11 +77,7 @@ function LoginForm() {
           />
         </div>
 
-        {error && (
-          <div className="p-2 text-lg bg-theme-red rounded-lg text-center mb-6">
-            {error}
-          </div>
-        )}
+        <DisplayError error={error} />
 
         <div className="flex items-center justify-center">
           <button

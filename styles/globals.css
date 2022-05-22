@@ -9,3 +9,8 @@
     @apply bg-theme-gray-300 font-theme-font-family text-theme-white-300;
   }
 }
+
+.required:after {
+  content: " *";
+  color: #f26771;
+}

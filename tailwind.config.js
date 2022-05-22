@@ -12,6 +12,7 @@ module.exports = {
         "theme-blue": "#367bf5", // icons when clicked or hovered or buttons
         "theme-red": "#f26771",
         "theme-green": "#B8EF81",
+        "theme-white-500": "#e1e1e1",
         "theme-white-400": "#c6cacc", // icons
         "theme-white-300": "#f3f3f4",
       },
