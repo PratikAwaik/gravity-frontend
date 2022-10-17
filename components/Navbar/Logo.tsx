@@ -1,7 +1,7 @@
-import Image from "next/image";
+import * as React from "react";
 import Link from "next/link";
 
-function Logo() {
+export default function Logo() {
   return (
     <div className="flex items-center justify-center">
       <Link href="/">
@@ -20,5 +20,3 @@ function Logo() {
     </div>
   );
 }
-
-export default Logo;

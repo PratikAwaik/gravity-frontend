@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 
-const DisplayError = ({ error }) => {
+export default function DisplayError({ error }: { error: any }) {
   return (
     error && (
       <div className="p-2 text-lg bg-theme-red rounded-lg text-center mb-6">
@@ -8,6 +8,4 @@ const DisplayError = ({ error }) => {
       </div>
     )
   );
-};
-
-export default DisplayError;
+}

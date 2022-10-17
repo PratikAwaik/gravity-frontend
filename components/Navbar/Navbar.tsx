@@ -1,8 +1,9 @@
+import * as React from "react";
 import Icons from "./Icons";
 import Logo from "./Logo";
 import SearchInput from "./SearchInput";
 
-function Navbar() {
+export default function Navbar() {
   return (
     <div className="w-full fixed top-0 left-0 z-40 shadow-md bg-theme-gray-300">
       <nav className="w-full px-2 sm:px-4 py-2.5 flex items-center justify-between">
@@ -13,5 +14,3 @@ function Navbar() {
     </div>
   );
 }
-
-export default Navbar;

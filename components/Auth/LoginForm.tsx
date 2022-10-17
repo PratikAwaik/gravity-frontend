@@ -1,14 +1,14 @@
+import * as React from "react";
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { LOGIN_USER } from "../../graphql/users/mutations";
 import DisplayError from "../Utils/DisplayError";
 
-function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+export default function LoginForm() {
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const [loginUser, result] = useMutation(LOGIN_USER, {
     onError: (error) => {
@@ -16,14 +16,14 @@ function LoginForm() {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const gravityUserToken = localStorage.getItem("gravityUserToken");
     if (gravityUserToken) {
       router.push("/");
     }
   }, [router]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (result.data) {
       const token = result.data.loginUser.value;
       localStorage.setItem("gravityUserToken", token);
@@ -98,5 +98,3 @@ function LoginForm() {
     </div>
   );
 }
-
-export default LoginForm;

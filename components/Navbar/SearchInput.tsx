@@ -1,7 +1,7 @@
-import { useState } from "react";
+import * as React from "react";
 
-function SearchInput() {
-  const [value, setValue] = useState("");
+export default function SearchInput() {
+  const [value, setValue] = React.useState("");
 
   const handleSubmit = () => {};
   const handleInputChange = () => {};
@@ -23,5 +23,3 @@ function SearchInput() {
     </div>
   );
 }
-
-export default SearchInput;

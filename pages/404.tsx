@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-function Custom404() {
+export default function Custom404() {
   const router = useRouter();
 
   return (
@@ -50,5 +50,3 @@ function Custom404() {
     </div>
   );
 }
-
-export default Custom404;

@@ -1,6 +1,6 @@
+import * as React from "react";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import DisplayError from "../../components/Utils/DisplayError";
 import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
 
@@ -10,13 +10,13 @@ import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
  * redirect to subreddit detail page
  */
 
-function CreateCommunity() {
-  const [subreddit, setSubreddit] = useState({
+export default function CreateCommunity() {
+  const [subreddit, setSubreddit] = React.useState({
     name: "",
     description: "",
     icon: null,
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = React.useState<string | null>(null);
   const [createSubreddit] = useMutation(CREATE_SUBREDDIT, {
     onError: (error) => {
       setError(error.graphQLErrors[0].message);
@@ -27,7 +27,7 @@ function CreateCommunity() {
   });
   const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     setError(null);
     createSubreddit({ variables: subreddit });
@@ -57,8 +57,8 @@ function CreateCommunity() {
                 name="name"
                 type="text"
                 id="subreddit-name"
-                minLength="3"
-                maxLength="21"
+                minLength={3}
+                maxLength={21}
                 pattern="^[a-zA-Z0-9_]+$"
                 value={subreddit.name}
                 className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border-none rounded-sm outline-none focus-within::bg-transparent"
@@ -88,10 +88,10 @@ function CreateCommunity() {
                 setSubreddit({ ...subreddit, description: target.value })
               }
               value={subreddit.description}
-              rows="3"
+              rows={3}
               required
-              minLength="10"
-              maxLength="350"
+              minLength={10}
+              maxLength={350}
               className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
             ></textarea>
           </div>
@@ -118,5 +118,3 @@ function CreateCommunity() {
     </div>
   );
 }
-
-export default CreateCommunity;

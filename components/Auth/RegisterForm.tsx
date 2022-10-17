@@ -1,15 +1,15 @@
+import * as React from "react";
 import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { REGISTER_USER } from "../../graphql/users/mutations";
 import DisplayError from "../Utils/DisplayError";
 
-function RegisterForm() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+export default function RegisterForm() {
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
 
   const [registerUser, result] = useMutation(REGISTER_USER, {
@@ -18,14 +18,14 @@ function RegisterForm() {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     const gravityUserToken = localStorage.getItem("gravityUserToken");
     if (gravityUserToken) {
       router.push("/");
     }
   }, [router]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (result.data) {
       const token = result.data.createNewUser.token.value;
       localStorage.setItem("gravityUserToken", token);
@@ -59,8 +59,8 @@ function RegisterForm() {
             value={username}
             onChange={({ target }) => setUsername(target.value)}
             autoComplete="off"
-            minLength="3"
-            maxLength="21"
+            minLength={3}
+            maxLength={21}
             pattern="^[a-zA-Z0-9_]+$"
           />
         </div>
@@ -130,5 +130,3 @@ function RegisterForm() {
     </div>
   );
 }
-
-export default RegisterForm;

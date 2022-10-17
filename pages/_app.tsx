@@ -4,7 +4,13 @@ import Layout from "../components/Layout";
 import { ApolloProvider } from "@apollo/client";
 import client from "../utils/client";
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({
+  Component,
+  pageProps,
+}: {
+  Component: any;
+  pageProps: any;
+}) {
   return (
     <ApolloProvider client={client}>
       <Layout>
@@ -13,5 +19,3 @@ function MyApp({ Component, pageProps }) {
     </ApolloProvider>
   );
 }
-
-export default MyApp;

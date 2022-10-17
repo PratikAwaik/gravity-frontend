@@ -1,6 +1,7 @@
+import * as React from "react";
 import Image from "next/image";
 
-function AstronautAnimation() {
+export default function AstronautAnimation() {
   return (
     <div className="astronaut-animation animate-bounce flex items-center justify-center w-96 h-full rounded-tl-lg rounded-bl-lg">
       <Image
@@ -12,5 +13,3 @@ function AstronautAnimation() {
     </div>
   );
 }
-
-export default AstronautAnimation;

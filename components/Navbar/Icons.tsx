@@ -1,12 +1,12 @@
+import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
-function Icons() {
-  const [showIcons, setShowIcons] = useState(false);
+export default function Icons() {
+  const [showIcons, setShowIcons] = React.useState(false);
   const router = useRouter();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const gravityUserToken = localStorage.getItem("gravityUserToken");
     if (gravityUserToken) {
       setShowIcons(true);
@@ -53,5 +53,3 @@ function Icons() {
     </div>
   );
 }
-
-export default Icons;
