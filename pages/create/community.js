@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import DisplayError from "../../components/Utils/DisplayError";
-import { CREATE_SUBREDDIT } from "../../graphql/mutations";
+import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
 
 /**
  * TODO:

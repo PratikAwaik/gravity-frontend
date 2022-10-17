@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { LOGIN_USER } from "../../graphql/mutations";
+import { LOGIN_USER } from "../../graphql/users/mutations";
 import DisplayError from "../Utils/DisplayError";
 
 function LoginForm() {
