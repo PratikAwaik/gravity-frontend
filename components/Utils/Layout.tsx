@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import Navbar from "./Navbar/Navbar";
-import { PAGES } from "../utils/pages";
+import Navbar from "../Navbar/Navbar";
+import { PAGES } from "../../utils/pages";
 
 interface LayoutProps {
   children: React.ReactNode;
