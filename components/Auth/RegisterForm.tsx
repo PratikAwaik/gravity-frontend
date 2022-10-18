@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useMutation } from "@apollo/client";
 import Link from "next/link";
+import DisplayError from "../Utils/DisplayError";
+import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { REGISTER_USER } from "../../graphql/users/mutations";
-import DisplayError from "../Utils/DisplayError";
+import { PAGES } from "../../utils/pages";
 
 export default function RegisterForm() {
   const [username, setUsername] = React.useState("");
@@ -12,28 +13,26 @@ export default function RegisterForm() {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
 
-  const [registerUser, result] = useMutation(REGISTER_USER, {
-    onError: (error) => {
+  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+    onError: (error: ApolloError) => {
       setError(error.graphQLErrors[0].message);
+    },
+    onCompleted(data) {
+      const token = data.registerUser.token.value;
+      localStorage.setItem("gravityUserToken", token);
+      router.push(PAGES.INDEX);
     },
   });
 
   React.useEffect(() => {
     const gravityUserToken = localStorage.getItem("gravityUserToken");
     if (gravityUserToken) {
-      router.push("/");
+      router.push(PAGES.INDEX);
     }
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  React.useEffect(() => {
-    if (result.data) {
-      const token = result.data.createNewUser.token.value;
-      localStorage.setItem("gravityUserToken", token);
-      router.push("/");
-    }
-  }, [result.data, router]);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     registerUser({ variables: { username, email, password } });
@@ -114,15 +113,16 @@ export default function RegisterForm() {
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="px-5 py-1.5 rounded-lg font-bold text-white text-base transition duration-200 bg-theme-blue mr-5"
+            className="px-5 py-1.5 rounded-lg font-bold text-white text-base transition duration-200 bg-theme-blue w-full"
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Loading..." : "Sign Up"}
           </button>
         </div>
 
         <p className="text-center mt-6">
           Signed Up Already?
-          <Link href="/login">
+          <Link href={PAGES.LOGIN}>
             <a className="text-theme-green underline ml-1">Log In</a>
           </Link>
         </p>

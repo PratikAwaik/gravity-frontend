@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { PAGES } from "../../utils/pages";
 
 export default function Icons() {
   const [showIcons, setShowIcons] = React.useState(false);
@@ -15,7 +16,7 @@ export default function Icons() {
 
   return showIcons ? (
     <div className="flex items-center mx-4">
-      <Link href="/">
+      <Link href={PAGES.INDEX}>
         <a
           className={`mr-5 rounded-lg px-2 py-0.5 hover:bg-theme-blue ${
             router.pathname === "/" ? "bg-theme-blue" : "bg-theme-gray-200 "
@@ -25,7 +26,7 @@ export default function Icons() {
         </a>
       </Link>
 
-      <Link href="/create/post">
+      <Link href={PAGES.CREATE_POST}>
         <a
           className={`mr-5 rounded-lg px-2 py-0.5 hover:bg-theme-blue ${
             router.pathname === "/create/post"
@@ -39,13 +40,13 @@ export default function Icons() {
     </div>
   ) : (
     <div className="flex items-center mx-4">
-      <Link href="/login">
+      <Link href={PAGES.LOGIN}>
         <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-gray-200 text-base transition duration-200 hover:bg-theme-blue mr-5">
           Log In
         </a>
       </Link>
 
-      <Link href="/register">
+      <Link href={PAGES.REGISTER}>
         <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-blue text-base transition duration-200 hover:bg-theme-blue">
           Sign Up
         </a>

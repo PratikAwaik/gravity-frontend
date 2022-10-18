@@ -12,6 +12,7 @@ export default function Custom404() {
         src="/images/404.jpg"
         alt="404 Not Found"
         layout="fill"
+        loading="eager"
       />
 
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-max">

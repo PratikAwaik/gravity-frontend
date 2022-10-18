@@ -1,7 +1,7 @@
 import * as React from "react";
+import DisplayError from "../../components/Utils/DisplayError";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import DisplayError from "../../components/Utils/DisplayError";
 import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
 
 /**
@@ -27,7 +27,7 @@ export default function CreateCommunity() {
   });
   const router = useRouter();
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
     createSubreddit({ variables: subreddit });

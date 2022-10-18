@@ -1,10 +1,11 @@
 import * as React from "react";
 import Link from "next/link";
+import { PAGES } from "../../utils/pages";
 
 export default function Logo() {
   return (
     <div className="flex items-center justify-center">
-      <Link href="/">
+      <Link href={PAGES.INDEX}>
         <a className="mr-2 w-9 h-9 sm:mr-5 flex items-center">
           <img
             src="/images/logo.svg"
