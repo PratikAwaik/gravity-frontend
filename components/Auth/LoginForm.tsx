@@ -25,7 +25,7 @@ export default function LoginForm() {
 
   React.useEffect(() => {
     if (result.data) {
-      const token = result.data.loginUser.value;
+      const token = result.data.loginUser.token.value;
       localStorage.setItem("gravityUserToken", token);
       router.push("/");
     }
