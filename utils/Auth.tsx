@@ -5,6 +5,7 @@ import { AUTH, PAGES } from "./constants";
 
 interface AuthContextProps {
   currentUser: any;
+  setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
   getUser: () => string | null;
   setUser: (token: string) => void;
   removeUser: () => void;
@@ -13,6 +14,7 @@ interface AuthContextProps {
 
 const initialAuthContextState = {
   currentUser: null,
+  setCurrentUser: () => {},
   getUser: () => "",
   setUser: () => {},
   removeUser: () => {},
@@ -32,6 +34,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [currentUser, setCurrentUser] = React.useState(null);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -41,6 +44,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [router.pathname]);
 
+  React.useEffect(() => {
+    const user = getUser();
+    setCurrentUser(user);
+  }, []);
+
   const getUser = () => {
     const user = StorageService.getItem(AUTH.LS_CURRENT_USER_KEY);
     if (user) return JSON.parse(user);
@@ -49,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const setUser = (user: any) => {
     StorageService.setItem(AUTH.LS_CURRENT_USER_KEY, JSON.stringify(user));
+    setCurrentUser(user);
   };
 
   const removeUser = () => {
@@ -60,13 +69,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     router.push(PAGES.INDEX);
   };
 
-  const currentUser = React.useMemo(
-    () => getUser(),
-    [StorageService.getItem(AUTH.LS_CURRENT_USER_KEY)]
-  );
-
   const value = {
     currentUser,
+    setCurrentUser,
     getUser,
     setUser,
     removeUser,
