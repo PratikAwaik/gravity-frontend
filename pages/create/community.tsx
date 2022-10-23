@@ -19,10 +19,12 @@ export default function CreateCommunity() {
   const [error, setError] = React.useState<string | null>(null);
   const [createSubreddit] = useMutation(CREATE_SUBREDDIT, {
     onError: (error) => {
+      console.log(error);
       setError(error.graphQLErrors[0].message);
     },
     onCompleted: (data) => {
       console.log(data);
+      router.push(`/community/${data.createCommunity.id}`);
     },
   });
   const router = useRouter();
@@ -88,11 +90,10 @@ export default function CreateCommunity() {
                 setSubreddit({ ...subreddit, description: target.value })
               }
               value={subreddit.description}
-              rows={3}
+              rows={5}
               required
               minLength={10}
-              maxLength={350}
-              className="resize-none overflow-hidden text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
+              className="resize-none overflow-auto text-base w-full p-2 bg-transparent border border-theme-gray rounded-sm outline-none focus-within::bg-transparent"
             ></textarea>
           </div>
 

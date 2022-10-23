@@ -4,7 +4,8 @@ import DisplayError from "../Utils/DisplayError";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { REGISTER_USER } from "../../graphql/users/mutations";
-import { PAGES } from "../../utils/pages";
+import { PAGES } from "../../utils/constants";
+import { useAuth } from "../../utils/Auth";
 
 export default function RegisterForm() {
   const [username, setUsername] = React.useState("");
@@ -12,25 +13,18 @@ export default function RegisterForm() {
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
+  const auth = useAuth();
 
   const [registerUser, { loading }] = useMutation(REGISTER_USER, {
     onError: (error: ApolloError) => {
       setError(error.graphQLErrors[0].message);
     },
     onCompleted(data) {
-      const token = data.registerUser.token.value;
-      localStorage.setItem("gravityUserToken", token);
-      router.push(PAGES.INDEX);
+      const user = data.registerUser;
+      auth.setUser(user);
+      router.replace(PAGES.INDEX);
     },
   });
-
-  React.useEffect(() => {
-    const gravityUserToken = localStorage.getItem("gravityUserToken");
-    if (gravityUserToken) {
-      router.push(PAGES.INDEX);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

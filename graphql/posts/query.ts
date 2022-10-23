@@ -1,11 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_POSTS = gql`
-  query AllPosts {
+  query {
     allPosts {
       id
       title
       content
+      score
       author {
         id
         prefixedName
@@ -13,6 +14,7 @@ export const GET_ALL_POSTS = gql`
       community {
         id
         prefixedName
+        icon
       }
       type
       commentsCount

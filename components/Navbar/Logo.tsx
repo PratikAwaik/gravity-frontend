@@ -1,6 +1,6 @@
 import * as React from "react";
 import Link from "next/link";
-import { PAGES } from "../../utils/pages";
+import { PAGES } from "../../utils/constants";
 
 export default function Logo() {
   return (

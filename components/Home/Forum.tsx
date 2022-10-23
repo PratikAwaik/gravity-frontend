@@ -1,8 +1,11 @@
-import { useQuery } from "@apollo/client";
-import { GET_ALL_POSTS } from "../../graphql/posts/query";
+import ForumPost from "./ForumPost";
 
-export default function Forum() {
-  const { data } = useQuery(GET_ALL_POSTS);
-  console.log(data);
-  return <>Forum</>;
+export default function Forum({ posts }: { posts: any }) {
+  return (
+    <div className="w-full">
+      {posts.allPosts?.map((post: any) => (
+        <ForumPost post={post} key={post.id} />
+      ))}
+    </div>
+  );
 }

@@ -1,25 +1,21 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PAGES } from "../../utils/pages";
+import { PAGES } from "../../utils/constants";
+import { useAuth } from "../../utils/Auth";
 
 export default function Icons() {
-  const [showIcons, setShowIcons] = React.useState(false);
   const router = useRouter();
+  const { currentUser } = useAuth();
 
-  React.useEffect(() => {
-    const gravityUserToken = localStorage.getItem("gravityUserToken");
-    if (gravityUserToken) {
-      setShowIcons(true);
-    }
-  }, []);
-
-  return showIcons ? (
+  return currentUser ? (
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
           className={`mr-5 rounded-lg px-2 py-0.5 hover:bg-theme-blue ${
-            router.pathname === "/" ? "bg-theme-blue" : "bg-theme-gray-200 "
+            router.pathname === PAGES.INDEX
+              ? "bg-theme-blue"
+              : "bg-theme-gray-200 "
           }`}
         >
           <i className="ri-home-smile-2-line text-theme-white-400 text-xl"></i>
@@ -29,7 +25,7 @@ export default function Icons() {
       <Link href={PAGES.CREATE_POST}>
         <a
           className={`mr-5 rounded-lg px-2 py-0.5 hover:bg-theme-blue ${
-            router.pathname === "/create/post"
+            router.pathname === PAGES.CREATE_POST
               ? "bg-theme-blue"
               : "bg-theme-gray-200 "
           }`}
