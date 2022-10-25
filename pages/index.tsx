@@ -12,7 +12,7 @@ export default function Home() {
       <Head>
         <title>Gravity</title>
       </Head>
-      <div className="w-full h-full mt-16">
+      <div className="w-full h-full">
         <div className="py-5 px-6 flex items-center justify-center">
           <div className="forum max-w-3xl h-full">
             <LoadingWrapper isLoading={loading}>

@@ -34,7 +34,7 @@ export default function CreateCommunity() {
   };
 
   return (
-    <div className="mt-16 pt-6 sm:pt-9 px-2 max-w-3xl mx-auto mb-20">
+    <div className="pt-6 sm:pt-9 px-2 max-w-3xl mx-auto mb-20">
       <div>
         <h2 className="text-2xl mb-2 p-2 rounded-md font-bold">
           Create Community
