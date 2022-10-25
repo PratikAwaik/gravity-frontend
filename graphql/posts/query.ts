@@ -16,6 +16,10 @@ export const GET_ALL_POSTS = gql`
         prefixedName
         icon
       }
+      postScores {
+        userId
+        direction
+      }
       type
       commentsCount
       createdAt

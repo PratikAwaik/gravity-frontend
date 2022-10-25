@@ -42,7 +42,7 @@ export default function PostBody({
     >
       {/* post content */}
       {!isPostDetail ? (
-        <Link href={`/forums/${post.id}`}>
+        <Link href={`/forums/${post?.id}`}>
           <a className="forum-post-body-title">
             <h3 className="text-lg sm:text-xl font-bold mb-3">{post.title}</h3>
           </a>

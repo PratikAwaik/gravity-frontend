@@ -19,11 +19,9 @@ export default function CreateCommunity() {
   const [error, setError] = React.useState<string | null>(null);
   const [createSubreddit] = useMutation(CREATE_SUBREDDIT, {
     onError: (error) => {
-      console.log(error);
       setError(error.graphQLErrors[0].message);
     },
     onCompleted: (data) => {
-      console.log(data);
       router.push(`/community/${data.createCommunity.id}`);
     },
   });

@@ -1,9 +1,12 @@
+import { useQuery } from "@apollo/client";
 import Head from "next/head";
+import Image from "next/image";
 import Forum from "../components/Home/Forum";
+import LoadingWrapper from "../components/Utils/LoadingWrapper";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
-import client from "../utils/client";
 
-export default function Home({ posts }: { posts: any }) {
+export default function Home() {
+  const { loading, data } = useQuery(GET_ALL_POSTS);
   return (
     <>
       <Head>
@@ -11,8 +14,10 @@ export default function Home({ posts }: { posts: any }) {
       </Head>
       <div className="w-full h-full mt-16">
         <div className="py-5 px-6 flex items-center justify-center">
-          <div className="forum max-w-3xl">
-            <Forum posts={posts} />
+          <div className="forum max-w-3xl h-full">
+            <LoadingWrapper isLoading={loading}>
+              <Forum posts={data} />
+            </LoadingWrapper>
           </div>
         </div>
       </div>
@@ -20,11 +25,12 @@ export default function Home({ posts }: { posts: any }) {
   );
 }
 
-export async function getServerSideProps() {
-  const { data } = await client.query({ query: GET_ALL_POSTS });
-  return {
-    props: {
-      posts: data,
-    },
-  };
-}
+// * try server side rendering
+// export async function getServerSideProps() {
+//   const { data } = await client.query({ query: GET_ALL_POSTS });
+//   return {
+//     props: {
+//       posts: data,
+//     },
+//   };
+// }

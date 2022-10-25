@@ -10,7 +10,7 @@ const authLink = setContext((_, { headers }) => {
     return {
       headers: {
         ...headers,
-        authorization: user ? `Bearer ${parsedUser?.token?.value}` : null,
+        authorization: `Bearer ${parsedUser?.token?.value}`,
       },
     };
   }
@@ -21,6 +21,7 @@ const httpLink = new HttpLink({ uri: "http://localhost:4000" });
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(httpLink),
+  connectToDevTools: true,
 });
 
 export default client;
