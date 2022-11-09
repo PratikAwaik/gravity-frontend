@@ -13,7 +13,7 @@ export default function Logo() {
             width={36}
             height={36}
           />
-          <h1 className="text-2xl font-semibold hidden xl:block ml-2">
+          <h1 className="text-xl font-semibold hidden xl:block ml-2">
             Gravity
           </h1>
         </a>

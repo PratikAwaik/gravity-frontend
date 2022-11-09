@@ -6,15 +6,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "theme-gray-400": "#242728",
-        "theme-gray-300": "#3e4345",
-        "theme-gray-200": "#5E6366", //
-        "theme-blue": "#367bf5", // icons when clicked or hovered or buttons
-        "theme-red": "#f26771",
-        "theme-green": "#B8EF81",
-        "theme-white-500": "#e1e1e1",
-        "theme-white-400": "#c6cacc", // icons
-        "theme-white-300": "#f3f3f4",
+        "theme-black": "#141821",
+        "theme-green": "#48bb78",
+        "theme-purple": "#805ad5",
+        "theme-orange": "#ed8936",
+        "theme-red": "#e53e3e",
+        "theme-blue": "#3182ce",
+        "theme-white": "#e2e8f0",
+        "theme-gray": "#4a5568",
       },
       fontFamily: {
         "theme-font-family": "'Roboto', sans-serif",

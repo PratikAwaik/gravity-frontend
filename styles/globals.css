@@ -6,11 +6,11 @@
 
 @layer base {
   body {
-    @apply bg-theme-gray-300 font-theme-font-family text-theme-white-300;
+    @apply font-theme-font-family text-theme-black bg-gray-200;
   }
 
   .mini-dot {
-    @apply w-0.5 h-0.5 bg-theme-white-300 rounded-full mx-1.5 inline-block;
+    @apply w-0.5 h-0.5 bg-theme-gray rounded-full mx-1.5 inline-block;
   }
 }
 
