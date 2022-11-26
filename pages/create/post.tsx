@@ -4,9 +4,9 @@ export default function CreatePost() {
   const handlePostSubmit = () => {};
   return (
     <div className="pt-6 sm:pt-9 px-2 max-w-3xl mx-auto mb-20">
-      <div>
-        <h2 className="text-2xl mb-2 p-2 rounded-md font-bold">Create Post</h2>
-        <hr className="mb-5" />
+      <div className="mb-4">
+        <h2 className="text-lg mb-3 rounded-md font-medium">Create a post</h2>
+        <div className="w-full h-0.5 border border-b-theme-gray-line"></div>
       </div>
 
       <CommunityDropdown />

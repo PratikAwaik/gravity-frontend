@@ -1,11 +1,11 @@
-import * as React from "react";
+import { useMutation } from "@apollo/client";
 import Link from "next/link";
+import * as React from "react";
+import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
+import { GET_ALL_POSTS } from "../../graphql/posts/query";
 import { useAuth } from "../../utils/Auth";
 import { PAGES } from "../../utils/constants";
 import numberFormatter from "../../utils/helpers/numberFormatter";
-import { useMutation } from "@apollo/client";
-import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
-import { GET_ALL_POSTS } from "../../graphql/posts/query";
 
 interface PostFooterProps {
   post: any;
@@ -44,60 +44,83 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
 
   return (
     <div
-      className={`forum-post-footer flex items-center justify-between ${
+      className={`forum-post-footer flex items-center p-2 pl-0 pb-0 ${
         isPostDetail && "mb-5"
       }`}
     >
       <div className="flex items-center">
         {!currentUser ? (
           <Link href={PAGES.LOGIN}>
-            <a className="mr-2">
-              <i className="ri-arrow-up-s-line text-2xl"></i>
+            <a className="mr-2 text-theme-gray-action-icon">
+              <i className="ri-rocket-2-line text-lg "></i>
             </a>
           </Link>
         ) : (
           <button
             type="button"
-            className={`mr-2 hover:text-theme-red ${
-              hasVoted && postScore?.direction === "UPVOTE"
-                ? "text-theme-red"
-                : ""
-            }`}
+            className="mr-2 hover:text-theme-blue text-theme-gray-action-icon"
             onClick={() => handleVoteClick("UPVOTE")}
           >
-            <i className="ri-arrow-up-s-line text-2xl"></i>
+            <i
+              className={`ri-rocket-2-${
+                hasVoted && postScore?.direction === "UPVOTE" ? "fill" : "line"
+              } text-lg ${
+                hasVoted && postScore?.direction === "UPVOTE"
+                  ? "text-theme-blue"
+                  : ""
+              }`}
+            ></i>
           </button>
         )}
-
-        <span className={`text-base mr-2 ${hasVoted && "text-theme-red"}`}>
-          {post.score}
+        <span
+          className={`text-sm mr-2 font-semibold ${
+            hasVoted
+              ? postScore?.direction === "UPVOTE"
+                ? "text-theme-blue"
+                : postScore?.direction === "DOWNVOTE"
+                ? "text-theme-red"
+                : ""
+              : ""
+          }`}
+        >
+          {post.score === 0 ? "Vote" : post.score}
         </span>
-
         {!currentUser ? (
           <Link href={PAGES.LOGIN}>
-            <a className="mr-2">
-              <i className="ri-arrow-down-s-line text-2xl"></i>
+            <a className="mr-2 transform rotate-180 text-theme-gray-action-icon">
+              <i className="ri-rocket-2-line text-lg rotate-180"></i>
             </a>
           </Link>
         ) : (
           <button
             type="button"
-            className={`mr-2 hover:text-theme-red ${
+            className={`mr-2 hover:text-theme-red transform rotate-180 text-theme-gray-action-icon ${
               hasVoted && postScore?.direction === "DOWNVOTE"
                 ? "text-theme-red"
                 : ""
             }`}
             onClick={() => handleVoteClick("DOWNVOTE")}
           >
-            <i className="ri-arrow-down-s-line text-2xl"></i>
+            <i
+              className={`ri-rocket-2-${
+                hasVoted && postScore?.direction === "DOWNVOTE"
+                  ? "fill"
+                  : "line"
+              } text-lg`}
+            ></i>
           </button>
         )}
-
-        <span className="text-base mx-2 inline-flex items-center">
-          <i className="ri-chat-1-line text-xl mr-1"></i>
-          <span>{numberFormatter.format(post.commentsCount)} comments</span>
-        </span>
       </div>
+      <Link href={`forums/${post.id}`}>
+        <a className="hover:bg-theme-gray-nav-icon-faded">
+          <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
+            <i className="ri-chat-1-line text-lg mr-1"></i>
+            <span className="text-sm font-medium">
+              {numberFormatter.format(post.commentsCount)} comments
+            </span>
+          </span>
+        </a>
+      </Link>
     </div>
   );
 }

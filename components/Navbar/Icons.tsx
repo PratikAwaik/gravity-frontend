@@ -12,8 +12,8 @@ export default function Icons() {
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-gray-200 ${
-            router.pathname === PAGES.INDEX && "bg-gray-200"
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded ${
+            router.pathname === PAGES.INDEX && "bg-theme-gray-nav-icon-faded"
           }`}
         >
           <i className="ri-home-smile-2-line text-xl"></i>
@@ -22,8 +22,9 @@ export default function Icons() {
 
       <Link href={PAGES.CREATE_POST}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-gray-200 ${
-            router.pathname === PAGES.CREATE_POST && "bg-gray-200"
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded ${
+            router.pathname === PAGES.CREATE_POST &&
+            "bg-theme-gray-nav-icon-faded"
           }`}
         >
           <i className="ri-pencil-fill text-xl"></i>
@@ -32,15 +33,14 @@ export default function Icons() {
     </div>
   ) : (
     <div className="flex items-center mx-4">
-      <Link href={PAGES.LOGIN}>
-        <a className="px-5 py-1.5 rounded-lg font-bold bg-theme-gray-200 text-base transition duration-200 hover:bg-gray-200 mr-5">
-          Log In
+      <Link href={PAGES.REGISTER}>
+        <a className="px-8 py-1.5 rounded-3xl font-bold text-sm transition duration-200 border border-theme-blue hover:bg-theme-gray-nav-icon-faded text-theme-blue hover:bg-theme-blue-50">
+          Sign Up
         </a>
       </Link>
-
-      <Link href={PAGES.REGISTER}>
-        <a className="px-5 py-1.5 rounded-lg font-bold bg-gray-200 text-base transition duration-200 hover:bg-gray-200">
-          Sign Up
+      <Link href={PAGES.LOGIN}>
+        <a className="px-8 py-1.5 rounded-3xl font-bold bg-theme-blue text-sm text-white transition duration-200 ml-4 hover:brightness-110">
+          Log In
         </a>
       </Link>
     </div>

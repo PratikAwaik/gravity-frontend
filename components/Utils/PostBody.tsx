@@ -35,7 +35,7 @@ export default function PostBody({
 
   return (
     <div
-      className={`forum-post-body overflow-hidden mb-4 ${
+      className={`forum-post-body overflow-hidden ${
         !isPostDetail ? "max-h-44 sm:max-h-52" : ""
       }`}
       style={!isPostDetail ? contentStyle : {}}
@@ -43,13 +43,17 @@ export default function PostBody({
       {/* post content */}
       {!isPostDetail ? (
         <Link href={`/forums/${post?.id}`}>
-          <a className="forum-post-body-title">
-            <h3 className="text-lg sm:text-xl font-bold mb-3">{post.title}</h3>
+          <a className=" text-theme-post-title-text-color">
+            <h3 className="text-lg font-medium mb-2 break-words">
+              {post.title}
+            </h3>
           </a>
         </Link>
       ) : (
         <div>
-          <h3 className="text-lg sm:text-xl font-bold mb-3">{post.title}</h3>
+          <h3 className="text-lg font-semibold mb-2 text-theme-post-title-text-color">
+            {post.title}
+          </h3>
         </div>
       )}
 
@@ -59,7 +63,7 @@ export default function PostBody({
         <></>
       ) : (
         <div
-          className="text-sm sm:text-base forum-post-body-content"
+          className="text-sm forum-post-body-content font-theme-font-family-noto px-0 pb-3"
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(post.content),
           }}

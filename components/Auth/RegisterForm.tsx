@@ -34,16 +34,16 @@ export default function RegisterForm() {
 
   return (
     <div className="w-96 px-6 py-8">
-      <h2 className="text-3xl mb-6 text-center">Create an Account</h2>
+      <h2 className="text-3xl mb-6 text-center">Create Account</h2>
 
       <form onSubmit={handleSubmit}>
-        <div className="mb-4 flex flex-col items-start">
+        <fieldset className="mb-4 flex flex-col items-start">
           <label htmlFor="username" className="mb-1 font-bold required">
             Username
           </label>
           <input
-            className={`w-full p-2 px-3 bg-transparent border-2 rounded-md ${
-              error ? "border-theme-red" : "border-theme-gray-300"
+            className={`w-full p-2 px-4 bg-transparent border rounded-3xl bg-theme-gray-field hover:border-black hover:border-opacity-20 font-medium text-sm ${
+              error ? "border-theme-red" : ""
             } outline-none focus-within::bg-transparent`}
             type="text"
             id="username"
@@ -55,8 +55,9 @@ export default function RegisterForm() {
             minLength={3}
             maxLength={21}
             pattern="^[a-zA-Z0-9_]+$"
+            placeholder="Username"
           />
-        </div>
+        </fieldset>
 
         <div className="flex items-start mt-2 text-sm mb-6">
           <i className="ri-information-line mr-2 text-xl"></i>
@@ -67,57 +68,59 @@ export default function RegisterForm() {
           </span>
         </div>
 
-        <div className="mb-4 flex flex-col items-start">
+        <fieldset className="mb-4 flex flex-col items-start">
           <label htmlFor="email" className="mb-1 font-bold required">
             Email
           </label>
           <input
-            className={`w-full p-2 px-3 bg-transparent border-2 rounded-md ${
-              error ? "border-theme-red" : "border-theme-gray-300"
+            className={`w-full p-2 px-4 bg-transparent border rounded-3xl bg-theme-gray-field hover:border-black hover:border-opacity-20 font-medium text-sm ${
+              error ? "border-theme-red" : ""
             } outline-none focus-within::bg-transparent`}
             type="email"
             id="email"
             name="email"
             required
             value={email}
+            placeholder="Email"
             onChange={({ target }) => setEmail(target.value)}
             autoComplete="off"
           />
-        </div>
+        </fieldset>
 
-        <div className="mb-8 flex flex-col items-start">
+        <fieldset className="mb-8 flex flex-col items-start">
           <label htmlFor="password" className="mb-1 font-bold required">
             Password
           </label>
           <input
-            className={`w-full p-2 px-3 bg-transparent border-2 rounded-md ${
+            className={`w-full p-2 px-4 bg-transparent border rounded-3xl bg-theme-gray-field hover:border-black hover:border-opacity-20 font-medium text-sm ${
               error ? "border-theme-red" : "border-theme-gray-300"
             } outline-none focus-within::bg-transparent`}
             type="password"
             id="password"
             name="password"
             required
+            placeholder="Password"
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
+        </fieldset>
 
         <DisplayError error={error} />
 
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="px-5 py-1.5 rounded-lg font-bold text-white text-base transition duration-200 bg-theme-blue w-full"
+            className="px-5 py-1.5 rounded-3xl font-bold text-white text-base transition duration-200 bg-theme-red w-full hover:brightness-110"
             disabled={loading}
           >
             {loading ? "Loading..." : "Sign Up"}
           </button>
         </div>
 
-        <p className="text-center mt-6">
-          Signed Up Already?
+        <p className="text-center mt-6 text-sm">
+          Already a Gravity User?
           <Link href={PAGES.LOGIN}>
-            <a className="text-theme-green underline ml-1">Log In</a>
+            <a className="text-theme-blue underline ml-1">Log In</a>
           </Link>
         </p>
       </form>

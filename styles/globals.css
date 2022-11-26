@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,11 +7,11 @@
 
 @layer base {
   body {
-    @apply font-theme-font-family text-theme-black bg-gray-200;
+    @apply font-theme-font-family text-theme-body-text-color bg-theme-gray-500;
   }
 
   .mini-dot {
-    @apply w-0.5 h-0.5 bg-theme-gray rounded-full mx-1.5 inline-block;
+    @apply w-0.5 h-0.5 bg-theme-body-text-color rounded-full mx-1.5 inline-block;
   }
 }
 

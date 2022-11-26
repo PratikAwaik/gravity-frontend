@@ -6,8 +6,6 @@ interface DisplayErrorProps {
 
 export default function DisplayError({ error }: DisplayErrorProps) {
   return error ? (
-    <div className="p-2 text-lg bg-theme-red rounded-lg text-center mb-6">
-      {error}
-    </div>
+    <div className="my-1 text-xs text-theme-red font-medium">{error}</div>
   ) : null;
 }

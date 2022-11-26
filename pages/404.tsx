@@ -6,7 +6,7 @@ export default function Custom404() {
   const router = useRouter();
 
   return (
-    <div className="w-screen h-screen relative z-50 overflow-hidden">
+    <div className="w-screen h-screen relative z-50 overflow-hidden -mt-16">
       <Image
         className="w-full h-full object-cover absolute top-0 left-0 overflow-hidden"
         src="/images/404.jpg"
@@ -35,12 +35,12 @@ export default function Custom404() {
 
         <div className="flex items-center my-8">
           <Link href="/">
-            <a className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-sm sm:text-lg mr-5 bg-theme-blue rounded-2xl border-2 border-theme-blue">
+            <a className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-md mr-3 rounded-3xl bg-theme-red hover:brightness-110 text-theme-white font-medium">
               go home
             </a>
           </Link>
           <button
-            className="uppercase tracking-wide px-5 py-2 flex items-center justify-center text-sm sm:text-lg border-2 border-theme-white-400 rounded-2xl hover:bg-theme-red hover:border-theme-red"
+            className="uppercase tracking-wide px-6 py-2 flex items-center justify-center text-md bg-theme-blue rounded-3xl hover:brightness-110 text-white font-medium"
             type="button"
             onClick={() => router.back()}
           >

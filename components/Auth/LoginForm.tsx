@@ -32,60 +32,64 @@ export default function LoginForm() {
 
   return (
     <div className="w-96 px-6 py-8">
-      <h2 className="text-3xl mb-6 text-center">Welcome back</h2>
+      <h2 className="text-3xl mb-6 text-center font-medium">Log In</h2>
 
       <form onSubmit={handleSubmit}>
-        <div className="mb-4 flex flex-col items-start">
+        <fieldset className="mb-4 flex flex-col items-start">
           <label htmlFor="username" className="mb-1 font-bold required">
             Username
           </label>
           <input
-            className={`w-full p-2 px-3 bg-transparent border-2 rounded-md ${
-              error ? "border-theme-red" : "border-theme-gray-300"
+            className={`w-full p-2 px-4 bg-transparent border rounded-3xl bg-theme-gray-field hover:border-black hover:border-opacity-20 font-medium text-sm ${
+              error ? "border-theme-red" : ""
             } outline-none focus-within::bg-transparent`}
             type="text"
             id="username"
             name="username"
+            placeholder="Username"
             required
             value={username}
             onChange={({ target }) => setUsername(target.value)}
             autoComplete="off"
           />
-        </div>
+        </fieldset>
 
-        <div className="mb-8 flex flex-col items-start">
+        <fieldset className="mb-8 flex flex-col items-start">
           <label htmlFor="password" className="mb-1 font-bold required">
             Password
           </label>
           <input
-            className={`w-full p-2 px-3 bg-transparent border-2 rounded-md ${
-              error ? "border-theme-red" : "border-theme-gray-300"
+            className={`w-full p-2 px-4 bg-transparent border rounded-3xl bg-theme-gray-field hover:border-black hover:border-opacity-20 font-medium text-sm ${
+              error ? "border-theme-red" : ""
             } outline-none focus-within::bg-transparent`}
             type="password"
             id="password"
             name="password"
+            placeholder="Password"
             required
             value={password}
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
+        </fieldset>
 
         <DisplayError error={error} />
 
         <div className="flex items-center justify-center">
           <button
             type="submit"
-            className="px-5 py-1.5 rounded-lg font-bold text-white text-base transition duration-200 bg-theme-blue w-full"
+            className="px-5 py-1.5 rounded-3xl font-bold text-white text-base transition duration-200 bg-theme-red w-full hover:brightness-110"
             disabled={loading}
           >
             {loading ? "Logging In..." : "Log In"}
           </button>
         </div>
 
-        <p className="text-center mt-6">
-          Haven&apos;t signed up yet?
+        <p className="text-center text-sm mt-6">
+          New to Gravity?
           <Link href={PAGES.REGISTER}>
-            <a className="text-theme-green underline ml-1">Sign Up</a>
+            <a className="text-theme-blue text-sm underline ml-1 font-semibold">
+              Sign Up
+            </a>
           </Link>
         </p>
       </form>
