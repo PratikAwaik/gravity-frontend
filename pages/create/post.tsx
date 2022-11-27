@@ -1,6 +1,8 @@
 import * as React from "react";
 import CommunityDropdown from "../../components/Community/CommunityDropdown";
 import TextPost from "../../components/CreatePost/TextPost";
+import DisplayError from "../../components/Utils/DisplayError";
+import PostTabs from "../../components/CreatePost/PostTabs";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "../../graphql/posts/mutations";
@@ -14,6 +16,10 @@ export default function CreatePost() {
     communityId: null,
   });
   const [error, setError] = React.useState<Record<string, string> | null>(null);
+  const [currentTab, setCurrentTab] = React.useState("TEXT");
+  const titleTextareaRef = React.createRef<HTMLTextAreaElement>();
+  const [titleLength, setTitleLength] = React.useState(0);
+
   const router = useRouter();
   const [createPost] = useMutation(CREATE_POST, {
     onError: (error) => {
@@ -27,10 +33,24 @@ export default function CreatePost() {
     },
   });
 
+  // increase title textarea height when content increases
+  const textAreaChangeHandler = () => {
+    const { current } = titleTextareaRef;
+    (current as HTMLTextAreaElement).style.height = "auto";
+    (current as HTMLTextAreaElement).style.height =
+      (titleTextareaRef.current as HTMLTextAreaElement).scrollHeight + "px";
+    setTitleLength((current as HTMLTextAreaElement).value.length);
+    setPostData({ ...postData, title: (current as HTMLTextAreaElement).value });
+  };
+
   const handlePostSubmit = (e: any) => {
     e.preventDefault();
     createPost({
-      variables: { ...postData, communityId: selectedCommunity.id },
+      variables: {
+        ...postData,
+        communityId: selectedCommunity.id,
+        type: currentTab,
+      },
     });
   };
 
@@ -46,8 +66,28 @@ export default function CreatePost() {
         setSelectedCommunity={setSelectedCommunity}
       />
       <form className="bg-white rounded-md" onSubmit={handlePostSubmit}>
-        {/* Tabs */}
-        <TextPost postData={postData} setPostData={setPostData} error={error} />
+        <PostTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
+        <div className="m-4 mb-0">
+          <div className="relative">
+            <textarea
+              maxLength={300}
+              placeholder="Title"
+              ref={titleTextareaRef}
+              rows={1}
+              onChange={textAreaChangeHandler}
+              className="overflow-x-hidden break-words py-2 pl-2 pr-16 bg-transparent resize-none box-border w-full border border-theme-gray-line hover:border-theme-nav-icon focus:border-theme-nav-icon focus-visible:outline-none rounded-sm h-10 text-sm"
+              required
+            ></textarea>
+            <span className="text-xxs font-bold absolute bottom-4 right-3 text-theme-gray-action-icon">
+              {titleLength}/300
+            </span>
+            {error && error.field === "title" && (
+              <DisplayError error={error.message} />
+            )}
+          </div>
+        </div>
+
+        <TextPost postData={postData} setPostData={setPostData} />
 
         <div className="flex items-center justify-end p-4 pt-0">
           <button
