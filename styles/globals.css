@@ -31,3 +31,7 @@
   content: " *";
   color: #f26771;
 }
+
+.tooltip:hover .tooltip-text {
+  visibility: visible !important;
+}

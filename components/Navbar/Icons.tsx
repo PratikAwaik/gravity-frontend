@@ -12,22 +12,28 @@ export default function Icons() {
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded ${
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative tooltip ${
             router.pathname === PAGES.INDEX && "bg-theme-gray-nav-icon-faded"
           }`}
         >
           <i className="ri-home-smile-2-line text-xl"></i>
+          <span className="invisible w-fit text-xs bg-gray-800 text-white text-center rounded-md p-1 px-3 absolute bottom-3/4 -left-1/2 -mb-16 z-20 whitespace-nowrap tooltip-text after:content-[' '] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-4 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-black after:border-l-transparent">
+            Home
+          </span>
         </a>
       </Link>
 
       <Link href={PAGES.CREATE_POST}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded ${
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded tooltip relative ${
             router.pathname === PAGES.CREATE_POST &&
             "bg-theme-gray-nav-icon-faded"
           }`}
         >
           <i className="ri-pencil-fill text-xl"></i>
+          <span className="invisible w-fit text-xs bg-gray-800 text-white text-center rounded-md p-1 px-3 absolute bottom-3/4 -left-1/2 -mb-16 z-20 whitespace-nowrap tooltip-text after:content-[' '] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-4 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-black after:border-l-transparent">
+            Create Post
+          </span>
         </a>
       </Link>
     </div>

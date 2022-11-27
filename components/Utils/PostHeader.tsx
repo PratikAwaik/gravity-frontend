@@ -28,7 +28,7 @@ export default function PostHeader({ post }: { post: any }) {
         <div className="flex flex-wrap items-center text-xs text-theme-font-black">
           Posted by
           <Link href={`/user/${post.author.id}`}>
-            <a className="ml-1 hover:underline mr-1">
+            <a className="ml-1 hover:underline mr-2">
               {post.author.prefixedName}
             </a>
           </Link>
