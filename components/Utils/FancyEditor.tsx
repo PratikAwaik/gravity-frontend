@@ -18,8 +18,7 @@ export default function FancyEditor({
 
   React.useEffect(() => {
     editorRef.current = {
-      // CKEditor: require('@ckeditor/ckeditor5-react'), // depricated in v3
-      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor, // v3+
+      CKEditor: require("@ckeditor/ckeditor5-react").CKEditor,
       ClassicEditor: require("ckeditor5-build-classic-autoimage"),
     };
     setEditorLoaded(true);
