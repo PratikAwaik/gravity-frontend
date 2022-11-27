@@ -25,6 +25,9 @@ module.exports = {
         "theme-font-family": "'IBM Plex Sans',sans-serif",
         "theme-font-family-noto": "'Noto Sans',sans-serif",
       },
+      fontSize: {
+        xxs: "10px",
+      },
     },
   },
   plugins: [],

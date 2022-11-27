@@ -10,6 +10,52 @@
     @apply font-theme-font-family text-theme-body-text-color bg-theme-gray-500;
   }
 
+  p {
+    @apply text-sm;
+  }
+
+  ul {
+    @apply block list-disc my-4 pl-7 sm:pl-10;
+  }
+
+  ol {
+    @apply block list-decimal my-4 pl-7 sm:pl-10;
+  }
+
+  blockquote {
+    border-left: 5px solid #ccc;
+    @apply overflow-hidden italic px-2 sm:px-4 my-4;
+  }
+
+  figure {
+    outline-width: 3px;
+    outline-style: solid;
+    outline-color: transparent;
+    transition: outline-color 200ms ease;
+    @apply my-4 mx-auto relative;
+  }
+
+  table {
+    @apply border-collapse w-full h-full border-2 border-double;
+  }
+
+  td {
+    min-width: 2em;
+    @apply p-2 border-2 border-solid border-gray-300 text-sm;
+  }
+
+  h2 {
+    @apply text-2xl;
+  }
+
+  h3 {
+    @apply text-xl;
+  }
+
+  h4 {
+    @apply text-lg;
+  }
+
   .mini-dot {
     @apply w-0.5 h-0.5 bg-theme-body-text-color rounded-full mx-1.5 inline-block;
   }
@@ -34,4 +80,45 @@
 
 .tooltip:hover .tooltip-text {
   visibility: visible !important;
+}
+
+.ck-sticky-panel__content {
+  margin-top: 68px;
+}
+
+pre {
+  padding: 1em;
+  color: #353535;
+  background: hsla(0, 0%, 78%, 0.3);
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
+  text-align: left;
+  direction: ltr;
+  tab-size: 4;
+  white-space: pre-wrap;
+  font-style: normal;
+  min-width: 200px;
+}
+
+code {
+  padding: 0.15em;
+  border-radius: 2px;
+  background-color: hsla(0, 0%, 78%, 0.5);
+}
+
+pre code {
+  background: transparent;
+}
+
+.ck-toolbar_grouping {
+  border: inherit !important;
+}
+
+.ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
+  border: inherit !important;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused {
+  box-shadow: none !important;
+  border: inherit !important;
 }

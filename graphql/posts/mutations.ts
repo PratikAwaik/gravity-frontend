@@ -10,3 +10,36 @@ export const UPDATE_POST_SCORE = gql`
     }
   }
 `;
+
+export const CREATE_POST = gql`
+  mutation CreatePost(
+    $title: String!
+    $content: String!
+    $type: PostType!
+    $communityId: String!
+  ) {
+    createPost(
+      title: $title
+      content: $content
+      type: $type
+      communityId: $communityId
+    ) {
+      id
+      title
+      content
+      type
+      score
+      commentsCount
+      author {
+        id
+        prefixedName
+      }
+      community {
+        id
+        prefixedName
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;

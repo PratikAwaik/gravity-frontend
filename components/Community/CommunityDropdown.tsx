@@ -3,10 +3,17 @@ import Link from "next/link";
 import * as React from "react";
 import { GET_USER_SUBSCRIPTIONS } from "../../graphql/users/query";
 
-export default function CommunityDropdown() {
+interface CommunityDropdownProps {
+  selectedCommunity: any;
+  setSelectedCommunity: React.Dispatch<React.SetStateAction<any>>;
+}
+
+export default function CommunityDropdown({
+  selectedCommunity,
+  setSelectedCommunity,
+}: CommunityDropdownProps) {
   const { data } = useQuery(GET_USER_SUBSCRIPTIONS);
   const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedCommunity, setSelectedCommunity] = React.useState(null);
   const [searchText, setSearchText] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -42,7 +49,7 @@ export default function CommunityDropdown() {
   };
 
   return (
-    <div className="my-3 w-80" ref={dropdownRef}>
+    <div className="my-3 w-80 z-40" ref={dropdownRef}>
       <div className="w-full h-11 relative p-2 px-3 border border-theme-gray-line bg-white rounded-md">
         <div className="h-full w-full flex items-center justify-between">
           <input
@@ -59,7 +66,7 @@ export default function CommunityDropdown() {
         </div>
         {/* list */}
         {isOpen && (
-          <div className="absolute top-11 left-0 w-full max-h-96 overflow-y-scroll border border-theme-gray-line bg-white rounded-md p-2">
+          <div className="absolute top-11 z-40 left-0 w-full max-h-96 overflow-y-scroll border border-theme-gray-line bg-white rounded-md p-2">
             <div className="flex items-center justify-between mb-2">
               <span className="text-theme-gray-action-icon font-medium text-xs">
                 Your Communities

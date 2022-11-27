@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@ckeditor/ckeditor5-react": "^5.0.3",
+    "ckeditor5-build-classic-autoimage": "^0.0.1",
     "fromnow": "^3.0.1",
     "graphql": "^16.3.0",
     "isomorphic-dompurify": "^0.23.0",
