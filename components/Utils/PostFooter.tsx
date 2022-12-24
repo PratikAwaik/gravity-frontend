@@ -3,12 +3,13 @@ import Link from "next/link";
 import * as React from "react";
 import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
 import { GET_ALL_POSTS } from "../../graphql/posts/query";
+import { Post } from "../../models/post";
 import { useAuth } from "../../utils/Auth";
 import { PAGES } from "../../utils/constants";
 import numberFormatter from "../../utils/helpers/numberFormatter";
 
 interface PostFooterProps {
-  post: any;
+  post: Post;
   isPostDetail: boolean;
 }
 

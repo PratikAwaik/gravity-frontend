@@ -1,11 +1,10 @@
 import * as React from "react";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
-import { MediaType, PostType } from "../../models/post";
-import Image from "next/image";
+import { MediaType, Post, PostType } from "../../models/post";
 
 interface PostBodyProps {
-  post: any;
+  post: Post;
   //   setPost: React.Dispatch<React.SetStateAction<any>>;
   isPostDetail: boolean;
   toEdit: boolean;

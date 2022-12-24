@@ -1,9 +1,14 @@
+import { Post } from "../../models/post";
 import ForumPost from "./ForumPost";
 
-export default function Forum({ posts }: { posts: any }) {
+interface ForumProps {
+  posts: Post[];
+}
+
+export default function Forum({ posts }: ForumProps) {
   return (
     <div className="w-full">
-      {posts.allPosts?.map((post: any) => (
+      {posts?.map((post: any) => (
         <ForumPost post={post} key={post.id} />
       ))}
     </div>

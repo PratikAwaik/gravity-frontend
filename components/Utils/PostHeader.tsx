@@ -1,7 +1,12 @@
 import Link from "next/link";
 import FromNow from "./FromNow";
+import { Post } from "../../models/post";
 
-export default function PostHeader({ post }: { post: any }) {
+interface PostHeaderProps {
+  post: Post;
+}
+
+export default function PostHeader({ post }: PostHeaderProps) {
   return (
     <div className="forum-post-header text-xs mb-2 flex sm:flex-row sm:items-center z-10">
       <Link href={`/community/${post.community.id}`}>
@@ -33,7 +38,7 @@ export default function PostHeader({ post }: { post: any }) {
             </a>
           </Link>
           <FromNow date={post.createdAt} />
-          {post.editedAt && <span className="ml-1">(edited)</span>}
+          {/* {post.updatedAt && <span className="ml-1">(edited)</span>} */}
         </div>
       </div>
     </div>

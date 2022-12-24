@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
-import Image from "next/image";
 import Forum from "../components/Home/Forum";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
@@ -16,7 +15,7 @@ export default function Home() {
         <div className="py-5 px-6 flex items-center justify-center">
           <div className="forum max-w-3xl h-full">
             <LoadingWrapper isLoading={loading}>
-              <Forum posts={data} />
+              <Forum posts={data?.allPosts ?? []} />
             </LoadingWrapper>
           </div>
         </div>
