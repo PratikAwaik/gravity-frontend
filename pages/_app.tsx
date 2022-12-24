@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "remixicon/fonts/remixicon.css";
+import "react-tooltip/dist/react-tooltip.css";
 import Layout from "../components/Utils/Layout";
 import { ApolloProvider } from "@apollo/client";
 import client from "../utils/client";

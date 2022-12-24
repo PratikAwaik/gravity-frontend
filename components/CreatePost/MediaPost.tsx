@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Tooltip } from "react-tooltip";
 
 interface MediaPostProps {
   postData: any;
@@ -106,12 +107,18 @@ export default function MediaPost({ postData, setPostData }: MediaPostProps) {
             )}
             <div className="p-2 flex justify-end items-center border-t border-t-theme-gray-line">
               <button
+                id="submit-post-remove-file"
                 type="button"
                 onClick={handleFileRemove}
                 className="rounded text-theme-gray-action-icon p-1 hover:bg-theme-gray-nav-icon-faded flex items-center justify-center"
               >
                 <i className="ri-delete-bin-6-line text-xl leading-5"></i>
               </button>
+              <Tooltip
+                anchorId="submit-post-remove-file"
+                place="top"
+                content="Remove"
+              />
             </div>
           </div>
         )}

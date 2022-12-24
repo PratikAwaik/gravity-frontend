@@ -64,7 +64,11 @@ export default function PostBody({
         // <EditPost post={post} setPost={setPost} setToEdit={setToEdit} />
         <></>
       ) : (
-        <div className="text-sm forum-post-body-content font-theme-font-family-noto px-0 relative">
+        <div
+          className={`text-sm forum-post-body-content font-theme-font-family-noto px-0 relative ${
+            post.type === PostType.TEXT && "pb-2"
+          }`}
+        >
           {post.type === PostType.TEXT && (
             <div
               dangerouslySetInnerHTML={{
@@ -101,11 +105,11 @@ export default function PostBody({
                 <div className="flex items-center">
                   <a
                     href={post.content}
-                    className="text-theme-link-text-color text-xs my-1 mx-2 ml-0 whitespace-nowrap w-40 flex items-center"
+                    className="text-theme-link-text-color text-xs my-1 mx-2 ml-0 whitespace-nowrap w-44 flex items-center"
                     target="_blank"
                   >
                     <span className="w-max block text-ellipsis overflow-hidden hover:underline">
-                      {post.content}
+                      {post.content.slice(12)}
                     </span>
                     <i className="ri-external-link-line"></i>
                   </a>
