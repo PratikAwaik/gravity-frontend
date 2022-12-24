@@ -25,7 +25,7 @@ export default function PostTabs({ currentTab, setCurrentTab }: PostTabsProps) {
       <TabButton
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
-        type="LINK"
+        type="ARTICLE"
         label="Link"
         className="border-r-0"
         iconClassName="ri-links-line"

@@ -19,7 +19,8 @@ module.exports = {
         "theme-red": "#d93a00",
         "theme-post-line": "#cccccc", // border for post
         "theme-post-title-text-color": "#222222", // post title text color
-        "theme-post-icon-color": "#898989", // post border on hover
+        "theme-post-icon-color": "#898989", // post border on hover,
+        "theme-link-text-color": "#3f9ade", // link text color
       },
       fontFamily: {
         "theme-font-family": "'IBM Plex Sans',sans-serif",

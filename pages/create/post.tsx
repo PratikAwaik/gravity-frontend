@@ -3,10 +3,12 @@ import CommunityDropdown from "../../components/Community/CommunityDropdown";
 import TextPost from "../../components/CreatePost/TextPost";
 import DisplayError from "../../components/Utils/DisplayError";
 import PostTabs from "../../components/CreatePost/PostTabs";
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "../../graphql/posts/mutations";
 import Head from "next/head";
+import MediaPost from "../../components/CreatePost/MediaPost";
+import ArticlePost from "../../components/CreatePost/ArticlePost";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -14,9 +16,13 @@ export default function CreatePost() {
     title: "",
     content: "",
     type: "TEXT",
+    mediaType: null,
     communityId: null,
   });
-  const [error, setError] = React.useState<Record<string, string> | null>(null);
+  const [error, setError] = React.useState<Record<
+    string,
+    string | null
+  > | null>(null);
   const [currentTab, setCurrentTab] = React.useState("TEXT");
   const titleTextareaRef = React.createRef<HTMLTextAreaElement>();
   const [titleLength, setTitleLength] = React.useState(0);
@@ -24,10 +30,20 @@ export default function CreatePost() {
 
   const router = useRouter();
   const [createPost] = useMutation(CREATE_POST, {
-    onError: (error) => {
+    onError: (error: any) => {
+      if (error instanceof ApolloError) {
+        setError({
+          message: "Something went wrong! Please try again later!",
+          field: null,
+        });
+        setSubmittingPost(false);
+        return;
+      }
       setError({
-        message: error.graphQLErrors[0].message,
-        field: (error.graphQLErrors[0].extensions.field as string) ?? null,
+        message:
+          error.graphQLErrors[0]?.message ??
+          "Something went wrong! Please try again later!",
+        field: (error.graphQLErrors[0]?.extensions?.field as string) ?? null,
       });
       setSubmittingPost(false);
     },
@@ -35,6 +51,12 @@ export default function CreatePost() {
       router.push(`/forums/${data.createPost.id}`);
     },
   });
+
+  React.useEffect(() => {
+    if (selectedCommunity) {
+      setError(null);
+    }
+  }, [selectedCommunity]);
 
   // increase title textarea height when content increases
   const textAreaChangeHandler = () => {
@@ -49,6 +71,14 @@ export default function CreatePost() {
   const handlePostSubmit = (e: any) => {
     e.preventDefault();
     setSubmittingPost(true);
+    if (!selectedCommunity) {
+      setError({
+        message: "Please select a community",
+        field: null,
+      });
+      setSubmittingPost(false);
+      return;
+    }
     createPost({
       variables: {
         ...postData,
@@ -95,7 +125,19 @@ export default function CreatePost() {
             </div>
           </div>
 
-          <TextPost postData={postData} setPostData={setPostData} />
+          {currentTab === "TEXT" && (
+            <TextPost postData={postData} setPostData={setPostData} />
+          )}
+          {currentTab === "MEDIA" && (
+            <MediaPost postData={postData} setPostData={setPostData} />
+          )}
+          {currentTab === "ARTICLE" && (
+            <ArticlePost postData={postData} setPostData={setPostData} />
+          )}
+
+          {error && !error.field && (
+            <DisplayError error={error.message} className="ml-4 text-sm" />
+          )}
 
           <div className="flex items-center justify-end p-4 pt-0">
             <button
@@ -112,7 +154,7 @@ export default function CreatePost() {
               }`}
               disabled={submittingPost}
             >
-              Create Post
+              {submittingPost ? "Submitting..." : "Create Post"}
             </button>
           </div>
         </form>

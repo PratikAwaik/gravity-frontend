@@ -21,6 +21,8 @@ export const GET_ALL_POSTS = gql`
         direction
       }
       type
+      mediaType
+      articleImage
       commentsCount
       createdAt
       updatedAt
