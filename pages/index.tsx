@@ -1,11 +1,18 @@
 import { useQuery } from "@apollo/client";
 import Head from "next/head";
+import { useState } from "react";
 import Forum from "../components/Home/Forum";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
 
 export default function Home() {
-  const { loading, data } = useQuery(GET_ALL_POSTS);
+  const [cursor, setCursor] = useState(null);
+  const { loading, data } = useQuery(GET_ALL_POSTS, {
+    variables: {
+      cursor: cursor,
+    },
+  });
+
   return (
     <>
       <Head>
@@ -27,6 +34,7 @@ export default function Home() {
 // * try server side rendering
 // export async function getServerSideProps() {
 //   const { data } = await client.query({ query: GET_ALL_POSTS });
+//   console.log(data);
 //   return {
 //     props: {
 //       posts: data,

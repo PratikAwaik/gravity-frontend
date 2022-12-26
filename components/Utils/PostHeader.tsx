@@ -7,6 +7,7 @@ interface PostHeaderProps {
 }
 
 export default function PostHeader({ post }: PostHeaderProps) {
+  if (!post) return null;
   return (
     <div className="forum-post-header text-xs mb-2 flex sm:flex-row sm:items-center z-10">
       <Link href={`/community/${post.community.id}`}>

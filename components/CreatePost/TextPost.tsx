@@ -10,15 +10,13 @@ interface TextPostProps {
 export default function TextPost({ postData, setPostData }: TextPostProps) {
   return (
     <div className="p-4">
-      <div className="mb-2 border border-theme-gray-line hover:border-theme-nav-icon focus-within:border-theme-nav-icon">
-        <FancyEditor
-          editorContent={postData.content}
-          setEditorContent={(content: string) =>
-            setPostData({ ...postData, content })
-          }
-          isPost={true}
-        />
-      </div>
+      <FancyEditor
+        editorContent={postData.content}
+        setEditorContent={(content: string) =>
+          setPostData({ ...postData, content })
+        }
+        isPost={true}
+      />
     </div>
   );
 }

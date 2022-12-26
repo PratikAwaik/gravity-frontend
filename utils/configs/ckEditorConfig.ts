@@ -1,5 +1,4 @@
 const ckEditorConfig = {
-  placeholder: "Text (Optional)",
   toolbar: {
     items: [
       "heading",

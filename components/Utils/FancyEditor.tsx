@@ -5,12 +5,14 @@ interface FancyEditorProps {
   editorContent: string;
   setEditorContent: Function;
   isPost: boolean;
+  placeholder?: string;
 }
 
 export default function FancyEditor({
   editorContent,
   setEditorContent,
   isPost,
+  placeholder,
 }: FancyEditorProps) {
   const editorRef = React.useRef<{ CKEditor: any; ClassicEditor: any }>();
   const [editorLoaded, setEditorLoaded] = React.useState(false);
@@ -38,15 +40,18 @@ export default function FancyEditor({
   };
 
   return editorLoaded ? (
-    <CKEditor
-      editor={ClassicEditor}
-      data={editorContent}
-      onChange={handleChange}
-      config={{
-        ...editorConfig,
-        toolbar: removeMediaEmbedFromConfig(),
-      }}
-    />
+    <div className="mb-2 border border-theme-gray-line hover:border-theme-nav-icon focus-within:border-theme-nav-icon">
+      <CKEditor
+        editor={ClassicEditor}
+        data={editorContent}
+        onChange={handleChange}
+        config={{
+          ...editorConfig,
+          placeholder: placeholder ?? "Text (Optional)",
+          toolbar: removeMediaEmbedFromConfig(),
+        }}
+      />
+    </div>
   ) : (
     <div className="w-full flex items-center justify-center py-3">
       <i className="ri-loader-4-line text-2xl text-theme-gray-action-icon animate-spin"></i>

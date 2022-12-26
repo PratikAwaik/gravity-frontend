@@ -1,0 +1,51 @@
+import { useQuery } from "@apollo/client";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import PostComments from "../../components/Comments/PostComments";
+import PostBody from "../../components/Utils/PostBody";
+import PostFooter from "../../components/Utils/PostFooter";
+import PostHeader from "../../components/Utils/PostHeader";
+import { GET_POST_BY_ID } from "../../graphql/posts/query";
+
+export default function PostDetails() {
+  const router = useRouter();
+  const { loading, data } = useQuery(GET_POST_BY_ID, {
+    variables: {
+      postId: router.query.postId,
+    },
+  });
+  const post = data?.getPostById;
+
+  return (
+    <>
+      <Head>
+        <title>{post?.title}</title>
+      </Head>
+      <div
+        id="post-detail"
+        className="mx-auto max-w-4xl bg-white relative rounded mb-3"
+      >
+        <div className="w-full p-3">
+          <PostHeader post={post} />
+          <PostBody post={post} isPostDetail={true} toEdit={false} />
+          <PostFooter post={post} isPostDetail={true} />
+          <PostComments />
+        </div>
+      </div>
+    </>
+  );
+}
+
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//   const response = await client.query({
+//     query: GET_POST_BY_ID,
+//     variables: {
+//       postId: context.params?.postId,
+//     },
+//   });
+//   return {
+//     props: {
+//       postDetailResponse: response,
+//     },
+//   };
+// }

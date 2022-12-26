@@ -122,3 +122,7 @@ pre code {
   box-shadow: none !important;
   border: inherit !important;
 }
+
+.ck-editor__editable_inline {
+  min-height: 7.625rem;
+}

@@ -16,6 +16,8 @@ export default function PostBody({
   isPostDetail,
   toEdit,
 }: PostBodyProps) {
+  if (!post) return null;
+
   const contentStyle = {
     maskImage:
       post.type !== PostType.MEDIA && post.type !== PostType.ARTICLE
