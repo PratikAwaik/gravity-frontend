@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.10",
     "@ckeditor/ckeditor5-react": "^5.0.3",
+    "boring-avatars": "^1.7.0",
     "ckeditor5-build-classic-autoimage": "^0.0.1",
     "fromnow": "^3.0.1",
     "graphql": "^16.3.0",
@@ -19,7 +20,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-tooltip": "^5.3.1",
-    "remixicon": "^2.5.0"
+    "remixicon": "^2.5.0",
+    "zustand": "^4.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.0",

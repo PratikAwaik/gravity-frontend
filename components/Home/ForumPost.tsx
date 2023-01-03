@@ -1,10 +1,10 @@
 import PostHeader from "../Utils/PostHeader";
 import PostBody from "../Utils/PostBody";
 import PostFooter from "../Utils/PostFooter";
-import { Post } from "../../models/post";
+import { IPost } from "../../models/post";
 
 interface ForumPostProps {
-  post: Post;
+  post: IPost;
 }
 
 export default function ForumPost({ post }: ForumPostProps) {

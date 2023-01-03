@@ -9,6 +9,7 @@ import { CREATE_POST } from "../../graphql/posts/mutations";
 import Head from "next/head";
 import MediaPost from "../../components/CreatePost/MediaPost";
 import ArticlePost from "../../components/CreatePost/ArticlePost";
+import { getPostDetailPath } from "../../utils/constants";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -48,7 +49,7 @@ export default function CreatePost() {
       setSubmittingPost(false);
     },
     onCompleted: (data) => {
-      router.push(`/forums/${data.createPost.id}`);
+      router.push(getPostDetailPath(data?.createPost?.id));
     },
   });
 

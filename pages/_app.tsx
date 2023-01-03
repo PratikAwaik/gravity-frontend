@@ -1,9 +1,9 @@
 import "../styles/globals.css";
 import "remixicon/fonts/remixicon.css";
 import "react-tooltip/dist/react-tooltip.css";
+import client from "../utils/client";
 import Layout from "../components/Utils/Layout";
 import { ApolloProvider } from "@apollo/client";
-import client from "../utils/client";
 import { AppProps } from "next/app";
 import { AuthProvider } from "../utils/Auth";
 

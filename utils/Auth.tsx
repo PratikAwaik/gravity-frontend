@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import * as React from "react";
+import { useRouter } from "next/router";
 import StorageService from "../services/storage";
 import { AUTH, PAGES } from "./constants";
 

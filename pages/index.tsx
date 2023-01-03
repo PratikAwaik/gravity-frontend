@@ -1,9 +1,11 @@
-import { useQuery } from "@apollo/client";
 import Head from "next/head";
-import { useState } from "react";
 import Forum from "../components/Home/Forum";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
+import { useQuery } from "@apollo/client";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
+import { PAGES } from "../utils/constants";
 
 export default function Home() {
   const [cursor, setCursor] = useState(null);
@@ -12,6 +14,21 @@ export default function Home() {
       cursor: cursor,
     },
   });
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.pathname === PAGES.INDEX) {
+      scrollToPreviousPosition();
+    }
+  }, [router.pathname]);
+
+  function scrollToPreviousPosition() {
+    const yPosition = window.localStorage.getItem("gravityScrollPosition");
+    if (yPosition) {
+      window.scrollTo(0, parseInt(yPosition) - 50);
+      window.localStorage.removeItem("gravityScrollPosition");
+    }
+  }
 
   return (
     <>

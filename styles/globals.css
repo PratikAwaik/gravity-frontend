@@ -57,7 +57,7 @@
   }
 
   .mini-dot {
-    @apply w-0.5 h-0.5 bg-theme-body-text-color rounded-full mx-1.5 inline-block;
+    @apply w-0.5 h-0.5 bg-theme-meta-text rounded-full mx-1 inline-block;
   }
 }
 

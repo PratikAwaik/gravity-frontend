@@ -5,6 +5,7 @@ export const GET_ALL_POST_COMMENTS = gql`
     author {
       id
       username
+      profilePic
     }
     createdAt
     updatedAt
@@ -13,6 +14,7 @@ export const GET_ALL_POST_COMMENTS = gql`
     deleted
     id
     parentId
+    postId
     commentScores {
       userId
       direction
@@ -21,16 +23,17 @@ export const GET_ALL_POST_COMMENTS = gql`
 
   query GetAllPostComments($postId: String!, $parentId: String) {
     allComments(postId: $postId, parentId: $parentId) {
-      ...CommentDetailsFragment
-      children {
-        ...CommentDetailsFragment
-        children {
-          ...CommentDetailsFragment
-          children {
-            ...CommentDetailsFragment
-          }
-        }
-      }
+      ${getNestedCommentsQuery("...CommentDetailsFragment")}
     }
   }
 `;
+
+function getNestedCommentsQuery(initialQuery: any, depth = 20): any {
+  if (depth === 0) return initialQuery;
+  return `
+    ${initialQuery}
+    children {
+      ${getNestedCommentsQuery(initialQuery, depth - 1)}
+    }
+  `;
+}

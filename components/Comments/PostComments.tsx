@@ -1,41 +1,48 @@
-import { useMutation, useQuery } from "@apollo/client";
+import * as React from "react";
 import Link from "next/link";
+import FancyEditor from "../Utils/FancyEditor";
+import CommentsContainer from "./CommentsContainer";
+import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { CREATE_COMMENT } from "../../graphql/comments/mutation";
 import { GET_ALL_POST_COMMENTS } from "../../graphql/comments/query";
 import { useAuth } from "../../utils/Auth";
-import FancyEditor from "../Utils/FancyEditor";
+import { usePostCommentsStore } from "../../stores/postComments";
+import { getUserDetailPath } from "../../utils/constants";
 
 export default function PostComments() {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [editorContent, setEditorContent] = useState("");
-  const [parentId, setParentId] = useState(null);
   const [submittingComment, setSubmittingComment] = useState(false);
+  const { postComments, setPostComments } = usePostCommentsStore((s) => ({
+    postComments: s.postComments,
+    setPostComments: s.setPostComments,
+  }));
 
   const { loading, data } = useQuery(GET_ALL_POST_COMMENTS, {
     variables: {
-      postId: router.query.postId ?? "",
-      parentId: parentId,
+      postId: router.query.postId,
+      parentId: null,
     },
   });
 
   const [createComment] = useMutation(CREATE_COMMENT, {
-    refetchQueries: [
-      {
-        query: GET_ALL_POST_COMMENTS,
-        variables: { postId: router.query.postId ?? "", parentId: parentId },
-      },
-    ],
     onError(error, clientOptions) {
       // set error
     },
     onCompleted(data, clientOptions) {
-      // set on completed
+      setPostComments([...postComments, data.createComment]);
     },
   });
-  console.log(data);
+
+  React.useEffect(() => {
+    if (data?.allComments) {
+      setPostComments(data?.allComments);
+    }
+  }, [data?.allComments]);
+
   const handleCreateCommentClick = () => {
     if (!editorContent) return;
     setSubmittingComment(true);
@@ -43,12 +50,14 @@ export default function PostComments() {
       variables: {
         content: editorContent,
         postId: router.query.postId ?? "",
-        parentId: parentId,
+        parentId: null,
       },
     });
     setSubmittingComment(false);
     setEditorContent("");
   };
+
+  if (loading) return null;
 
   return (
     <div className="w-full">
@@ -56,7 +65,7 @@ export default function PostComments() {
         <div className="w-full">
           <p className="text-xs mb-2">
             Comment as{" "}
-            <Link href={`/user/${currentUser.username}`}>
+            <Link href={getUserDetailPath(currentUser?.username)}>
               <a className="text-theme-link-text-color hover:underline">
                 {currentUser.username}
               </a>
@@ -83,6 +92,7 @@ export default function PostComments() {
         </div>
       )}
       <div className="w-full h-0.5 border-b border-b-theme-gray-line my-4"></div>
+      <CommentsContainer />
     </div>
   );
 }

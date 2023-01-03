@@ -21,6 +21,8 @@ module.exports = {
         "theme-post-title-text-color": "#222222", // post title text color
         "theme-post-icon-color": "#898989", // post border on hover,
         "theme-link-text-color": "#3f9ade", // link text color
+        "theme-meta-text": "#7c7c7c",
+        "theme-button": "#0f1923", // hover on comment threadline
       },
       fontFamily: {
         "theme-font-family": "'IBM Plex Sans',sans-serif",

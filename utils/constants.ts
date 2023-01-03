@@ -5,9 +5,15 @@ export const PAGES = {
   REGISTER: "/register",
   CREATE_COMMUNITY: "/create/community",
   COMMUNITY_DETAIL: "/community/*",
-  POST_DETAIL: "/post/*",
+  POST_DETAIL: "/posts/*",
   NOT_FOUND: "/404",
 };
+
+export const getPostDetailPath = (id: string) => `/posts/${id}`;
+
+export const getCommunityDetailPath = (id: string) => `/community/${id}`;
+
+export const getUserDetailPath = (id: string) => `/user/${id}`;
 
 export const AUTH = {
   LS_CURRENT_USER_KEY: "__gravity_current_user__",

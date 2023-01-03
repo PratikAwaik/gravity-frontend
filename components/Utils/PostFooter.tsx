@@ -2,32 +2,25 @@ import { useMutation } from "@apollo/client";
 import Link from "next/link";
 import * as React from "react";
 import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
-import { GET_ALL_POSTS } from "../../graphql/posts/query";
-import { Post, PostScore } from "../../models/post";
+import { IPost, PostScore } from "../../models/post";
 import { useAuth } from "../../utils/Auth";
 import { PAGES } from "../../utils/constants";
 import numberFormatter from "../../utils/helpers/numberFormatter";
 
 interface PostFooterProps {
-  post: Post;
+  post: IPost;
   isPostDetail: boolean;
 }
 
 export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
-  if (!post) return null;
-
   const { currentUser } = useAuth();
   const [postVoteCount, setPostVoteCount] = React.useState<number>(0);
   const [postScore, setPostScore] = React.useState<PostScore | null>(null);
 
   React.useEffect(() => {
-    setPostScore(post.postScores[0]);
-  }, [post.postScores]);
+    setPostScore(post?.postScores[0]);
+  }, [post?.postScores]);
 
-  // const postScore = React.useMemo(
-  //   () => post.postScores?.[0],
-  //   [post.postScores]
-  // );
   const hasVoted = React.useMemo(
     () => postScore?.userId === currentUser?.id,
     [postScore, currentUser]
@@ -67,8 +60,8 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
   });
 
   React.useEffect(() => {
-    setPostVoteCount(post.score);
-  }, [post.score]);
+    setPostVoteCount(post?.score);
+  }, [post?.score]);
 
   const handleVoteClick = (directionToChange: string) => {
     let direction;
@@ -112,7 +105,7 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
           </button>
         )}
         <span
-          className={`text-sm mr-2 font-semibold ${
+          className={`text-xs mr-2 font-semibold ${
             hasVoted
               ? postScore?.direction === "UPVOTE"
                 ? "text-theme-blue"
@@ -150,12 +143,12 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
           </button>
         )}
       </div>
-      <Link href={`forums/${post.id}`}>
-        <a className="hover:bg-theme-gray-nav-icon-faded">
+      <Link href={`forums/${post?.id}`}>
+        <a className="hover:bg-theme-gray-nav-icon-faded rounded">
           <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
             <i className="ri-chat-1-line text-lg mr-1"></i>
-            <span className="text-sm font-medium">
-              {numberFormatter.format(post.commentsCount)} comments
+            <span className="text-xs font-medium">
+              {numberFormatter?.format(post?.commentsCount)} comments
             </span>
           </span>
         </a>

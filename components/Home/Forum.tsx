@@ -1,8 +1,8 @@
-import { Post } from "../../models/post";
+import { IPost } from "../../models/post";
 import ForumPost from "./ForumPost";
 
 interface ForumProps {
-  posts: Post[];
+  posts: IPost[];
 }
 
 export default function Forum({ posts }: ForumProps) {

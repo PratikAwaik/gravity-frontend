@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
 import Head from "next/head";
+import { getCommunityDetailPath } from "../../utils/constants";
 
 /**
  * TODO:
@@ -26,7 +27,7 @@ export default function CreateCommunity() {
       });
     },
     onCompleted: (data) => {
-      router.push(`/community/${data.createCommunity.id}`);
+      router.push(getCommunityDetailPath(data?.createCommunity?.id));
     },
   });
   const router = useRouter();
