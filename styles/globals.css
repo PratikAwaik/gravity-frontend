@@ -73,9 +73,17 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
+.required {
+  position: relative;
+}
+
 .required:after {
   content: " *";
   color: #f26771;
+  font-size: 0.75rem;
+  position: absolute;
+  right: -10px;
+  top: 2px;
 }
 
 .tooltip:hover .tooltip-text {

@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useRouter } from "next/router";
 import StorageService from "../services/storage";
-import { AUTH, PAGES } from "./constants";
+import { useRouter } from "next/router";
+import { AUTH, LOCAL_STORAGE_KEYS, PAGES } from "./constants";
 
 interface AuthContextProps {
   currentUser: any;
@@ -50,18 +50,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   const getUser = () => {
-    const user = StorageService.getItem(AUTH.LS_CURRENT_USER_KEY);
+    const user = StorageService.getItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
     if (user) return JSON.parse(user);
     return null;
   };
 
   const setUser = (user: any) => {
-    StorageService.setItem(AUTH.LS_CURRENT_USER_KEY, JSON.stringify(user));
+    StorageService.setItem(
+      LOCAL_STORAGE_KEYS.CURRENT_USER,
+      JSON.stringify(user)
+    );
     setCurrentUser(user);
   };
 
   const removeUser = () => {
-    StorageService.removeItem(AUTH.LS_CURRENT_USER_KEY);
+    StorageService.removeItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
   };
 
   const logout = () => {

@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
-import { PAGES } from "../utils/constants";
+import { LOCAL_STORAGE_KEYS, PAGES } from "../utils/constants";
 
 export default function Home() {
   const [cursor, setCursor] = useState(null);
@@ -23,10 +23,12 @@ export default function Home() {
   }, [router.pathname]);
 
   function scrollToPreviousPosition() {
-    const yPosition = window.localStorage.getItem("gravityScrollPosition");
+    const yPosition = window.localStorage.getItem(
+      LOCAL_STORAGE_KEYS.SCROLL_POSITION
+    );
     if (yPosition) {
       window.scrollTo(0, parseInt(yPosition) - 50);
-      window.localStorage.removeItem("gravityScrollPosition");
+      window.localStorage.removeItem(LOCAL_STORAGE_KEYS.SCROLL_POSITION);
     }
   }
 

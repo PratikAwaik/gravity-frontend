@@ -2,7 +2,7 @@ import * as React from "react";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
 import { MediaType, IPost, PostType } from "../../models/post";
-import { getPostDetailPath } from "../../utils/constants";
+import { getPostDetailPath, LOCAL_STORAGE_KEYS } from "../../utils/constants";
 
 interface PostBodyProps {
   post: IPost;
@@ -36,7 +36,7 @@ export default function PostBody({
 
   const storeScrollPosition = () => {
     window.localStorage.setItem(
-      "gravityScrollPosition",
+      LOCAL_STORAGE_KEYS.SCROLL_POSITION,
       window.pageYOffset.toString()
     );
   };
@@ -75,9 +75,9 @@ export default function PostBody({
         <></>
       ) : (
         <div
-          className={`text-sm forum-post-body-content font-theme-font-family-noto px-0 relative ${
-            post?.type === PostType.TEXT && "pb-2"
-          }`}
+          className={`text-sm forum-post-body-content ${
+            post?.type !== PostType.ARTICLE && "font-theme-font-family-noto"
+          } px-0 relative ${post?.type === PostType.TEXT && "pb-2"}`}
         >
           {post?.type === PostType.TEXT && (
             <div
@@ -87,32 +87,48 @@ export default function PostBody({
             />
           )}
           {post?.type === PostType.MEDIA && (
-            <>
+            <a
+              href={post?.content}
+              target="_blank"
+              className="w-full flex items-center justify-center relative overflow-hidden"
+            >
               {post?.mediaType === MediaType.IMAGE ? (
-                <img src={post?.content} alt={post?.title} />
+                <img
+                  src={post?.content}
+                  alt={post?.title}
+                  className={`object-contain max-w-full my-0 mx-auto block ${
+                    isPostDetail ? "max-h-[43.75rem]" : "max-h-[32rem]"
+                  }`}
+                  loading="lazy"
+                />
               ) : (
                 <video
                   controls
                   preload="metadata"
-                  className="w-full object-contain"
+                  className={`w-full object-contain ${
+                    isPostDetail ? "max-h-[43.75rem]" : "max-h-[32rem]"
+                  }`}
                   playsInline
                 >
                   <source src={post?.content} />
                 </video>
               )}
-            </>
+            </a>
           )}
           {post?.type === PostType.ARTICLE && (
             <div className="w-full h-full flex items-start justify-between">
               <div>
                 <Link href={getPostDetailPath(post?.id)}>
-                  <a className=" text-theme-post-title-text-color font-semibold">
+                  <a
+                    className=" text-theme-post-title-text-color"
+                    onClick={storeScrollPosition}
+                  >
                     <h3 className="text-lg font-medium mb-2 break-words">
                       {post?.title}
                     </h3>
                   </a>
                 </Link>
-                <div className="flex items-center">
+                <div className="flex items-center font-theme-font-family-noto">
                   <a
                     href={post?.content}
                     className="text-theme-link-text-color text-xs my-1 mx-2 ml-0 whitespace-nowrap w-44 flex items-center"

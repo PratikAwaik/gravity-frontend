@@ -59,7 +59,7 @@ export default function RegisterForm() {
           />
         </fieldset>
 
-        <div className="flex items-start mt-2 text-sm mb-6">
+        <div className="flex items-start mt-2 text-sm mb-6 text-theme-gray-action-icon">
           <i className="ri-information-line mr-2 text-xl"></i>
           <span>
             Usernames cannot have spaces (e.g. &quot;goodusername&quot; not

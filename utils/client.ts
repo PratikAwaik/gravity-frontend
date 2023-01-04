@@ -1,10 +1,10 @@
+import StorageService from "../services/storage";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import StorageService from "../services/storage";
-import { AUTH } from "./constants";
+import { LOCAL_STORAGE_KEYS } from "./constants";
 
 const authLink = setContext((_, { headers }) => {
-  const user = StorageService.getItem(AUTH.LS_CURRENT_USER_KEY);
+  const user = StorageService.getItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
   if (user) {
     const parsedUser = JSON.parse(user);
     return {

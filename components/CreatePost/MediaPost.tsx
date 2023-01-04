@@ -64,8 +64,7 @@ export default function MediaPost({ postData, setPostData }: MediaPostProps) {
         onChange={(e) => handleFileChange((e.target.files as FileList)[0])}
       />
       <div
-        className="flex justify-center items-center rounded border border-theme-gray-line border-dashed"
-        style={{ minHeight: "18rem" }}
+        className="flex justify-center items-center rounded border border-theme-gray-line border-dashed min-h-[18rem]"
         onDrop={handleOnDrop}
         onDragOver={(e) => e.preventDefault()}
         onDragLeave={(e) => e.preventDefault()}
@@ -87,13 +86,12 @@ export default function MediaPost({ postData, setPostData }: MediaPostProps) {
             {error && <p className="text-base text-theme-red my-3">{error}</p>}
           </div>
         ) : (
-          <div className="w-full" style={{ maxHeight: "48rem" }}>
+          <div className="w-full">
             {postData.mediaType?.includes("video") ? (
               <video
                 preload="metadata"
                 controls
-                className="w-full object-contain"
-                style={{ maxHeight: "42rem" }}
+                className="w-full object-contain max-h-[43.75rem]"
               >
                 <source src={previewSource} />
               </video>
@@ -101,8 +99,8 @@ export default function MediaPost({ postData, setPostData }: MediaPostProps) {
               <img
                 src={previewSource}
                 alt="Uploaded Image Preview"
-                className="w-full object-contain"
-                style={{ maxHeight: "42rem" }}
+                className="w-full object-contain max-h-[43.75rem]"
+                loading="lazy"
               />
             )}
             <div className="p-2 flex justify-end items-center border-t border-t-theme-gray-line">

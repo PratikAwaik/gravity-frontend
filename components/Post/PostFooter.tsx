@@ -1,12 +1,14 @@
-import { useMutation } from "@apollo/client";
-import Link from "next/link";
 import * as React from "react";
+import Link from "next/link";
+import numberFormatter from "../../utils/helpers/numberFormatter";
+import { useMutation } from "@apollo/client";
 import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
-import { IPost, PostScore } from "../../models/post";
+import { IPost, PostScore, PostType } from "../../models/post";
 import { usePostCommentsStore } from "../../stores/postComments";
 import { useAuth } from "../../utils/Auth";
 import { getPostDetailPath, PAGES } from "../../utils/constants";
-import numberFormatter from "../../utils/helpers/numberFormatter";
+import { useDisclosure } from "../../hooks/useDisclosure";
+import EditPostModal from "./EditPostModal";
 
 interface PostFooterProps {
   post: IPost;
@@ -23,9 +25,14 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
       setPostCommentsCount: s.setPostCommentsCount,
     })
   );
+  const {
+    isOpen: isEditPostModalOpen,
+    onOpen: onEditPostModalOpen,
+    onClose: onEditPostModalClose,
+  } = useDisclosure();
 
   React.useEffect(() => {
-    setPostScore(post?.postScores[0]);
+    setPostScore(post?.postScores?.[0]);
   }, [post?.postScores]);
 
   const hasVoted = React.useMemo(
@@ -167,6 +174,18 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
           </span>
         </a>
       </Link>
+      {isPostDetail && post?.type === PostType.TEXT && (
+        <button
+          type="button"
+          className="inline-flex items-center justify-center rounded-sm py-1.5 px-1 whitespace-nowrap hover:bg-theme-gray-nav-icon-faded text-xs text-theme-gray-action-icon font-medium mr-1"
+          onClick={onEditPostModalOpen}
+        >
+          Edit
+        </button>
+      )}
+      {isEditPostModalOpen && (
+        <EditPostModal onClose={onEditPostModalClose} post={post} />
+      )}
     </div>
   );
 }

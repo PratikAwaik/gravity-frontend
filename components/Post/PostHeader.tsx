@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FromNow from "./FromNow";
+import FromNow from "../Utils/FromNow";
 import { IPost } from "../../models/post";
 import {
   getCommunityDetailPath,
@@ -42,7 +42,14 @@ export default function PostHeader({ post }: PostHeaderProps) {
             </a>
           </Link>
           <FromNow date={post?.createdAt} />
-          {/* {post.updatedAt && <span className="ml-1">(edited)</span>} */}
+          {post?.updatedAt && (
+            <>
+              <span className="mini-dot"></span>
+              <span className="italic text-xs text-theme-meta-text">
+                edited <FromNow date={post?.updatedAt} />
+              </span>
+            </>
+          )}
         </div>
       </div>
     </div>

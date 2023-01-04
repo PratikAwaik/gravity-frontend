@@ -1,6 +1,6 @@
-import PostHeader from "../Utils/PostHeader";
-import PostBody from "../Utils/PostBody";
-import PostFooter from "../Utils/PostFooter";
+import PostHeader from "../Post/PostHeader";
+import PostBody from "../Post/PostBody";
+import PostFooter from "../Post/PostFooter";
 import { IPost } from "../../models/post";
 
 interface ForumPostProps {

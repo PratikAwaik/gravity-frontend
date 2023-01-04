@@ -118,7 +118,7 @@ export default function EditAndReplyCommentModal({
             </div>
           </div>
         )}
-        <div className="my-5">
+        <div className="my-2.5">
           {!toEditComment && (
             <p className="text-sm mb-2">
               Reply as{" "}

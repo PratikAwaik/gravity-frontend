@@ -16,7 +16,6 @@ export const getCommunityDetailPath = (id: string) => `/community/${id}`;
 export const getUserDetailPath = (id: string) => `/user/${id}`;
 
 export const AUTH = {
-  LS_CURRENT_USER_KEY: "__gravity_current_user__",
   PAGES: [PAGES.LOGIN, PAGES.REGISTER],
   PAGES_TO_EXCLUDE: [
     PAGES.LOGIN,
@@ -25,4 +24,9 @@ export const AUTH = {
     PAGES.COMMUNITY_DETAIL,
     PAGES.POST_DETAIL,
   ],
+};
+
+export const LOCAL_STORAGE_KEYS = {
+  CURRENT_USER: "__gravity_current_user__",
+  SCROLL_POSITION: "__gravity_scroll_position__",
 };

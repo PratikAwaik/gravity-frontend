@@ -1,8 +1,8 @@
 import Head from "next/head";
 import PostComments from "../../components/Comments/PostComments";
-import PostBody from "../../components/Utils/PostBody";
-import PostFooter from "../../components/Utils/PostFooter";
-import PostHeader from "../../components/Utils/PostHeader";
+import PostBody from "../../components/Post/PostBody";
+import PostFooter from "../../components/Post/PostFooter";
+import PostHeader from "../../components/Post/PostHeader";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { GET_POST_BY_ID } from "../../graphql/posts/query";
