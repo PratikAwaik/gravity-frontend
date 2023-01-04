@@ -16,9 +16,16 @@ export default function PostComments() {
   const { currentUser } = useAuth();
   const [editorContent, setEditorContent] = useState("");
   const [submittingComment, setSubmittingComment] = useState(false);
-  const { postComments, setPostComments } = usePostCommentsStore((s) => ({
+  const {
+    postComments,
+    setPostComments,
+    postCommentsCount,
+    setPostCommentsCount,
+  } = usePostCommentsStore((s) => ({
     postComments: s.postComments,
     setPostComments: s.setPostComments,
+    postCommentsCount: s.postCommentsCount,
+    setPostCommentsCount: s.setPostCommentsCount,
   }));
 
   const { loading, data } = useQuery(GET_ALL_POST_COMMENTS, {
@@ -34,6 +41,7 @@ export default function PostComments() {
     },
     onCompleted(data, clientOptions) {
       setPostComments([...postComments, data.createComment]);
+      setPostCommentsCount(postCommentsCount + 1);
     },
   });
 
@@ -80,7 +88,7 @@ export default function PostComments() {
           <div className="w-full flex items-center justify-end">
             <button
               type="button"
-              className={`px-4 py-1.5 rounded-3xl text-sm bg-theme-blue text-white font-medium hover:brightness-110 ${
+              className={`px-4 py-1.5 mt-2 rounded-3xl text-sm bg-theme-blue text-white font-medium hover:brightness-110 ${
                 submittingComment ? "grayscale cursor-not-allowed" : ""
               }`}
               disabled={submittingComment}

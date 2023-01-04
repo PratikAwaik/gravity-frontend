@@ -5,7 +5,7 @@ interface AvatarProps {
   user: any;
 }
 
-export default function Avatar({ size = 30, user }: AvatarProps) {
+export default function Avatar({ size = 28, user }: AvatarProps) {
   return user?.profilePic ? (
     <img
       width={size}

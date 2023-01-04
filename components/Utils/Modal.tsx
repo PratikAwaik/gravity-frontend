@@ -5,6 +5,9 @@ interface ModalProps {
   submitBtnText?: string;
   cancelBtnText?: string;
   size?: "sm" | "md" | "lg";
+  headerTitle?: string;
+  showHeader?: boolean;
+  submitBtnHoverClassName?: string;
 }
 
 export default function Modal({
@@ -14,6 +17,9 @@ export default function Modal({
   submitBtnText = "Submit",
   cancelBtnText = "Cancel",
   size = "md",
+  headerTitle,
+  showHeader = true,
+  submitBtnHoverClassName,
 }: ModalProps) {
   const sizeClasses =
     size === "sm"
@@ -54,15 +60,34 @@ export default function Modal({
             From: "opacity-100 translate-y-0 sm:scale-100"
             To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" */}
           <div
-            className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full ${sizeClasses}`}
+            className={`relative transform overflow-hidden rounded bg-white text-left shadow-xl transition-all sm:my-8 w-full ${sizeClasses}`}
           >
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              {children}
-            </div>
-            <div className="bg-gray-50 px-4 py-3 flex flex-row-reverse sm:px-6">
+            {/* Modal Header */}
+            {showHeader && (
+              <div className="w-full p-4 border-b border-b-theme-gray-line">
+                <div className="flex items-center justify-between">
+                  <p className="text-base font-medium leading-5">
+                    {headerTitle}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="flex items-center justify-center"
+                  >
+                    <i className="ri-close-line text-2xl leading-4 text-theme-gray-action-icon"></i>
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Modal Body */}
+            <div className="bg-white p-4">{children}</div>
+            {/* Modal Footer */}
+            <div className="bg-theme-gray-line px-4 py-3 flex flex-row-reverse p-4">
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-3xl border border-transparent bg-theme-blue px-4 py-1.5 text-sm font-medium text-white shadow-sm hover:brightness-110 ml-3 w-auto"
+                className={`inline-flex items-center justify-center rounded-3xl border border-transparent bg-theme-blue px-4 py-1.5 text-sm font-medium text-white shadow-sm ml-2 w-auto ${
+                  submitBtnHoverClassName ?? "hover:brightness-110"
+                }`}
                 onClick={onSubmit}
               >
                 {submitBtnText}

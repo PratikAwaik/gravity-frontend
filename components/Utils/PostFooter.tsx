@@ -3,8 +3,9 @@ import Link from "next/link";
 import * as React from "react";
 import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
 import { IPost, PostScore } from "../../models/post";
+import { usePostCommentsStore } from "../../stores/postComments";
 import { useAuth } from "../../utils/Auth";
-import { PAGES } from "../../utils/constants";
+import { getPostDetailPath, PAGES } from "../../utils/constants";
 import numberFormatter from "../../utils/helpers/numberFormatter";
 
 interface PostFooterProps {
@@ -16,6 +17,12 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
   const { currentUser } = useAuth();
   const [postVoteCount, setPostVoteCount] = React.useState<number>(0);
   const [postScore, setPostScore] = React.useState<PostScore | null>(null);
+  const { postCommentsCount, setPostCommentsCount } = usePostCommentsStore(
+    (s) => ({
+      postCommentsCount: s.postCommentsCount,
+      setPostCommentsCount: s.setPostCommentsCount,
+    })
+  );
 
   React.useEffect(() => {
     setPostScore(post?.postScores[0]);
@@ -25,6 +32,14 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
     () => postScore?.userId === currentUser?.id,
     [postScore, currentUser]
   );
+
+  React.useEffect(() => {
+    setPostVoteCount(post?.score);
+  }, [post?.score]);
+
+  React.useEffect(() => {
+    setPostCommentsCount(post?.commentsCount);
+  }, [post?.commentsCount]);
 
   const [updatePostScore] = useMutation(UPDATE_POST_SCORE, {
     // refetchQueries: [
@@ -58,10 +73,6 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
       setPostScore(updatedPostScore);
     },
   });
-
-  React.useEffect(() => {
-    setPostVoteCount(post?.score);
-  }, [post?.score]);
 
   const handleVoteClick = (directionToChange: string) => {
     let direction;
@@ -143,12 +154,15 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
           </button>
         )}
       </div>
-      <Link href={`forums/${post?.id}`}>
+      <Link href={getPostDetailPath(post?.id)}>
         <a className="hover:bg-theme-gray-nav-icon-faded rounded">
           <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
             <i className="ri-chat-1-line text-lg mr-1"></i>
             <span className="text-xs font-medium">
-              {numberFormatter?.format(post?.commentsCount)} comments
+              {numberFormatter?.format(
+                isPostDetail ? postCommentsCount : post?.commentsCount
+              )}{" "}
+              comments
             </span>
           </span>
         </a>

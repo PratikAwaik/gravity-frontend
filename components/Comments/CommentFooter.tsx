@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
-import ReplyCommentModal from "./ReplyCommentModal";
+import EditAndReplyCommentModal from "./EditAndReplyCommentModal";
+import ConfirmDeleteCommentModal from "./ConfirmDeleteCommentModal";
 import { useMutation } from "@apollo/client";
 import { UPDATE_COMMENT_SCORE } from "../../graphql/comments/mutation";
 import { useDisclosure } from "../../hooks/useDisclosure";
@@ -19,6 +20,16 @@ export default function CommentFooter({ comment }: CommentFooterProps) {
     CommentScore | null | undefined
   >(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isConfirmDeleteModalOpen,
+    onOpen: onConfirmDeleteModalOpen,
+    onClose: onConfirmDeleteModalClose,
+  } = useDisclosure();
+  const isOriginalPoster = React.useMemo(
+    () => currentUser?.id === comment?.author?.id,
+    [currentUser, comment?.author]
+  );
+  const [toEditComment, setToEditComment] = React.useState<boolean>(false);
 
   const [updateCommentScore] = useMutation(UPDATE_COMMENT_SCORE, {
     onError(error, clientOptions) {
@@ -149,15 +160,47 @@ export default function CommentFooter({ comment }: CommentFooterProps) {
           </button>
         )}
         <button
-          className="inline-flex items-center text-theme-gray-action-icon hover:bg-theme-gray-nav-icon-faded px-2 rounded"
+          className="inline-flex items-center text-theme-gray-action-icon hover:bg-theme-gray-nav-icon-faded py-1.5 px-1 rounded-sm mr-1"
           onClick={onOpen}
         >
-          <i className="ri-chat-1-line text-lg mr-1"></i>
+          <i className="ri-chat-1-line text-lg mr-1 leading-4"></i>
           <span className="text-xs font-medium">Reply</span>
         </button>
+        {isOriginalPoster && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-sm py-1.5 px-1 whitespace-nowrap hover:bg-theme-gray-nav-icon-faded text-xs text-theme-gray-action-icon font-medium mr-1"
+            onClick={() => {
+              setToEditComment(true);
+              onOpen();
+            }}
+          >
+            Edit
+          </button>
+        )}
+        {isOriginalPoster && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-sm py-1.5 px-1 whitespace-nowrap hover:bg-theme-gray-nav-icon-faded text-xs text-theme-gray-action-icon font-medium mr-1"
+            onClick={onConfirmDeleteModalOpen}
+          >
+            Delete
+          </button>
+        )}
       </div>
       {isOpen && (
-        <ReplyCommentModal commentToReply={comment} onClose={onClose} />
+        <EditAndReplyCommentModal
+          commentToReply={comment}
+          commentToEdit={comment}
+          onClose={onClose}
+          toEditComment={toEditComment}
+        />
+      )}
+      {isConfirmDeleteModalOpen && (
+        <ConfirmDeleteCommentModal
+          onClose={onConfirmDeleteModalClose}
+          comment={comment}
+        />
       )}
     </div>
   );

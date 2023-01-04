@@ -57,3 +57,22 @@ export const UPDATE_COMMENT_SCORE = gql`
     }
   }
 `;
+
+export const UPDATE_COMMENT = gql`
+  mutation UpdateComment($commentId: String!, $content: String!) {
+    updateComment(commentId: $commentId, content: $content) {
+      id
+      content
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($commentId: String!, $postId: String!) {
+    deleteComment(commentId: $commentId, postId: $postId) {
+      id
+      deleted
+    }
+  }
+`;

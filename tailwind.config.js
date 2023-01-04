@@ -17,6 +17,7 @@ module.exports = {
         "theme-blue": "#0079d3", // button background
         "theme-blue-50": "#f6fafd", // very light blue (bg for sign up button hover)
         "theme-red": "#d93a00",
+        "theme-red-light": "rgba(234,0,39,0.8)",
         "theme-post-line": "#cccccc", // border for post
         "theme-post-title-text-color": "#222222", // post title text color
         "theme-post-icon-color": "#898989", // post border on hover,

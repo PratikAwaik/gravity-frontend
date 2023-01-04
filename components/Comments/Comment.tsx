@@ -20,9 +20,21 @@ export default function Comment({ comment }: CommentProps) {
     [currentUser, comment?.author]
   );
 
-  return (
+  return comment.deleted ? (
+    <div className="w-full pl-2 py-3 pr-2">
+      <div className="flex items-center">
+        <div className="w-7 h-7 rounded-full bg-theme-gray-line"></div>
+        <div className="ml-2 flex items-center">
+          <span className="text-xs text-theme-meta-text">
+            Comment deleted by user
+          </span>
+          <span className="mini-dot"></span>
+          <FromNow date={comment?.createdAt} />
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className="w-full pl-2 pt-2 pr-2">
-      {/* header */}
       <div className="flex items-start">
         <div className="flex flex-col items-center">
           <Avatar user={comment?.author} />
@@ -41,6 +53,14 @@ export default function Comment({ comment }: CommentProps) {
             )}
             <div className="mini-dot"></div>
             <FromNow date={comment?.createdAt} />
+            {comment?.updatedAt && (
+              <>
+                <span className="mini-dot"></span>
+                <span className="italic text-xs text-theme-meta-text">
+                  edited <FromNow date={comment?.updatedAt} />
+                </span>
+              </>
+            )}
           </div>
           <div className="ml-2 mb-2">
             <div
