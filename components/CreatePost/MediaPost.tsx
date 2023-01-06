@@ -1,5 +1,5 @@
+import CustomTooltip from "../Utils/CustomTooltip";
 import { useRef, useState } from "react";
-import { Tooltip } from "react-tooltip";
 
 interface MediaPostProps {
   postData: any;
@@ -112,7 +112,7 @@ export default function MediaPost({ postData, setPostData }: MediaPostProps) {
               >
                 <i className="ri-delete-bin-6-line text-xl leading-5"></i>
               </button>
-              <Tooltip
+              <CustomTooltip
                 anchorId="submit-post-remove-file"
                 place="top"
                 content="Remove"

@@ -134,3 +134,13 @@ pre code {
 .ck-editor__editable_inline {
   min-height: 7.625rem;
 }
+
+.custom-tooltip {
+  padding: 5px 16px !important;
+  background: black !important;
+  font-size: 12px !important;
+  border-radius: 5px !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  z-index: 100;
+}

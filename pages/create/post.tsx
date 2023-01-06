@@ -1,4 +1,7 @@
 import * as React from "react";
+import Head from "next/head";
+import MediaPost from "../../components/CreatePost/MediaPost";
+import ArticlePost from "../../components/CreatePost/ArticlePost";
 import CommunityDropdown from "../../components/Community/CommunityDropdown";
 import TextPost from "../../components/CreatePost/TextPost";
 import DisplayError from "../../components/Utils/DisplayError";
@@ -6,9 +9,6 @@ import PostTabs from "../../components/CreatePost/PostTabs";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "../../graphql/posts/mutations";
-import Head from "next/head";
-import MediaPost from "../../components/CreatePost/MediaPost";
-import ArticlePost from "../../components/CreatePost/ArticlePost";
 import { getPostDetailPath } from "../../utils/constants";
 
 export default function CreatePost() {

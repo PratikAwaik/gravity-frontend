@@ -1,9 +1,9 @@
 import * as React from "react";
 import Link from "next/link";
+import CustomTooltip from "../Utils/CustomTooltip";
 import { useRouter } from "next/router";
 import { PAGES } from "../../utils/constants";
 import { useAuth } from "../../utils/Auth";
-import { Tooltip } from "react-tooltip";
 
 export default function Icons() {
   const router = useRouter();
@@ -13,33 +13,26 @@ export default function Icons() {
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative tooltip ${
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
             router.pathname === PAGES.INDEX && "bg-theme-gray-nav-icon-faded"
           }`}
           id="gravity-home"
         >
           <i className="ri-home-smile-2-line text-xl"></i>
-          <Tooltip anchorId="gravity-home" place="bottom" content="Home" />
+          <CustomTooltip anchorId="gravity-home" content="Home" />
         </a>
       </Link>
 
       <Link href={PAGES.CREATE_POST}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded tooltip relative ${
+          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
             router.pathname === PAGES.CREATE_POST &&
             "bg-theme-gray-nav-icon-faded"
           }`}
           id="gravity-submit-post"
         >
           <i className="ri-pencil-fill text-xl"></i>
-          {/* <span className="invisible w-fit text-xs bg-gray-800 text-white text-center rounded-md p-1 px-3 absolute bottom-3/4 -left-1/2 -mb-16 z-20 whitespace-nowrap tooltip-text after:content-[' '] after:absolute after:bottom-full after:left-1/2 after:-ml-1 after:border-4 after:border-solid after:border-t-transparent after:border-r-transparent after:border-b-black after:border-l-transparent">
-            Create Post
-          </span> */}
-          <Tooltip
-            anchorId="gravity-submit-post"
-            content="Create Post"
-            place="bottom"
-          />
+          <CustomTooltip anchorId="gravity-submit-post" content="Create Post" />
         </a>
       </Link>
     </div>

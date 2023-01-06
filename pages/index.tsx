@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Forum from "../components/Home/Forum";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
+import StorageService from "../services/storage";
 import { useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -8,10 +9,9 @@ import { GET_ALL_POSTS } from "../graphql/posts/query";
 import { LOCAL_STORAGE_KEYS, PAGES } from "../utils/constants";
 
 export default function Home() {
-  const [cursor, setCursor] = useState(null);
-  const { loading, data } = useQuery(GET_ALL_POSTS, {
+  const { loading, data, fetchMore } = useQuery(GET_ALL_POSTS, {
     variables: {
-      cursor: cursor,
+      pageNo: 0,
     },
   });
   const router = useRouter();
@@ -23,12 +23,12 @@ export default function Home() {
   }, [router.pathname]);
 
   function scrollToPreviousPosition() {
-    const yPosition = window.localStorage.getItem(
+    const yPosition = StorageService.getItem(
       LOCAL_STORAGE_KEYS.SCROLL_POSITION
     );
     if (yPosition) {
       window.scrollTo(0, parseInt(yPosition) - 50);
-      window.localStorage.removeItem(LOCAL_STORAGE_KEYS.SCROLL_POSITION);
+      StorageService.removeItem(LOCAL_STORAGE_KEYS.SCROLL_POSITION);
     }
   }
 
@@ -41,7 +41,7 @@ export default function Home() {
         <div className="py-5 px-6 flex items-center justify-center">
           <div className="forum max-w-3xl h-full">
             <LoadingWrapper isLoading={loading}>
-              <Forum posts={data?.allPosts ?? []} />
+              <Forum serverPosts={data?.allPosts ?? []} fetchMore={fetchMore} />
             </LoadingWrapper>
           </div>
         </div>

@@ -1,8 +1,8 @@
-export default function CommunityDetail({
-  communityId,
-}: {
+interface CommunityDetailProps {
   communityId: string;
-}) {
+}
+
+export default function CommunityDetail({ communityId }: CommunityDetailProps) {
   console.log(communityId);
   return <></>;
 }
