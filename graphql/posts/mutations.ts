@@ -3,6 +3,8 @@ import { gql } from "@apollo/client";
 export const UPDATE_POST_SCORE = gql`
   mutation UpdatePostScore($postId: String!, $direction: Direction!) {
     updatePostScore(postId: $postId, direction: $direction) {
+      id
+      score
       postScores {
         userId
         direction
@@ -49,6 +51,7 @@ export const UPDATE_POST = gql`
     updatePost(postId: $postId, content: $content) {
       id
       content
+      updatedAt
     }
   }
 `;

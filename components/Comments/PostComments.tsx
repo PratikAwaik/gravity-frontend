@@ -5,28 +5,20 @@ import CommentsContainer from "./CommentsContainer";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CREATE_COMMENT } from "../../graphql/comments/mutation";
+import {
+  CREATE_COMMENT,
+  CREATE_COMMENT_FRAGMENT,
+} from "../../graphql/comments/mutation";
 import { GET_ALL_POST_COMMENTS } from "../../graphql/comments/query";
 import { useAuth } from "../../utils/Auth";
-import { usePostCommentsStore } from "../../stores/postComments";
 import { getUserDetailPath } from "../../utils/constants";
+import { TypeNames } from "../../models/utils";
 
 export default function PostComments() {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [editorContent, setEditorContent] = useState("");
   const [submittingComment, setSubmittingComment] = useState(false);
-  const {
-    postComments,
-    setPostComments,
-    postCommentsCount,
-    setPostCommentsCount,
-  } = usePostCommentsStore((s) => ({
-    postComments: s.postComments,
-    setPostComments: s.setPostComments,
-    postCommentsCount: s.postCommentsCount,
-    setPostCommentsCount: s.setPostCommentsCount,
-  }));
 
   const { loading, data } = useQuery(GET_ALL_POST_COMMENTS, {
     variables: {
@@ -36,20 +28,35 @@ export default function PostComments() {
   });
 
   const [createComment] = useMutation(CREATE_COMMENT, {
+    update: (cache, { data: { createComment } }) => {
+      cache.modify({
+        fields: {
+          allComments(existingComments = []) {
+            const newCommentRef = cache.writeFragment({
+              data: createComment,
+              fragment: CREATE_COMMENT_FRAGMENT,
+            });
+            return [...existingComments, newCommentRef];
+          },
+        },
+      });
+
+      cache.modify({
+        id: cache.identify({
+          __typename: TypeNames.POST,
+          id: createComment?.postId,
+        }),
+        fields: {
+          commentsCount(existingCommentsCount = 0) {
+            return existingCommentsCount + 1;
+          },
+        },
+      });
+    },
     onError(error, clientOptions) {
       // set error
     },
-    onCompleted(data, clientOptions) {
-      setPostComments([...postComments, data.createComment]);
-      setPostCommentsCount(postCommentsCount + 1);
-    },
   });
-
-  React.useEffect(() => {
-    if (data?.allComments) {
-      setPostComments(data?.allComments);
-    }
-  }, [data?.allComments]);
 
   const handleCreateCommentClick = () => {
     if (!editorContent) return;
@@ -100,7 +107,7 @@ export default function PostComments() {
         </div>
       )}
       <div className="w-full h-0.5 border-b border-b-theme-gray-line my-4"></div>
-      <CommentsContainer />
+      <CommentsContainer allComments={data?.allComments} />
     </div>
   );
 }

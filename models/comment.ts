@@ -7,7 +7,7 @@ export interface IComment {
     username: string;
   };
   children: IComment[];
-  commentScores: CommentScore[] | null;
+  commentScores: ICommentScore[] | null;
   content: string;
   createdAt: string;
   deleted: boolean;
@@ -18,7 +18,7 @@ export interface IComment {
   updatedAt: string;
 }
 
-export interface CommentScore {
+export interface ICommentScore {
   userId: string;
   direction: Direction;
 }

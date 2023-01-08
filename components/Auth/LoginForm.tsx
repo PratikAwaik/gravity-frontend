@@ -1,6 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import DisplayError from "../Utils/DisplayError";
+import client from "../../utils/client";
 import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { LOGIN_USER } from "../../graphql/users/mutations";
@@ -20,6 +21,7 @@ export default function LoginForm() {
     onCompleted(data) {
       const user = data.loginUser;
       auth.setUser(user);
+      client.resetStore();
       router.replace(PAGES.INDEX);
     },
   });

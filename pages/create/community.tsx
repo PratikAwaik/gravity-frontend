@@ -61,7 +61,7 @@ export default function CreateCommunity() {
                 Name
               </label>
               <div className="w-full flex items-center text-sm border border-theme-gray-line rounded-md hover:border-theme-nav-icon focus-within:border-theme-nav-icon">
-                <span className="pl-4 text-sm">r/</span>
+                <span className="pl-4 text-sm">c/</span>
                 <input
                   onChange={({ target }) =>
                     setSubreddit({ ...subreddit, name: target.value })

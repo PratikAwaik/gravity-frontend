@@ -31,7 +31,7 @@ export default function PostDetails() {
       >
         <div className="w-full p-3">
           <PostHeader post={post} />
-          <PostBody post={post} isPostDetail={true} toEdit={false} />
+          <PostBody post={post} isPostDetail={true} />
           <PostFooter post={post} isPostDetail={true} />
           <PostComments />
         </div>

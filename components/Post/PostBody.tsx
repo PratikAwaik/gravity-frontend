@@ -1,21 +1,16 @@
 import * as React from "react";
 import Link from "next/link";
 import DOMPurify from "isomorphic-dompurify";
-import StorageService from "../../services/storage";
 import { MediaType, IPost, PostType } from "../../models/post";
-import { getPostDetailPath, LOCAL_STORAGE_KEYS } from "../../utils/constants";
+import { getPostDetailPath } from "../../utils/constants";
+import { storeScrollPosition } from "../../utils/helpers/posts";
 
 interface PostBodyProps {
   post: IPost;
   isPostDetail: boolean;
-  toEdit: boolean;
 }
 
-export default function PostBody({
-  post,
-  isPostDetail,
-  toEdit,
-}: PostBodyProps) {
+export default function PostBody({ post, isPostDetail }: PostBodyProps) {
   const contentStyle = {
     maskImage:
       post?.type !== PostType.MEDIA && post?.type !== PostType.ARTICLE
@@ -31,13 +26,6 @@ export default function PostBody({
         : post?.type === PostType.TEXT
         ? "15.625rem"
         : "fit-content",
-  };
-
-  const storeScrollPosition = () => {
-    StorageService.setItem(
-      LOCAL_STORAGE_KEYS.SCROLL_POSITION,
-      window.pageYOffset.toString()
-    );
   };
 
   return (

@@ -1,16 +1,16 @@
 import LoadingIcon from "../Utils/LoadingIcon";
-import ForumPost from "./ForumPost";
-import { useEffect, useRef, useState } from "react";
+import FeedPost from "./FeedPost";
+import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { IPost } from "../../models/post";
 import { usePostsStore } from "../../stores/posts";
 
-interface ForumProps {
+interface FeedProps {
   serverPosts: IPost[];
   fetchMore: Function;
 }
 
-export default function Forum({ serverPosts, fetchMore }: ForumProps) {
+export default function Feed({ serverPosts, fetchMore }: FeedProps) {
   const ref = useRef(null);
   const isIntersecting = useIntersectionObserver(ref, { threshold: 0.5 });
   const { homePageNo, setHomePageNo, hasMore, setHasMore } = usePostsStore(
@@ -39,7 +39,7 @@ export default function Forum({ serverPosts, fetchMore }: ForumProps) {
   return (
     <div className="w-full">
       {serverPosts?.map((post: any) => (
-        <ForumPost post={post} key={post.id} />
+        <FeedPost post={post} key={post.id} />
       ))}
       {hasMore ? (
         <LoadingIcon ref={ref} />

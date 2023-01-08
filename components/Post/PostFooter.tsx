@@ -1,14 +1,14 @@
 import * as React from "react";
 import Link from "next/link";
+import EditPostModal from "./EditPostModal";
 import numberFormatter from "../../utils/helpers/numberFormatter";
 import { useMutation } from "@apollo/client";
 import { UPDATE_POST_SCORE } from "../../graphql/posts/mutations";
-import { IPost, PostScore, PostType } from "../../models/post";
-import { usePostCommentsStore } from "../../stores/postComments";
+import { IPost, PostType } from "../../models/post";
 import { useAuth } from "../../utils/Auth";
 import { getPostDetailPath, PAGES } from "../../utils/constants";
 import { useDisclosure } from "../../hooks/useDisclosure";
-import EditPostModal from "./EditPostModal";
+import { storeScrollPosition } from "../../utils/helpers/posts";
 
 interface PostFooterProps {
   post: IPost;
@@ -17,67 +17,38 @@ interface PostFooterProps {
 
 export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
   const { currentUser } = useAuth();
-  const [postVoteCount, setPostVoteCount] = React.useState<number>(0);
-  const [postScore, setPostScore] = React.useState<PostScore | null>(null);
-  const { postCommentsCount, setPostCommentsCount } = usePostCommentsStore(
-    (s) => ({
-      postCommentsCount: s.postCommentsCount,
-      setPostCommentsCount: s.setPostCommentsCount,
-    })
-  );
   const {
     isOpen: isEditPostModalOpen,
     onOpen: onEditPostModalOpen,
     onClose: onEditPostModalClose,
   } = useDisclosure();
 
-  React.useEffect(() => {
-    setPostScore(post?.postScores?.[0]);
-  }, [post?.postScores]);
+  const postScore = React.useMemo(
+    () => post?.postScores?.[0],
+    [post?.postScores]
+  );
 
   const hasVoted = React.useMemo(
     () => postScore?.userId === currentUser?.id,
     [postScore, currentUser]
   );
 
-  React.useEffect(() => {
-    setPostVoteCount(post?.score);
-  }, [post?.score]);
-
-  React.useEffect(() => {
-    setPostCommentsCount(post?.commentsCount);
-  }, [post?.commentsCount]);
-
   const [updatePostScore] = useMutation(UPDATE_POST_SCORE, {
-    // refetchQueries: [
-    //   { query: queryToRefetch, variables: queryVariables ?? {} },
-    // ],
+    update(cache, { data: { updatePostScore } }) {
+      cache.modify({
+        id: cache.identify(updatePostScore),
+        fields: {
+          postScores() {
+            return updatePostScore?.postScores;
+          },
+          score() {
+            return updatePostScore?.score;
+          },
+        },
+      });
+    },
     onError(error, clientOptions?) {
       // set error
-    },
-    onCompleted(data, clientOptions) {
-      const updatedPostScore = data.updatePostScore.postScores[0];
-
-      if (postScore?.direction === "UPVOTE" && !updatedPostScore) {
-        setPostVoteCount(postVoteCount - 1);
-      } else if (postScore?.direction === "DOWNVOTE" && !updatedPostScore) {
-        setPostVoteCount(postVoteCount + 1);
-      } else if (
-        postScore?.direction === "UPVOTE" &&
-        updatedPostScore.direction === "DOWNVOTE"
-      ) {
-        setPostVoteCount(postVoteCount - 2);
-      } else if (
-        postScore?.direction === "DOWNVOTE" &&
-        updatedPostScore.direction === "UPVOTE"
-      ) {
-        setPostVoteCount(postVoteCount + 2);
-      } else if (!postScore && updatedPostScore.direction === "UPVOTE") {
-        setPostVoteCount(postVoteCount + 1);
-      } else if (!postScore && updatedPostScore.direction === "DOWNVOTE") {
-        setPostVoteCount(postVoteCount - 1);
-      }
-      setPostScore(updatedPostScore);
     },
   });
 
@@ -133,7 +104,7 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
               : ""
           }`}
         >
-          {postVoteCount === 0 ? "Vote" : postVoteCount}
+          {post?.score === 0 ? "Vote" : post?.score}
         </span>
         {!currentUser ? (
           <Link href={PAGES.LOGIN}>
@@ -162,14 +133,14 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
         )}
       </div>
       <Link href={getPostDetailPath(post?.id)}>
-        <a className="hover:bg-theme-gray-nav-icon-faded rounded">
+        <a
+          className="hover:bg-theme-gray-nav-icon-faded rounded"
+          onClick={storeScrollPosition}
+        >
           <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
             <i className="ri-chat-1-line text-lg mr-1"></i>
             <span className="text-xs font-medium">
-              {numberFormatter?.format(
-                isPostDetail ? postCommentsCount : post?.commentsCount
-              )}{" "}
-              comments
+              {numberFormatter?.format(post?.commentsCount)} comments
             </span>
           </span>
         </a>

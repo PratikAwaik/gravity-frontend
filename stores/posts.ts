@@ -6,6 +6,8 @@ interface IPostsStore {
   setHomePageNo: (homePageNo: number) => void;
   homeHasMore: boolean;
   setHomeHasMore: (homeHasMore: boolean) => void;
+  feed: IPost[];
+  setFeed: (feed: IPost[]) => void;
 }
 
 export const usePostsStore = create<IPostsStore>((set) => ({
@@ -13,4 +15,6 @@ export const usePostsStore = create<IPostsStore>((set) => ({
   setHomePageNo: (homePageNo: number) => set({ homePageNo }),
   homeHasMore: true,
   setHomeHasMore: (homeHasMore: boolean) => set({ homeHasMore }),
+  feed: [],
+  setFeed: (feed: IPost[]) => set({ feed }),
 }));

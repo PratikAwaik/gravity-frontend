@@ -4,7 +4,7 @@ import { IPost } from "../../models/post";
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { UPDATE_POST } from "../../graphql/posts/mutations";
-import { GET_POST_BY_ID } from "../../graphql/posts/query";
+import { TypeNames } from "../../models/utils";
 
 interface EditPostModalProps {
   onClose: () => void;
@@ -14,9 +14,22 @@ interface EditPostModalProps {
 export default function EditPostModal({ onClose, post }: EditPostModalProps) {
   const [editorContent, setEditorContent] = useState<string>("");
   const [updatePost] = useMutation(UPDATE_POST, {
-    refetchQueries: [
-      { query: GET_POST_BY_ID, variables: { postId: post?.id } },
-    ],
+    update: (cache, { data: { updatePost } }) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: TypeNames.POST,
+          id: post?.id,
+        }),
+        fields: {
+          content() {
+            return updatePost?.content;
+          },
+          editedAt() {
+            return updatePost?.updatedAt;
+          },
+        },
+      });
+    },
     onError(error, clientOptions?) {},
     onCompleted(data, clientOptions) {
       onClose();

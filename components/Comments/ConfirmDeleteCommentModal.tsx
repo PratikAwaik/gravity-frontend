@@ -1,9 +1,8 @@
+import Modal from "../Utils/Modal";
 import { useMutation } from "@apollo/client";
 import { DELETE_COMMENT } from "../../graphql/comments/mutation";
 import { IComment } from "../../models/comment";
-import { usePostCommentsStore } from "../../stores/postComments";
-import { updateChildInTrees } from "../../utils/helpers/comments";
-import Modal from "../Utils/Modal";
+import { TypeNames } from "../../models/utils";
 
 interface ConfirmDeleteCommentModalProps {
   onClose: () => void;
@@ -14,28 +13,33 @@ export default function ConfirmDeleteCommentModal({
   onClose,
   comment,
 }: ConfirmDeleteCommentModalProps) {
-  const {
-    postComments,
-    setPostComments,
-    postCommentsCount,
-    setPostCommentsCount,
-  } = usePostCommentsStore((s) => ({
-    postComments: s.postComments,
-    setPostComments: s.setPostComments,
-    postCommentsCount: s.postCommentsCount,
-    setPostCommentsCount: s.setPostCommentsCount,
-  }));
-
   const [deleteComment] = useMutation(DELETE_COMMENT, {
+    update: (cache, { data: { deleteComment } }) => {
+      cache.modify({
+        id: cache.identify(deleteComment),
+        fields: {
+          deleted() {
+            return true;
+          },
+        },
+      });
+
+      cache.modify({
+        id: cache.identify({
+          __typename: TypeNames.POST,
+          id: deleteComment?.postId,
+        }),
+        fields: {
+          commentsCount(existingCommentsCount = 0) {
+            return existingCommentsCount - 1;
+          },
+        },
+      });
+    },
     onError(error, clientOptions) {
       // set error
     },
     onCompleted(data) {
-      // set success
-      const newComments = JSON.parse(JSON.stringify(postComments));
-      updateChildInTrees(newComments, data.deleteComment, true, false);
-      setPostComments(newComments);
-      setPostCommentsCount(postCommentsCount - 1);
       onClose();
     },
   });

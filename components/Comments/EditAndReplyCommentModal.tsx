@@ -8,14 +8,11 @@ import { useAuth } from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import {
   CREATE_COMMENT,
+  CREATE_COMMENT_FRAGMENT,
   UPDATE_COMMENT,
 } from "../../graphql/comments/mutation";
-import { usePostCommentsStore } from "../../stores/postComments";
 import { getUserDetailPath } from "../../utils/constants";
-import {
-  insertChildInTrees,
-  updateChildInTrees,
-} from "../../utils/helpers/comments";
+import { TypeNames } from "../../models/utils";
 
 interface ReplyCommentModalProps {
   onClose: () => void;
@@ -32,39 +29,63 @@ export default function EditAndReplyCommentModal({
 }: ReplyCommentModalProps) {
   const [editorContent, setEditorContent] = React.useState("");
   const { currentUser } = useAuth();
-  const {
-    postComments,
-    setPostComments,
-    postCommentsCount,
-    setPostCommentsCount,
-  } = usePostCommentsStore((s) => ({
-    postComments: s.postComments,
-    setPostComments: s.setPostComments,
-    postCommentsCount: s.postCommentsCount,
-    setPostCommentsCount: s.setPostCommentsCount,
-  }));
 
   const [createComment] = useMutation(CREATE_COMMENT, {
+    update: (cache, { data: { createComment } }) => {
+      cache.modify({
+        id: cache.identify({
+          __typename: TypeNames.COMMENT,
+          id: commentToReply?.id,
+        }),
+        fields: {
+          children(existingChildren = []) {
+            const newChildRef = cache.writeFragment({
+              data: createComment,
+              fragment: CREATE_COMMENT_FRAGMENT,
+            });
+            return [...existingChildren, newChildRef];
+          },
+        },
+      });
+
+      cache.modify({
+        id: cache.identify({
+          __typename: TypeNames.POST,
+          id: createComment?.postId,
+        }),
+        fields: {
+          commentsCount(existingCommentsCount = 0) {
+            return existingCommentsCount + 1;
+          },
+        },
+      });
+    },
     onError(error, clientOptions) {
       // set error
     },
-    onCompleted(data) {
-      const commentsCopy = JSON.parse(JSON.stringify(postComments));
-      insertChildInTrees(commentsCopy, commentToReply.id, data.createComment);
-      setPostComments(commentsCopy);
-      setPostCommentsCount(postCommentsCount + 1);
+    onCompleted() {
       onClose();
     },
   });
 
   const [updateComment] = useMutation(UPDATE_COMMENT, {
+    update: (cache, { data: { updateComment } }) => {
+      cache.modify({
+        id: cache.identify(updateComment),
+        fields: {
+          content() {
+            return updateComment?.content;
+          },
+          updatedAt() {
+            return updateComment?.updatedAt;
+          },
+        },
+      });
+    },
     onError(error, clientOptions) {
       // set error
     },
     onCompleted(data) {
-      const commentsCopy = JSON.parse(JSON.stringify(postComments));
-      updateChildInTrees(commentsCopy, data?.updateComment, false, true);
-      setPostComments(commentsCopy);
       onClose();
     },
   });

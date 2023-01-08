@@ -5,7 +5,7 @@ import ConfirmDeleteCommentModal from "./ConfirmDeleteCommentModal";
 import { useMutation } from "@apollo/client";
 import { UPDATE_COMMENT_SCORE } from "../../graphql/comments/mutation";
 import { useDisclosure } from "../../hooks/useDisclosure";
-import { CommentScore, IComment } from "../../models/comment";
+import { IComment } from "../../models/comment";
 import { useAuth } from "../../utils/Auth";
 import { PAGES } from "../../utils/constants";
 
@@ -15,10 +15,6 @@ interface CommentFooterProps {
 
 export default function CommentFooter({ comment }: CommentFooterProps) {
   const { currentUser } = useAuth();
-  const [commentVoteCount, setCommentVoteCount] = React.useState<number>(0);
-  const [commentScore, setCommentScore] = React.useState<
-    CommentScore | null | undefined
-  >(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isConfirmDeleteModalOpen,
@@ -30,50 +26,33 @@ export default function CommentFooter({ comment }: CommentFooterProps) {
     [currentUser, comment?.author]
   );
   const [toEditComment, setToEditComment] = React.useState<boolean>(false);
+  const commentScore = React.useMemo(
+    () => comment?.commentScores?.[0],
+    [comment?.commentScores]
+  );
+  const commentVoteCount = React.useMemo(
+    () => comment?.score,
+    [comment?.score]
+  );
 
   const [updateCommentScore] = useMutation(UPDATE_COMMENT_SCORE, {
+    update: (cache, { data: { updateCommentScore } }) => {
+      cache.modify({
+        id: cache.identify(updateCommentScore),
+        fields: {
+          commentScores() {
+            return updateCommentScore?.commentScores;
+          },
+          score() {
+            return updateCommentScore?.score;
+          },
+        },
+      });
+    },
     onError(error, clientOptions) {
       // set error
     },
-    onCompleted(data, clientOptions) {
-      const updatedCommentScore = data.updateCommentScore.commentScores[0];
-
-      if (commentScore?.direction === "UPVOTE" && !updatedCommentScore) {
-        setCommentVoteCount(commentVoteCount - 1);
-      } else if (
-        commentScore?.direction === "DOWNVOTE" &&
-        !updatedCommentScore
-      ) {
-        setCommentVoteCount(commentVoteCount + 1);
-      } else if (
-        commentScore?.direction === "UPVOTE" &&
-        updatedCommentScore.direction === "DOWNVOTE"
-      ) {
-        setCommentVoteCount(commentVoteCount - 2);
-      } else if (
-        commentScore?.direction === "DOWNVOTE" &&
-        updatedCommentScore.direction === "UPVOTE"
-      ) {
-        setCommentVoteCount(commentVoteCount + 2);
-      } else if (!commentScore && updatedCommentScore.direction === "UPVOTE") {
-        setCommentVoteCount(commentVoteCount + 1);
-      } else if (
-        !commentScore &&
-        updatedCommentScore.direction === "DOWNVOTE"
-      ) {
-        setCommentVoteCount(commentVoteCount - 1);
-      }
-      setCommentScore(updatedCommentScore);
-    },
   });
-
-  React.useEffect(() => {
-    setCommentScore(comment?.commentScores?.[0]);
-  }, [comment?.commentScores]);
-
-  React.useEffect(() => {
-    setCommentVoteCount(comment?.score);
-  }, [comment?.score]);
 
   const hasVoted = React.useMemo(
     () => commentScore?.userId === currentUser?.id,
