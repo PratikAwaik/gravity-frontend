@@ -1,3 +1,4 @@
+import { ICommunity } from "./community";
 import { Direction } from "./utils";
 
 export enum PostType {
@@ -21,11 +22,7 @@ export interface IPost {
     id: string;
     prefixedName: string;
   };
-  community: {
-    id: string;
-    prefixedName: string;
-    icon: string;
-  };
+  community: ICommunity;
   postScores: [PostScore];
   type: PostType;
   mediaType: MediaType;

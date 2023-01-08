@@ -15,6 +15,10 @@ export const GET_ALL_POSTS = gql`
         id
         prefixedName
         icon
+        members {
+          id
+          username
+        }
       }
       postScores {
         userId

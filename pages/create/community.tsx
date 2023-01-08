@@ -2,7 +2,7 @@ import * as React from "react";
 import DisplayError from "../../components/Utils/DisplayError";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import { CREATE_SUBREDDIT } from "../../graphql/community/mutations";
+import { CREATE_COMMUNITY } from "../../graphql/community/mutations";
 import Head from "next/head";
 import { getCommunityDetailPath } from "../../utils/constants";
 
@@ -19,7 +19,7 @@ export default function CreateCommunity() {
     icon: null,
   });
   const [error, setError] = React.useState<Record<string, string> | null>(null);
-  const [createSubreddit] = useMutation(CREATE_SUBREDDIT, {
+  const [createSubreddit] = useMutation(CREATE_COMMUNITY, {
     onError: (error) => {
       setError({
         message: error.graphQLErrors[0].message,
