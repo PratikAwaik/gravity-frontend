@@ -10,6 +10,7 @@ import { ApolloError, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_POST } from "../../graphql/posts/mutations";
 import { getPostDetailPath } from "../../utils/constants";
+import { PostType } from "../../models/post";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -59,6 +60,12 @@ export default function CreatePost() {
     }
   }, [selectedCommunity]);
 
+  React.useEffect(() => {
+    if (router?.query?.tab) {
+      setCurrentTab((router?.query?.tab as string).toUpperCase());
+    }
+  }, [router?.query?.tab]);
+
   // increase title textarea height when content increases
   const textAreaChangeHandler = () => {
     const { current } = titleTextareaRef;
@@ -100,10 +107,7 @@ export default function CreatePost() {
           <div className="w-full h-0.5 border border-b-theme-gray-line"></div>
         </div>
 
-        <CommunityDropdown
-          selectedCommunity={selectedCommunity}
-          setSelectedCommunity={setSelectedCommunity}
-        />
+        <CommunityDropdown setSelectedCommunity={setSelectedCommunity} />
         <form className="bg-white rounded-md" onSubmit={handlePostSubmit}>
           <PostTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
           <div className="m-4 mb-0">
@@ -126,13 +130,13 @@ export default function CreatePost() {
             </div>
           </div>
 
-          {currentTab === "TEXT" && (
+          {currentTab === PostType.TEXT && (
             <TextPost postData={postData} setPostData={setPostData} />
           )}
-          {currentTab === "MEDIA" && (
+          {currentTab === PostType.MEDIA && (
             <MediaPost postData={postData} setPostData={setPostData} />
           )}
-          {currentTab === "ARTICLE" && (
+          {currentTab === PostType.ARTICLE && (
             <ArticlePost postData={postData} setPostData={setPostData} />
           )}
 

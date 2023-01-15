@@ -1,4 +1,5 @@
 import { ICommunity } from "./community";
+import { IUser } from "./user";
 import { Direction } from "./utils";
 
 export enum PostType {
@@ -18,10 +19,7 @@ export interface IPost {
   content: string;
   score: number;
   // should be of type Author/User
-  author: {
-    id: string;
-    prefixedName: string;
-  };
+  author: IUser;
   community: ICommunity;
   postScores: [PostScore];
   type: PostType;

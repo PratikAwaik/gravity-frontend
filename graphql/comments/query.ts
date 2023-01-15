@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const GET_ALL_POST_COMMENTS = gql`
+export const CommentDetailsFragment = gql`
   fragment CommentDetailsFragment on Comment {
     author {
       id
@@ -20,7 +20,10 @@ export const GET_ALL_POST_COMMENTS = gql`
       direction
     }
   }
+`;
 
+export const GET_ALL_POST_COMMENTS = gql`
+  ${CommentDetailsFragment}
   query GetAllPostComments($postId: String!, $parentId: String) {
     allComments(postId: $postId, parentId: $parentId) {
       ${getNestedCommentsQuery("...CommentDetailsFragment")}

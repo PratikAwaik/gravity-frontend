@@ -23,7 +23,8 @@ module.exports = {
         "theme-post-icon-color": "#898989", // post border on hover,
         "theme-link-text-color": "#3f9ade", // link text color
         "theme-meta-text": "#7c7c7c",
-        "theme-button": "#0f1923", // hover on comment threadline
+        "theme-button": "#0f1923", // hover on comment threadline,
+        "theme-community-banner": "#33a8ff", // community banner
       },
       fontFamily: {
         "theme-font-family": "'IBM Plex Sans',sans-serif",

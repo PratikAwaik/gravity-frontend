@@ -1,13 +1,13 @@
 import fromnow from "fromnow";
 
 interface FromNowProps {
-  date: string;
+  date: number;
 }
 
 export default function FromNow({ date }: FromNowProps) {
   return (
     <span className="text-xs text-theme-meta-text">
-      {fromnow(parseInt(date), { max: 1, suffix: true })}
+      {fromnow(date, { max: 1, suffix: true })}
     </span>
   );
 }

@@ -11,9 +11,9 @@ export const PAGES = {
 
 export const getPostDetailPath = (id: string) => `/posts/${id}`;
 
-export const getCommunityDetailPath = (id: string) => `/community/${id}`;
+export const getCommunityDetailPath = (name: string) => `/community/${name}`;
 
-export const getUserDetailPath = (id: string) => `/user/${id}`;
+export const getUserDetailPath = (name: string) => `/user/${name}`;
 
 export const AUTH = {
   PAGES: [PAGES.LOGIN, PAGES.REGISTER],

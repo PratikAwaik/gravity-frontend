@@ -9,10 +9,12 @@ export const GET_ALL_POSTS = gql`
       score
       author {
         id
+        username
         prefixedName
       }
       community {
         id
+        name
         prefixedName
         icon
         members {
@@ -43,10 +45,12 @@ export const GET_POST_BY_ID = gql`
       score
       author {
         id
+        username
         prefixedName
       }
       community {
         id
+        name
         prefixedName
         icon
       }

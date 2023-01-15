@@ -5,6 +5,7 @@ export const LOGIN_USER = gql`
     loginUser(username: $username, password: $password) {
       id
       username
+      profilePic
       token {
         value
       }
@@ -17,6 +18,7 @@ export const REGISTER_USER = gql`
     registerUser(username: $username, email: $email, password: $password) {
       id
       username
+      profilePic
       token {
         value
       }

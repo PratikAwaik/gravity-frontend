@@ -34,10 +34,12 @@ export const CREATE_POST = gql`
       commentsCount
       author {
         id
+        username
         prefixedName
       }
       community {
         id
+        name
         prefixedName
       }
       createdAt

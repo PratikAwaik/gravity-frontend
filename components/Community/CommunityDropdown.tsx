@@ -1,15 +1,14 @@
 import { useQuery } from "@apollo/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import * as React from "react";
 import { GET_USER_SUBSCRIPTIONS } from "../../graphql/users/query";
 
 interface CommunityDropdownProps {
-  selectedCommunity: any;
   setSelectedCommunity: React.Dispatch<React.SetStateAction<any>>;
 }
 
 export default function CommunityDropdown({
-  selectedCommunity,
   setSelectedCommunity,
 }: CommunityDropdownProps) {
   const { data } = useQuery(GET_USER_SUBSCRIPTIONS);
@@ -17,6 +16,7 @@ export default function CommunityDropdown({
   const [searchText, setSearchText] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   React.useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -26,8 +26,20 @@ export default function CommunityDropdown({
   }, []);
 
   React.useEffect(() => {
-    setSearchResults(data?.userSubscriptions);
-  }, [data?.userSubscriptions]);
+    if (data?.userSubscriptions) setSearchResults(data?.userSubscriptions);
+
+    if (router?.query?.community) {
+      const community = data?.userSubscriptions?.find(
+        (sub: any) =>
+          sub?.name?.toLowerCase() ===
+          (router?.query?.community as string).toLowerCase()
+      );
+      if (community) {
+        setSelectedCommunity(community);
+        setSearchText(community?.prefixedName);
+      }
+    }
+  }, [data?.userSubscriptions, router?.query?.community]);
 
   React.useEffect(() => {
     const results = data?.userSubscriptions.filter((sub: any) =>
