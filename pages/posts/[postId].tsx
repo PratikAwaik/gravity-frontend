@@ -30,9 +30,9 @@ export default function PostDetails() {
         className="mx-auto max-w-4xl bg-white relative rounded mb-3"
       >
         <div className="w-full p-3">
-          <PostHeader post={post} />
-          <PostBody post={post} isPostDetail={true} />
-          <PostFooter post={post} isPostDetail={true} />
+          <PostHeader post={post} isPostDetail />
+          <PostBody post={post} isPostDetail />
+          <PostFooter post={post} isPostDetail />
           <PostComments />
         </div>
       </div>

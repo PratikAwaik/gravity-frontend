@@ -9,6 +9,11 @@ export const GET_COMMUNITY_DETAILS = gql`
       prefixedName
       description
       membersCount
+      admin {
+        id
+        username
+        prefixedName
+      }
       createdAt
       members {
         id

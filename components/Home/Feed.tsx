@@ -8,30 +8,39 @@ import { usePostsStore } from "../../stores/posts";
 interface FeedProps {
   serverPosts: IPost[];
   fetchMore: Function;
+  pageNo: number;
+  setPageNo: (pageNo: number) => void;
+  hasMore: boolean;
+  setHasMore: (hasMore: boolean) => void;
+  isCommunityPosts?: boolean;
+  communityId?: string;
 }
 
-export default function Feed({ serverPosts, fetchMore }: FeedProps) {
+export default function Feed({
+  serverPosts,
+  fetchMore,
+  isCommunityPosts = false,
+  communityId,
+  pageNo,
+  setPageNo,
+  hasMore,
+  setHasMore,
+}: FeedProps) {
   const ref = useRef(null);
   const isIntersecting = useIntersectionObserver(ref, { threshold: 0.5 });
-  const { homePageNo, setHomePageNo, hasMore, setHasMore } = usePostsStore(
-    (state) => ({
-      homePageNo: state.homePageNo,
-      setHomePageNo: state.setHomePageNo,
-      hasMore: state.homeHasMore,
-      setHasMore: state.setHomeHasMore,
-    })
-  );
 
   useEffect(() => {
     (async () => {
-      if (isIntersecting && (hasMore || homePageNo === 0)) {
+      if (isIntersecting && (hasMore || pageNo === 0)) {
         const fetchMoreResult = await fetchMore({
           variables: {
-            pageNo: homePageNo + 1,
+            pageNo: pageNo + 1,
+            communityId: communityId,
           },
+          skip: isCommunityPosts && !communityId,
         });
         setHasMore(fetchMoreResult.data.allPosts.length === 12);
-        setHomePageNo(homePageNo + 1);
+        setPageNo(pageNo + 1);
       }
     })();
   }, [isIntersecting]);
@@ -39,7 +48,11 @@ export default function Feed({ serverPosts, fetchMore }: FeedProps) {
   return (
     <div className="w-full">
       {serverPosts?.map((post: any) => (
-        <FeedPost post={post} key={post.id} />
+        <FeedPost
+          post={post}
+          key={post.id}
+          isCommunityPosts={isCommunityPosts}
+        />
       ))}
       {hasMore ? (
         <LoadingIcon ref={ref} />

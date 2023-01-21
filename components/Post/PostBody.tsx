@@ -8,9 +8,14 @@ import { storeScrollPosition } from "../../utils/helpers/posts";
 interface PostBodyProps {
   post: IPost;
   isPostDetail: boolean;
+  isCommunityPosts?: boolean;
 }
 
-export default function PostBody({ post, isPostDetail }: PostBodyProps) {
+export default function PostBody({
+  post,
+  isPostDetail,
+  isCommunityPosts = false,
+}: PostBodyProps) {
   const contentStyle = {
     maskImage:
       post?.type !== PostType.MEDIA && post?.type !== PostType.ARTICLE
@@ -41,7 +46,9 @@ export default function PostBody({ post, isPostDetail }: PostBodyProps) {
           <Link href={getPostDetailPath(post?.id)}>
             <a
               className="text-theme-post-title-text-color"
-              onClick={storeScrollPosition}
+              onClick={() =>
+                storeScrollPosition(isPostDetail, isCommunityPosts)
+              }
             >
               <h3 className="text-lg font-medium mb-2 break-words">
                 {post?.title}
@@ -103,7 +110,9 @@ export default function PostBody({ post, isPostDetail }: PostBodyProps) {
               <Link href={getPostDetailPath(post?.id)}>
                 <a
                   className=" text-theme-post-title-text-color"
-                  onClick={storeScrollPosition}
+                  onClick={() =>
+                    storeScrollPosition(isPostDetail, isCommunityPosts)
+                  }
                 >
                   <h3 className="text-lg font-medium mb-2 break-words">
                     {post?.title}

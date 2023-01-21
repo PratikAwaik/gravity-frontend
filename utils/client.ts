@@ -27,7 +27,7 @@ const client = new ApolloClient({
           allPosts: {
             // Don't cache separate results based on
             // any of this field's arguments.
-            keyArgs: false,
+            keyArgs: ["communityId"],
             // Concatenate the incoming list items with
             // the existing list items.
             merge(existing = [], incoming) {

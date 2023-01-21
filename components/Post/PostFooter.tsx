@@ -13,9 +13,14 @@ import { storeScrollPosition } from "../../utils/helpers/posts";
 interface PostFooterProps {
   post: IPost;
   isPostDetail: boolean;
+  isCommunityPosts?: boolean;
 }
 
-export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
+export default function PostFooter({
+  post,
+  isPostDetail,
+  isCommunityPosts = false,
+}: PostFooterProps) {
   const { currentUser } = useAuth();
   const {
     isOpen: isEditPostModalOpen,
@@ -135,7 +140,7 @@ export default function PostFooter({ post, isPostDetail }: PostFooterProps) {
       <Link href={getPostDetailPath(post?.id)}>
         <a
           className="hover:bg-theme-gray-nav-icon-faded rounded"
-          onClick={storeScrollPosition}
+          onClick={() => storeScrollPosition(isPostDetail, isCommunityPosts)}
         >
           <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
             <i className="ri-chat-1-line text-lg mr-1"></i>

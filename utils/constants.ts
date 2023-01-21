@@ -28,5 +28,7 @@ export const AUTH = {
 
 export const LOCAL_STORAGE_KEYS = {
   CURRENT_USER: "__gravity_current_user__",
-  SCROLL_POSITION: "__gravity_scroll_position__",
+  HOME_SCROLL_POSITION: "__gravity_home_scroll_position__",
+  COMMUNITY_SCROLL_POSITION: "__gravity_community_scroll_position__",
+  USER_SCROLL_POSITION: "__gravity_user_scroll_position__",
 };

@@ -2,25 +2,28 @@ import Head from "next/head";
 import Feed from "../components/Home/Feed";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
 import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
-import { PAGES } from "../utils/constants";
+import { LOCAL_STORAGE_KEYS, PAGES } from "../utils/constants";
 import { scrollToPreviousPosition } from "../utils/helpers/posts";
+import { usePostsStore } from "../stores/posts";
 
 export default function Home() {
+  const { pageNo, setPageNo, hasMore, setHasMore } = usePostsStore((state) => ({
+    pageNo: state.homePageNo,
+    setPageNo: state.setHomePageNo,
+    hasMore: state.homeHasMore,
+    setHasMore: state.setHomeHasMore,
+  }));
   const { loading, data, fetchMore } = useQuery(GET_ALL_POSTS, {
     variables: {
       pageNo: 0,
     },
   });
-  const router = useRouter();
 
   useEffect(() => {
-    if (router.pathname === PAGES.INDEX) {
-      scrollToPreviousPosition();
-    }
-  }, [router.pathname]);
+    scrollToPreviousPosition(LOCAL_STORAGE_KEYS.HOME_SCROLL_POSITION);
+  }, []);
 
   return (
     <>
@@ -31,7 +34,14 @@ export default function Home() {
         <div className="py-5 px-6 flex items-center justify-center">
           <div className="forum max-w-3xl h-full">
             <LoadingWrapper isLoading={loading}>
-              <Feed serverPosts={data?.allPosts ?? []} fetchMore={fetchMore} />
+              <Feed
+                serverPosts={data?.allPosts ?? []}
+                fetchMore={fetchMore}
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                hasMore={hasMore}
+                setHasMore={setHasMore}
+              />
             </LoadingWrapper>
           </div>
         </div>
@@ -39,14 +49,3 @@ export default function Home() {
     </>
   );
 }
-
-// * try server side rendering
-// export async function getServerSideProps() {
-//   const { data } = await client.query({ query: GET_ALL_POSTS });
-//   console.log(data);
-//   return {
-//     props: {
-//       posts: data,
-//     },
-//   };
-// }

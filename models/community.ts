@@ -7,5 +7,7 @@ export interface ICommunity {
   icon: string;
   description: string;
   members: IUser[];
+  membersCount: number;
+  admin: IUser;
   createdAt: number;
 }

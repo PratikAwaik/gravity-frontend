@@ -9,12 +9,19 @@ import { useMemo } from "react";
 import { useAuth } from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import { JOIN_COMMUNITY } from "../../graphql/community/mutations";
+import { storeScrollPosition } from "../../utils/helpers/posts";
 
 interface PostHeaderProps {
   post: IPost;
+  isPostDetail?: boolean;
+  isCommunityPosts?: boolean;
 }
 
-export default function PostHeader({ post }: PostHeaderProps) {
+export default function PostHeader({
+  post,
+  isPostDetail = false,
+  isCommunityPosts = false,
+}: PostHeaderProps) {
   const auth = useAuth();
   const hasJoinedCommunity = useMemo(
     () => post?.community?.members?.[0]?.id === auth?.currentUser?.id,
@@ -47,7 +54,12 @@ export default function PostHeader({ post }: PostHeaderProps) {
       <div className="w-full flex items-center justify-between">
         <div className="w-full flex items-center">
           <Link href={getCommunityDetailPath(post?.community?.name)}>
-            <a className="flex items-center hover:underline flex-shrink-0">
+            <a
+              className="flex items-center hover:underline flex-shrink-0"
+              onClick={() =>
+                storeScrollPosition(isPostDetail, isCommunityPosts)
+              }
+            >
               <img
                 className="w-5 h-5 rounded-full mr-1"
                 src={post?.community?.icon}
@@ -63,14 +75,24 @@ export default function PostHeader({ post }: PostHeaderProps) {
 
           <div className="flex flex-col">
             <Link href={getCommunityDetailPath(post?.community?.name)}>
-              <a className="font-bold sm:hidden text-theme-font-black">
+              <a
+                className="font-bold sm:hidden text-theme-font-black"
+                onClick={() =>
+                  storeScrollPosition(isPostDetail, isCommunityPosts)
+                }
+              >
                 {post?.community?.prefixedName}
               </a>
             </Link>
             <div className="flex flex-wrap items-center text-xs text-theme-font-black">
               Posted by
               <Link href={getUserDetailPath(post?.author?.username)}>
-                <a className="ml-1 hover:underline mr-2">
+                <a
+                  className="ml-1 hover:underline mr-2"
+                  onClick={() =>
+                    storeScrollPosition(isPostDetail, isCommunityPosts)
+                  }
+                >
                   {post?.author?.prefixedName}
                 </a>
               </Link>
@@ -86,15 +108,17 @@ export default function PostHeader({ post }: PostHeaderProps) {
             </div>
           </div>
         </div>
-        {auth?.currentUser && !hasJoinedCommunity && (
-          <button
-            type="button"
-            className="bg-theme-blue border-none text-white text-xs font-bold py-1 px-4 rounded-3xl hover:brightness-110"
-            onClick={handleJoinCommunity}
-          >
-            Join
-          </button>
-        )}
+        {auth?.currentUser?.id !== post?.community?.admin?.id &&
+          !isCommunityPosts &&
+          !hasJoinedCommunity && (
+            <button
+              type="button"
+              className="bg-theme-blue border-none text-white text-xs font-bold py-1 px-4 rounded-3xl hover:brightness-110"
+              onClick={handleJoinCommunity}
+            >
+              Join
+            </button>
+          )}
       </div>
     </div>
   );

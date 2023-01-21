@@ -24,3 +24,15 @@ export const JOIN_COMMUNITY = gql`
     }
   }
 `;
+
+export const LEAVE_COMMUNITY = gql`
+  mutation LeaveCommunity($communityId: String!) {
+    leaveCommunity(communityId: $communityId) {
+      id
+      members {
+        id
+        username
+      }
+    }
+  }
+`;

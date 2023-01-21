@@ -26,8 +26,8 @@ export interface IPost {
   mediaType: MediaType;
   articleImage: string;
   commentsCount: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface PostScore {
