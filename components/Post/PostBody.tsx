@@ -9,12 +9,14 @@ interface PostBodyProps {
   post: IPost;
   isPostDetail: boolean;
   isCommunityPosts?: boolean;
+  isUserPosts?: boolean;
 }
 
 export default function PostBody({
   post,
   isPostDetail,
   isCommunityPosts = false,
+  isUserPosts = false,
 }: PostBodyProps) {
   const contentStyle = {
     maskImage:
@@ -45,9 +47,9 @@ export default function PostBody({
         (!isPostDetail ? (
           <Link href={getPostDetailPath(post?.id)}>
             <a
-              className="text-theme-post-title-text-color"
+              className="text-theme-post-title-text-color details-link"
               onClick={() =>
-                storeScrollPosition(isPostDetail, isCommunityPosts)
+                storeScrollPosition(isPostDetail, isCommunityPosts, isUserPosts)
               }
             >
               <h3 className="text-lg font-medium mb-2 break-words">
@@ -79,7 +81,7 @@ export default function PostBody({
           <a
             href={post?.content}
             target="_blank"
-            className="w-full flex items-center justify-center relative overflow-hidden"
+            className="w-full flex items-center justify-center relative overflow-hidden z-10"
           >
             {post?.mediaType === MediaType.IMAGE ? (
               <img
@@ -109,9 +111,13 @@ export default function PostBody({
             <div>
               <Link href={getPostDetailPath(post?.id)}>
                 <a
-                  className=" text-theme-post-title-text-color"
+                  className=" text-theme-post-title-text-color details-link"
                   onClick={() =>
-                    storeScrollPosition(isPostDetail, isCommunityPosts)
+                    storeScrollPosition(
+                      isPostDetail,
+                      isCommunityPosts,
+                      isUserPosts
+                    )
                   }
                 >
                   <h3 className="text-lg font-medium mb-2 break-words">
@@ -122,7 +128,7 @@ export default function PostBody({
               <div className="flex items-center font-theme-font-family-noto">
                 <a
                   href={post?.content}
-                  className="text-theme-link-text-color text-xs my-1 mx-2 ml-0 whitespace-nowrap w-44 flex items-center"
+                  className="text-theme-link-text-color text-xs my-1 mx-2 ml-0 whitespace-nowrap w-44 flex items-center z-10"
                   target="_blank"
                 >
                   <span className="w-max block text-ellipsis overflow-hidden hover:underline">
@@ -138,7 +144,7 @@ export default function PostBody({
                 className="w-full h-full object-contain"
                 target="_blank"
               >
-                <div className="h-full w-full flex items-center justify-center relative rounded border border-theme-blue">
+                <div className="h-full w-full flex items-center justify-center relative rounded border border-theme-blue z-10">
                   {post?.articleImage ? (
                     <img
                       src={post?.articleImage}

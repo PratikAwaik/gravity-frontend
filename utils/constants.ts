@@ -31,4 +31,5 @@ export const LOCAL_STORAGE_KEYS = {
   HOME_SCROLL_POSITION: "__gravity_home_scroll_position__",
   COMMUNITY_SCROLL_POSITION: "__gravity_community_scroll_position__",
   USER_SCROLL_POSITION: "__gravity_user_scroll_position__",
+  USER_COMMENTS_SCROLL_POSITION: "__gravity_user_comments_scroll_position__",
 };

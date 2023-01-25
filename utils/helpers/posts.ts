@@ -3,12 +3,15 @@ import { LOCAL_STORAGE_KEYS } from "../constants";
 
 export const storeScrollPosition = (
   isPostDetail: boolean,
-  isCommunityPosts: boolean
+  isCommunityPosts: boolean,
+  isUserPosts: boolean
 ) => {
   if (isPostDetail) return;
   let localStorageKey = LOCAL_STORAGE_KEYS.HOME_SCROLL_POSITION;
   if (isCommunityPosts)
     localStorageKey = LOCAL_STORAGE_KEYS.COMMUNITY_SCROLL_POSITION;
+  else if (isUserPosts)
+    localStorageKey = LOCAL_STORAGE_KEYS.USER_SCROLL_POSITION;
   StorageService.setItem(localStorageKey, window.pageYOffset.toString());
 };
 

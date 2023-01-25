@@ -1,13 +1,25 @@
 import { gql } from "@apollo/client";
 
 export const GET_USER_SUBSCRIPTIONS = gql`
-  query Query {
+  query GetUserSubscriptions {
     userSubscriptions {
       id
       name
       prefixedName
       icon
       membersCount
+    }
+  }
+`;
+
+export const GET_USER_DETAILS = gql`
+  query GetUserDetails($username: String!) {
+    getUserDetails(username: $username) {
+      id
+      username
+      prefixedName
+      profilePic
+      createdAt
     }
   }
 `;

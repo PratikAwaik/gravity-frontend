@@ -1,3 +1,4 @@
+import { IPost } from "./post";
 import { Direction } from "./utils";
 
 export interface IComment {
@@ -9,13 +10,14 @@ export interface IComment {
   children: IComment[];
   commentScores: ICommentScore[] | null;
   content: string;
-  createdAt: string;
   deleted: boolean;
   id: string;
   postId: string;
   parentId: string | null;
   score: number;
-  updatedAt: string;
+  createdAt: number;
+  updatedAt: number;
+  post: IPost | null;
 }
 
 export interface ICommentScore {

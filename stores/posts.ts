@@ -1,5 +1,4 @@
 import create from "zustand";
-import { IPost } from "../models/post";
 
 interface IPostsStore {
   homePageNo: number;
@@ -10,6 +9,10 @@ interface IPostsStore {
   setCommunityPageNo: (communityPageNo: number) => void;
   communityHasMore: boolean;
   setCommunityHasMore: (communityHasMore: boolean) => void;
+  userPageNo: number;
+  setUserPageNo: (userPageNo: number) => void;
+  userHasMore: boolean;
+  setUserHasMore: (userHasMore: boolean) => void;
 }
 
 export const usePostsStore = create<IPostsStore>((set) => ({
@@ -21,4 +24,8 @@ export const usePostsStore = create<IPostsStore>((set) => ({
   setCommunityPageNo: (communityPageNo: number) => set({ communityPageNo }),
   communityHasMore: true,
   setCommunityHasMore: (communityHasMore: boolean) => set({ communityHasMore }),
+  userPageNo: 0,
+  setUserPageNo: (userPageNo: number) => set({ userPageNo }),
+  userHasMore: true,
+  setUserHasMore: (userHasMore: boolean) => set({ userHasMore }),
 }));

@@ -14,12 +14,14 @@ interface PostFooterProps {
   post: IPost;
   isPostDetail: boolean;
   isCommunityPosts?: boolean;
+  isUserPosts?: boolean;
 }
 
 export default function PostFooter({
   post,
   isPostDetail,
   isCommunityPosts = false,
+  isUserPosts = false,
 }: PostFooterProps) {
   const { currentUser } = useAuth();
   const {
@@ -74,7 +76,7 @@ export default function PostFooter({
         isPostDetail && "mb-5"
       }`}
     >
-      <div className="flex items-center">
+      <div className="flex items-center z-10">
         {!currentUser ? (
           <Link href={PAGES.LOGIN}>
             <a className="mr-2 text-theme-gray-action-icon">
@@ -139,8 +141,10 @@ export default function PostFooter({
       </div>
       <Link href={getPostDetailPath(post?.id)}>
         <a
-          className="hover:bg-theme-gray-nav-icon-faded rounded"
-          onClick={() => storeScrollPosition(isPostDetail, isCommunityPosts)}
+          className="hover:bg-theme-gray-nav-icon-faded rounded z-10"
+          onClick={() =>
+            storeScrollPosition(isPostDetail, isCommunityPosts, isUserPosts)
+          }
         >
           <span className="mx-2 inline-flex items-center text-theme-gray-action-icon">
             <i className="ri-chat-1-line text-lg mr-1"></i>

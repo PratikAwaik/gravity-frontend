@@ -118,7 +118,7 @@ export default function CommunityDetail() {
         <title>{communityDetails?.name}</title>
       </Head>
       {/* page container */}
-      <div className="w-full -mt-3">
+      <div className="w-full">
         {/* top side */}
         <div className="w-full">
           {/* top side container */}

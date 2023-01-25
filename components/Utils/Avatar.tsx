@@ -3,13 +3,18 @@ import BoringAvatar from "boring-avatars";
 interface AvatarProps {
   size?: number;
   user: any;
+  square?: boolean;
 }
 
-export default function Avatar({ size = 28, user }: AvatarProps) {
+export default function Avatar({
+  size = 28,
+  user,
+  square = false,
+}: AvatarProps) {
   return user?.profilePic ? (
     <img
       width={size}
-      height={36}
+      height={size}
       src={user?.profilePic}
       alt={`${user?.username}'s profile pic`}
     />
@@ -19,6 +24,7 @@ export default function Avatar({ size = 28, user }: AvatarProps) {
       name={user?.username}
       variant="beam"
       colors={colors}
+      square={square}
     />
   );
 }

@@ -61,7 +61,7 @@
   }
 }
 
-.forum-post-body-title::after {
+.details-link::after {
   position: absolute;
   top: 0;
   left: 0;

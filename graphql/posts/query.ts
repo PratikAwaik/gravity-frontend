@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_ALL_POSTS = gql`
-  query GetAllPosts($pageNo: Int, $communityId: String) {
-    allPosts(pageNo: $pageNo, communityId: $communityId) {
+  query GetAllPosts($pageNo: Int, $communityId: String, $userId: String) {
+    allPosts(pageNo: $pageNo, communityId: $communityId, userId: $userId) {
       id
       title
       content

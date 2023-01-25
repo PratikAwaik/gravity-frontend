@@ -4,3 +4,8 @@ export interface IUser {
   username: string;
   prefixedName: string;
 }
+
+export enum UserTabsTypes {
+  POSTS = "posts",
+  COMMENTS = "comments",
+}

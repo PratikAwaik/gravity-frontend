@@ -14,6 +14,8 @@ interface FeedProps {
   setHasMore: (hasMore: boolean) => void;
   isCommunityPosts?: boolean;
   communityId?: string;
+  isUserPosts?: boolean;
+  userId?: string;
 }
 
 export default function Feed({
@@ -25,6 +27,8 @@ export default function Feed({
   setPageNo,
   hasMore,
   setHasMore,
+  isUserPosts = false,
+  userId,
 }: FeedProps) {
   const ref = useRef(null);
   const isIntersecting = useIntersectionObserver(ref, { threshold: 0.5 });
@@ -36,10 +40,11 @@ export default function Feed({
           variables: {
             pageNo: pageNo + 1,
             communityId: communityId,
+            userId: userId,
           },
-          skip: isCommunityPosts && !communityId,
+          skip: (isCommunityPosts && !communityId) || (isUserPosts && !userId),
         });
-        setHasMore(fetchMoreResult.data.allPosts.length === 12);
+        setHasMore(fetchMoreResult?.data?.allPosts?.length === 12);
         setPageNo(pageNo + 1);
       }
     })();
@@ -52,6 +57,7 @@ export default function Feed({
           post={post}
           key={post.id}
           isCommunityPosts={isCommunityPosts}
+          isUserPosts={isUserPosts}
         />
       ))}
       {hasMore ? (

@@ -10,9 +10,13 @@ import { getUserDetailPath } from "../../utils/constants";
 
 interface CommentProps {
   comment: IComment;
+  isUserCommentsFeed?: boolean;
 }
 
-export default function Comment({ comment }: CommentProps) {
+export default function Comment({
+  comment,
+  isUserCommentsFeed = false,
+}: CommentProps) {
   const { currentUser } = useAuth();
 
   const isOriginalPoster = useMemo(
@@ -34,11 +38,13 @@ export default function Comment({ comment }: CommentProps) {
       </div>
     </div>
   ) : (
-    <div className="w-full pl-2 pt-2 pr-2">
+    <div className={`w-full pl-2 pr-2 ${!isUserCommentsFeed && "pt-2"}`}>
       <div className="flex items-start">
-        <div className="flex flex-col items-center">
-          <Avatar user={comment?.author} />
-        </div>
+        {!isUserCommentsFeed && (
+          <div className="flex flex-col items-center">
+            <Avatar user={comment?.author} />
+          </div>
+        )}
         <div>
           <div className="flex items-center mt-2 mb-2">
             <Link href={getUserDetailPath(comment?.author?.username)}>
@@ -63,13 +69,26 @@ export default function Comment({ comment }: CommentProps) {
             )}
           </div>
           <div className="ml-2 mb-2">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(comment?.content),
-              }}
-              className="mb-2"
-            />
-            <CommentFooter comment={comment} />
+            {isUserCommentsFeed ? (
+              <Link href={`/posts/${comment?.postId}`}>
+                <a className="details-link">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(comment?.content),
+                    }}
+                    className="mb-2"
+                  />
+                </a>
+              </Link>
+            ) : (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(comment?.content),
+                }}
+                className="mb-2"
+              />
+            )}
+            {!isUserCommentsFeed && <CommentFooter comment={comment} />}
           </div>
         </div>
       </div>

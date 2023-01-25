@@ -27,7 +27,7 @@ export default function PostDetails() {
       </Head>
       <div
         id="post-detail"
-        className="mx-auto max-w-4xl bg-white relative rounded mb-3"
+        className="mx-auto max-w-4xl bg-white relative rounded my-16"
       >
         <div className="w-full p-3">
           <PostHeader post={post} isPostDetail />

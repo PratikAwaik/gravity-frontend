@@ -15,12 +15,14 @@ interface PostHeaderProps {
   post: IPost;
   isPostDetail?: boolean;
   isCommunityPosts?: boolean;
+  isUserPosts?: boolean;
 }
 
 export default function PostHeader({
   post,
   isPostDetail = false,
   isCommunityPosts = false,
+  isUserPosts = false,
 }: PostHeaderProps) {
   const auth = useAuth();
   const hasJoinedCommunity = useMemo(
@@ -50,14 +52,14 @@ export default function PostHeader({
   };
 
   return (
-    <div className="forum-post-header text-xs mb-2 flex sm:flex-row sm:items-center z-10">
-      <div className="w-full flex items-center justify-between">
+    <div className="forum-post-header text-xs mb-2 flex sm:flex-row sm:items-center">
+      <div className="w-full flex items-center justify-between z-10">
         <div className="w-full flex items-center">
           <Link href={getCommunityDetailPath(post?.community?.name)}>
             <a
               className="flex items-center hover:underline flex-shrink-0"
               onClick={() =>
-                storeScrollPosition(isPostDetail, isCommunityPosts)
+                storeScrollPosition(isPostDetail, isCommunityPosts, isUserPosts)
               }
             >
               <img
@@ -78,7 +80,11 @@ export default function PostHeader({
               <a
                 className="font-bold sm:hidden text-theme-font-black"
                 onClick={() =>
-                  storeScrollPosition(isPostDetail, isCommunityPosts)
+                  storeScrollPosition(
+                    isPostDetail,
+                    isCommunityPosts,
+                    isUserPosts
+                  )
                 }
               >
                 {post?.community?.prefixedName}
@@ -90,7 +96,11 @@ export default function PostHeader({
                 <a
                   className="ml-1 hover:underline mr-2"
                   onClick={() =>
-                    storeScrollPosition(isPostDetail, isCommunityPosts)
+                    storeScrollPosition(
+                      isPostDetail,
+                      isCommunityPosts,
+                      isUserPosts
+                    )
                   }
                 >
                   {post?.author?.prefixedName}

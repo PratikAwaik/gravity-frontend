@@ -19,6 +19,20 @@ export const CommentDetailsFragment = gql`
       userId
       direction
     }
+    post {
+      id
+      title
+      author {
+        id
+        username
+        prefixedName
+      }
+      community {
+        id
+        name
+        prefixedName
+      }
+    }
   }
 `;
 
@@ -27,6 +41,15 @@ export const GET_ALL_POST_COMMENTS = gql`
   query GetAllPostComments($postId: String!, $parentId: String) {
     allComments(postId: $postId, parentId: $parentId) {
       ${getNestedCommentsQuery("...CommentDetailsFragment")}
+    }
+  }
+`;
+
+export const GET_ALL_USER_COMMENTS = gql`
+  ${CommentDetailsFragment}
+  query GetAllUserComments($pageNo: Int, $userId: String!) {
+    getAllUserComments(pageNo: $pageNo, userId: $userId) {
+      ...CommentDetailsFragment
     }
   }
 `;
