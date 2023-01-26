@@ -36,7 +36,11 @@ export default function UserCommentsFeed({
 
   useEffect(() => {
     (async () => {
-      if (isIntersecting && (hasMore || pageNo === 0)) {
+      if (
+        isIntersecting &&
+        (hasMore || pageNo === 0) &&
+        userComments?.length > 0
+      ) {
         const fetchMoreResult = await fetchMore({
           variables: {
             pageNo: pageNo + 1,

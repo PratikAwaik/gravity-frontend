@@ -35,7 +35,11 @@ export default function Feed({
 
   useEffect(() => {
     (async () => {
-      if (isIntersecting && (hasMore || pageNo === 0)) {
+      if (
+        isIntersecting &&
+        (hasMore || pageNo === 0) &&
+        serverPosts?.length > 0
+      ) {
         const fetchMoreResult = await fetchMore({
           variables: {
             pageNo: pageNo + 1,
