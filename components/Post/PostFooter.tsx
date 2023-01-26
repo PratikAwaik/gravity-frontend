@@ -154,15 +154,17 @@ export default function PostFooter({
           </span>
         </a>
       </Link>
-      {isPostDetail && post?.type === PostType.TEXT && (
-        <button
-          type="button"
-          className="inline-flex items-center justify-center rounded-sm py-1.5 px-1 whitespace-nowrap hover:bg-theme-gray-nav-icon-faded text-xs text-theme-gray-action-icon font-medium mr-1"
-          onClick={onEditPostModalOpen}
-        >
-          Edit
-        </button>
-      )}
+      {isPostDetail &&
+        post?.type === PostType.TEXT &&
+        currentUser?.id === post?.author?.id && (
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-sm py-1.5 px-1 whitespace-nowrap hover:bg-theme-gray-nav-icon-faded text-xs text-theme-gray-action-icon font-medium mr-1"
+            onClick={onEditPostModalOpen}
+          >
+            Edit
+          </button>
+        )}
       {isEditPostModalOpen && (
         <EditPostModal onClose={onEditPostModalClose} post={post} />
       )}

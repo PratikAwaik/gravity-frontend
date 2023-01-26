@@ -7,11 +7,11 @@ export const storeScrollPosition = (
   isUserPosts: boolean
 ) => {
   if (isPostDetail) return;
-  let localStorageKey = LOCAL_STORAGE_KEYS.HOME_SCROLL_POSITION;
+  let localStorageKey = LOCAL_STORAGE_KEYS.HOME_POSTS_SCROLL_POSITION;
   if (isCommunityPosts)
-    localStorageKey = LOCAL_STORAGE_KEYS.COMMUNITY_SCROLL_POSITION;
+    localStorageKey = LOCAL_STORAGE_KEYS.COMMUNITY_POSTS_SCROLL_POSITION;
   else if (isUserPosts)
-    localStorageKey = LOCAL_STORAGE_KEYS.USER_SCROLL_POSITION;
+    localStorageKey = LOCAL_STORAGE_KEYS.USER_POSTS_SCROLL_POSITION;
   StorageService.setItem(localStorageKey, window.pageYOffset.toString());
 };
 

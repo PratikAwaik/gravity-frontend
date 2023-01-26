@@ -22,7 +22,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    scrollToPreviousPosition(LOCAL_STORAGE_KEYS.HOME_SCROLL_POSITION);
+    scrollToPreviousPosition(LOCAL_STORAGE_KEYS.HOME_POSTS_SCROLL_POSITION);
   }, []);
 
   return (

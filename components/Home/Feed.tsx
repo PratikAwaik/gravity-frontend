@@ -62,7 +62,7 @@ export default function Feed({
           isUserPosts={isUserPosts}
         />
       ))}
-      <InfiniteScrollLoader hasMore={hasMore} />
+      <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
     </div>
   );
 }

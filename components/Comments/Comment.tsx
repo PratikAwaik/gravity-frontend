@@ -1,12 +1,10 @@
-import DOMPurify from "isomorphic-dompurify";
-import Link from "next/link";
+import CommentHeader from "./CommentHeader";
+import CommentBody from "./CommentBody";
 import Avatar from "../Utils/Avatar";
 import FromNow from "../Utils/FromNow";
 import CommentFooter from "./CommentFooter";
 import { IComment } from "../../models/comment";
-import { useAuth } from "../../utils/Auth";
 import { useEffect, useMemo, useState } from "react";
-import { getUserDetailPath } from "../../utils/constants";
 import { scrollWithOffset } from "../../utils/helpers/comments";
 
 interface CommentProps {
@@ -18,13 +16,7 @@ export default function Comment({
   comment,
   isUserCommentsFeed = false,
 }: CommentProps) {
-  const { currentUser } = useAuth();
   const [hashedCommentId, setHashedCommentId] = useState<string | null>(null);
-
-  const isOriginalPoster = useMemo(
-    () => currentUser?.id === comment?.author?.id,
-    [currentUser, comment?.author]
-  );
 
   useEffect(() => {
     if (window !== undefined && window.location.hash) {
@@ -55,7 +47,7 @@ export default function Comment({
   ) : (
     <div
       className={`w-full pl-2 pr-2 relative ${!isUserCommentsFeed && "pt-2"} ${
-        hashedCommentId === comment?.id && "bg-theme-gray-alpha"
+        hashedCommentId === comment?.id && "bg-theme-gray-alpha rounded"
       }`}
       id={comment?.id}
     >
@@ -66,48 +58,12 @@ export default function Comment({
           </div>
         )}
         <div>
-          <div className="flex items-center mt-2 mb-2">
-            <Link href={getUserDetailPath(comment?.author?.username)}>
-              <a className="text-xs font-medium text-theme-nav-icon ml-2 hover:underline z-10">
-                {comment?.author?.username}
-              </a>
-            </Link>
-            {isOriginalPoster && (
-              <span className="ml-1 uppercase font-bold text-theme-blue text-xs z-10">
-                op
-              </span>
-            )}
-            <div className="mini-dot"></div>
-            <FromNow date={comment?.createdAt} />
-            {comment?.updatedAt && (
-              <>
-                <span className="mini-dot"></span>
-                <span className="italic text-xs text-theme-meta-text">
-                  edited <FromNow date={comment?.updatedAt} />
-                </span>
-              </>
-            )}
-          </div>
+          <CommentHeader comment={comment} />
           <div className="ml-2 mb-2">
-            {isUserCommentsFeed ? (
-              <Link href={`/posts/${comment?.postId}#${comment?.id}`}>
-                <a className="details-link">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(comment?.content),
-                    }}
-                    className="mb-2"
-                  />
-                </a>
-              </Link>
-            ) : (
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(comment?.content),
-                }}
-                className="mb-2"
-              />
-            )}
+            <CommentBody
+              comment={comment}
+              isUserCommentsFeed={isUserCommentsFeed}
+            />
             {!isUserCommentsFeed && <CommentFooter comment={comment} />}
           </div>
         </div>
