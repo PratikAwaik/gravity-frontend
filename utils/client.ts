@@ -2,7 +2,6 @@ import StorageService from "../services/storage";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { LOCAL_STORAGE_KEYS } from "./constants";
-import { offsetLimitPagination } from "@apollo/client/utilities";
 
 const authLink = setContext((_, { headers }) => {
   const user = StorageService.getItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
