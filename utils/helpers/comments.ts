@@ -52,3 +52,12 @@ export function updateChild(
     updateChild(child, updatedComment, isCommentDeleted, isContentUpdated);
   }
 }
+
+export const scrollWithOffset = (
+  el: HTMLElement,
+  behavior: "smooth" | "auto" = "smooth"
+) => {
+  const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+  const yOffset = -180;
+  window.scrollTo({ top: yCoordinate + yOffset, behavior });
+};

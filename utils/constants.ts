@@ -33,3 +33,5 @@ export const LOCAL_STORAGE_KEYS = {
   USER_SCROLL_POSITION: "__gravity_user_scroll_position__",
   USER_COMMENTS_SCROLL_POSITION: "__gravity_user_comments_scroll_position__",
 };
+
+export const PAGINATION_LIMIT = 12;

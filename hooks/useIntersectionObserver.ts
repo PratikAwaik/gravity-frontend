@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 // source: https://www.30secondsofcode.org/react/s/use-intersection-observer
 
-export const useIntersectionObserver = (ref: any, options: any) => {
+export const useIntersectionObserver = (
+  ref: RefObject<Element>,
+  options: IntersectionObserverInit
+) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {

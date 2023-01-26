@@ -18,16 +18,11 @@ import { useRouter } from "next/router";
 import { GET_ALL_POSTS } from "../../graphql/posts/query";
 import { usePostsStore } from "../../stores/posts";
 import { scrollToPreviousPosition } from "../../utils/helpers/posts";
+import CommunityPosts from "../../components/Community/CommunityPosts";
 
 export default function CommunityDetail() {
   const router = useRouter();
   const { currentUser } = useAuth();
-  const { pageNo, setPageNo, hasMore, setHasMore } = usePostsStore((state) => ({
-    pageNo: state.communityPageNo,
-    setPageNo: state.setCommunityPageNo,
-    hasMore: state.communityHasMore,
-    setHasMore: state.setCommunityHasMore,
-  }));
 
   const { data, loading } = useQuery(GET_COMMUNITY_DETAILS, {
     variables: {
@@ -37,23 +32,6 @@ export default function CommunityDetail() {
   });
 
   const communityDetails = useMemo(() => data?.getCommunityDetails, [data]);
-
-  const {
-    data: communityPostsData,
-    loading: communityPostsLoading,
-    fetchMore: fetchMoreCommunityPosts,
-  } = useQuery(GET_ALL_POSTS, {
-    variables: {
-      communityId: communityDetails?.id,
-      pageNo: 0,
-    },
-    skip: !communityDetails?.id,
-  });
-
-  const communityPosts = useMemo(
-    () => communityPostsData?.allPosts,
-    [communityPostsData]
-  );
 
   const hasJoinedCommunity = useMemo(
     () => communityDetails?.members?.[0]?.id === currentUser?.id,
@@ -89,8 +67,6 @@ export default function CommunityDetail() {
   });
 
   useEffect(() => {
-    setPageNo(0);
-    setHasMore(false);
     scrollToPreviousPosition(LOCAL_STORAGE_KEYS.COMMUNITY_SCROLL_POSITION);
   }, []);
 
@@ -110,7 +86,7 @@ export default function CommunityDetail() {
     });
   };
 
-  if (loading || communityPostsLoading) return null;
+  if (loading) return null;
 
   return (
     <>
@@ -228,16 +204,7 @@ export default function CommunityDetail() {
                 </Link>
               </div>
             )}
-            <Feed
-              serverPosts={communityPosts}
-              fetchMore={fetchMoreCommunityPosts}
-              pageNo={pageNo}
-              setPageNo={setPageNo}
-              hasMore={hasMore}
-              setHasMore={setHasMore}
-              isCommunityPosts
-              communityId={communityDetails?.id}
-            />
+            <CommunityPosts communityId={communityDetails?.id} />
           </div>
           {/* community details */}
           <div>

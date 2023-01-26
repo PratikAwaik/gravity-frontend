@@ -5,8 +5,9 @@ import FromNow from "../Utils/FromNow";
 import CommentFooter from "./CommentFooter";
 import { IComment } from "../../models/comment";
 import { useAuth } from "../../utils/Auth";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getUserDetailPath } from "../../utils/constants";
+import { scrollWithOffset } from "../../utils/helpers/comments";
 
 interface CommentProps {
   comment: IComment;
@@ -18,11 +19,25 @@ export default function Comment({
   isUserCommentsFeed = false,
 }: CommentProps) {
   const { currentUser } = useAuth();
+  const [hashedCommentId, setHashedCommentId] = useState<string | null>(null);
 
   const isOriginalPoster = useMemo(
     () => currentUser?.id === comment?.author?.id,
     [currentUser, comment?.author]
   );
+
+  useEffect(() => {
+    if (window !== undefined && window.location.hash) {
+      const hashedId = window.location.hash.slice(1);
+      if (hashedId === comment?.id) {
+        const commentDOM = document.getElementById(hashedId);
+        if (commentDOM) {
+          scrollWithOffset(commentDOM);
+          setHashedCommentId(hashedId);
+        }
+      }
+    }
+  }, [window.location.hash, comment?.id]);
 
   return comment.deleted ? (
     <div className="w-full pl-2 py-3 pr-2">
@@ -38,7 +53,12 @@ export default function Comment({
       </div>
     </div>
   ) : (
-    <div className={`w-full pl-2 pr-2 ${!isUserCommentsFeed && "pt-2"}`}>
+    <div
+      className={`w-full pl-2 pr-2 relative ${!isUserCommentsFeed && "pt-2"} ${
+        hashedCommentId === comment?.id && "bg-theme-gray-alpha"
+      }`}
+      id={comment?.id}
+    >
       <div className="flex items-start">
         {!isUserCommentsFeed && (
           <div className="flex flex-col items-center">
@@ -48,12 +68,12 @@ export default function Comment({
         <div>
           <div className="flex items-center mt-2 mb-2">
             <Link href={getUserDetailPath(comment?.author?.username)}>
-              <a className="text-xs font-medium text-theme-nav-icon ml-2 hover:underline">
+              <a className="text-xs font-medium text-theme-nav-icon ml-2 hover:underline z-10">
                 {comment?.author?.username}
               </a>
             </Link>
             {isOriginalPoster && (
-              <span className="ml-1 uppercase font-bold text-theme-blue text-xs">
+              <span className="ml-1 uppercase font-bold text-theme-blue text-xs z-10">
                 op
               </span>
             )}
@@ -70,7 +90,7 @@ export default function Comment({
           </div>
           <div className="ml-2 mb-2">
             {isUserCommentsFeed ? (
-              <Link href={`/posts/${comment?.postId}`}>
+              <Link href={`/posts/${comment?.postId}#${comment?.id}`}>
                 <a className="details-link">
                   <div
                     dangerouslySetInnerHTML={{

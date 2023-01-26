@@ -1,8 +1,8 @@
 import Head from "next/head";
 import Avatar from "../../components/Utils/Avatar";
 import UserTabs from "../../components/User/UserTabs";
-import UserPosts from "../../components/User/UserPosts";
-import UserComments from "../../components/User/UserComments";
+import UserPostsWrapper from "../../components/User/UserPostsWrapper";
+import UserCommentsWrapper from "../../components/User/UserCommentsWrapper";
 import CustomTooltip from "../../components/Utils/CustomTooltip";
 import FromNow from "../../components/Utils/FromNow";
 import { useQuery } from "@apollo/client";
@@ -35,7 +35,7 @@ export default function UserDetails() {
 
       {/* tabs */}
       <div className="bg-white h-10 w-full">
-        <div className="w-full flex items-center justify-center h-full mx-auto">
+        <div className="px-2 w-full flex items-center justify-center h-full mx-auto">
           <div className="w-[40rem] max-w-[40rem] h-full">
             <UserTabs currentTab={currentTab} setCurrentTab={setCurrentTab} />
           </div>
@@ -46,10 +46,10 @@ export default function UserDetails() {
       <div className="w-full py-5 px-6 flex items-start justify-center">
         <div className="w-[40rem] max-w-[40rem]">
           {currentTab === UserTabsTypes.POSTS && (
-            <UserPosts userId={userDetails?.id} />
+            <UserPostsWrapper userId={userDetails?.id} />
           )}
           {currentTab === UserTabsTypes.COMMENTS && (
-            <UserComments userId={userDetails?.id} />
+            <UserCommentsWrapper userId={userDetails?.id} />
           )}
         </div>
         <div className="w-[19.5rem] max-w-[19.5rem] ml-6">

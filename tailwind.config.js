@@ -11,6 +11,7 @@ module.exports = {
         "theme-gray-field": "#f6f7f8", // input fields
         "theme-gray-line": "#EDEFF1", // borders
         "theme-gray-action-icon": "#878a8c", // icons
+        "theme-gray-alpha": "rgba(0, 121, 211, 0.05)", // hashed comment bg
         "theme-nav-icon": "#1a1a1b", // nav icons
         "theme-gray-nav-icon-faded": "rgba(26,26,27,0.1)", // nav icons
         "theme-body-text-color": "#1c1c1c", // text color

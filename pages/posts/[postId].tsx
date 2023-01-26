@@ -27,7 +27,7 @@ export default function PostDetails() {
       </Head>
       <div
         id="post-detail"
-        className="mx-auto max-w-4xl bg-white relative rounded my-16"
+        className="mx-auto max-w-4xl bg-white relative rounded mt-5 mb-16"
       >
         <div className="w-full p-3">
           <PostHeader post={post} isPostDetail />
@@ -39,17 +39,3 @@ export default function PostDetails() {
     </>
   );
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const response = await client.query({
-//     query: GET_POST_BY_ID,
-//     variables: {
-//       postId: context.params?.postId,
-//     },
-//   });
-//   return {
-//     props: {
-//       postDetailResponse: response,
-//     },
-//   };
-// }

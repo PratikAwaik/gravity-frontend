@@ -1,9 +1,9 @@
-import LoadingIcon from "../Utils/LoadingIcon";
 import FeedPost from "./FeedPost";
+import InfiniteScrollLoader from "../Utils/InfiniteScrollLoader";
 import { useEffect, useRef } from "react";
 import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
 import { IPost } from "../../models/post";
-import { usePostsStore } from "../../stores/posts";
+import { PAGINATION_LIMIT } from "../../utils/constants";
 
 interface FeedProps {
   serverPosts: IPost[];
@@ -44,7 +44,9 @@ export default function Feed({
           },
           skip: (isCommunityPosts && !communityId) || (isUserPosts && !userId),
         });
-        setHasMore(fetchMoreResult?.data?.allPosts?.length === 12);
+        setHasMore(
+          fetchMoreResult?.data?.allPosts?.length === PAGINATION_LIMIT
+        );
         setPageNo(pageNo + 1);
       }
     })();
@@ -60,13 +62,7 @@ export default function Feed({
           isUserPosts={isUserPosts}
         />
       ))}
-      {hasMore ? (
-        <LoadingIcon ref={ref} />
-      ) : (
-        <div className="w-full my-5 flex items-center justify-center">
-          You've seen it all!
-        </div>
-      )}
+      <InfiniteScrollLoader hasMore={hasMore} />
     </div>
   );
 }
