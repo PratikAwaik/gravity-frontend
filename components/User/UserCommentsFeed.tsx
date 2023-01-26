@@ -19,7 +19,7 @@ export default function UserCommentsFeed({
   fetchMore,
 }: UserCommentsFeedProps) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const isIntersecting = useIntersectionObserver(ref, {});
+  const isIntersecting = useIntersectionObserver(ref);
 
   const { pageNo, setPageNo, hasMore, setHasMore } = useCommentsStore(
     (state) => ({

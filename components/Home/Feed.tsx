@@ -31,7 +31,7 @@ export default function Feed({
   userId,
 }: FeedProps) {
   const ref = useRef(null);
-  const isIntersecting = useIntersectionObserver(ref, { threshold: 0.5 });
+  const isIntersecting = useIntersectionObserver(ref);
 
   useEffect(() => {
     (async () => {
