@@ -52,6 +52,18 @@ export default function PostComments() {
           },
         },
       });
+
+      if (createComment?.authorId === currentUser?.id) {
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.USER,
+            id: currentUser?.id,
+          }),
+          fields: {
+            karma: (existingKarma = 0) => existingKarma + 1,
+          },
+        });
+      }
     },
     onError(error, clientOptions) {
       // set error

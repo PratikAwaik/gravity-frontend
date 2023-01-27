@@ -6,6 +6,7 @@ export const LOGIN_USER = gql`
       id
       username
       profilePic
+      karma
       token {
         value
       }
@@ -19,6 +20,7 @@ export const REGISTER_USER = gql`
       id
       username
       profilePic
+      karma
       token {
         value
       }

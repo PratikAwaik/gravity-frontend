@@ -5,6 +5,7 @@ export enum Direction {
 }
 
 export enum TypeNames {
+  USER = "User",
   POST = "Post",
   COMMENT = "Comment",
   POST_SCORE = "PostScore",

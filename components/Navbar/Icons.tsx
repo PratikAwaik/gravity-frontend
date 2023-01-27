@@ -4,6 +4,7 @@ import CustomTooltip from "../Utils/CustomTooltip";
 import { useRouter } from "next/router";
 import { PAGES } from "../../utils/constants";
 import { useAuth } from "../../utils/Auth";
+import UserDropdown from "./UserDropdown";
 
 export default function Icons() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function Icons() {
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
+          className={`mr-2 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
             router.pathname === PAGES.INDEX && "bg-theme-gray-nav-icon-faded"
           }`}
           id="gravity-home"
@@ -25,7 +26,7 @@ export default function Icons() {
 
       <Link href={PAGES.CREATE_POST}>
         <a
-          className={`mr-3 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
+          className={`mr-2 rounded px-2 py-0.5 hover:bg-theme-gray-nav-icon-faded relative ${
             router.pathname === PAGES.CREATE_POST &&
             "bg-theme-gray-nav-icon-faded"
           }`}
@@ -35,11 +36,12 @@ export default function Icons() {
           <CustomTooltip anchorId="gravity-submit-post" content="Create Post" />
         </a>
       </Link>
+      <UserDropdown />
     </div>
   ) : (
     <div className="flex items-center mx-4">
       <Link href={PAGES.REGISTER}>
-        <a className="px-8 py-1.5 rounded-3xl font-bold text-sm transition duration-200 border border-theme-blue hover:bg-theme-gray-nav-icon-faded text-theme-blue hover:bg-theme-blue-50">
+        <a className="px-8 py-1.5 rounded-3xl font-bold text-sm transition duration-200 border border-theme-blue text-theme-blue hover:bg-theme-blue-50">
           Sign Up
         </a>
       </Link>

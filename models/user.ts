@@ -3,6 +3,8 @@ export interface IUser {
   name: string;
   username: string;
   prefixedName: string;
+  karma: number;
+  profilePic: string | null;
 }
 
 export enum UserTabsTypes {

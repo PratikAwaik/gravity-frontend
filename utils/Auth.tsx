@@ -2,6 +2,7 @@ import * as React from "react";
 import StorageService from "../services/storage";
 import { useRouter } from "next/router";
 import { AUTH, LOCAL_STORAGE_KEYS, PAGES } from "./constants";
+import { IUser } from "../models/user";
 
 interface AuthContextProps {
   currentUser: any;
@@ -34,7 +35,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [currentUser, setCurrentUser] = React.useState(null);
+  const [currentUser, setCurrentUser] = React.useState<IUser | null>(null);
   const router = useRouter();
 
   React.useEffect(() => {

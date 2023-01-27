@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { CREATE_POST } from "../../graphql/posts/mutations";
 import { getPostDetailPath } from "../../utils/constants";
 import { PostType } from "../../models/post";
+import { useAuth } from "../../utils/Auth";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -29,9 +30,23 @@ export default function CreatePost() {
   const titleTextareaRef = React.createRef<HTMLTextAreaElement>();
   const [titleLength, setTitleLength] = React.useState(0);
   const [submittingPost, setSubmittingPost] = React.useState(false);
+  const { currentUser } = useAuth();
 
   const router = useRouter();
   const [createPost] = useMutation(CREATE_POST, {
+    update: (cache, { data: createPost }) => {
+      if (createPost?.authorId === currentUser?.id) {
+        cache.modify({
+          id: cache.identify({
+            __typename: "User",
+            id: currentUser?.id,
+          }),
+          fields: {
+            karma: (existingKarma = 0) => existingKarma + 1,
+          },
+        });
+      }
+    },
     onError: (error: any) => {
       if (error instanceof ApolloError) {
         setError({

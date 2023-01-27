@@ -1,10 +1,12 @@
 import * as React from "react";
+import Head from "next/head";
 import DisplayError from "../../components/Utils/DisplayError";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { CREATE_COMMUNITY } from "../../graphql/community/mutations";
-import Head from "next/head";
 import { getCommunityDetailPath } from "../../utils/constants";
+import { useAuth } from "../../utils/Auth";
+import { TypeNames } from "../../models/utils";
 
 /**
  * TODO:
@@ -19,7 +21,21 @@ export default function CreateCommunity() {
     icon: null,
   });
   const [error, setError] = React.useState<Record<string, string> | null>(null);
+  const { currentUser } = useAuth();
   const [createSubreddit] = useMutation(CREATE_COMMUNITY, {
+    update: (cache, { data: createCommunity }) => {
+      if (createCommunity?.adminId === currentUser?.id) {
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.USER,
+            id: currentUser?.id,
+          }),
+          fields: {
+            karma: (existingKarma = 0) => existingKarma + 10,
+          },
+        });
+      }
+    },
     onError: (error) => {
       setError({
         message: error.graphQLErrors[0].message,
