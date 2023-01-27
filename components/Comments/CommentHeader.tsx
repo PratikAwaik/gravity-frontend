@@ -17,7 +17,7 @@ export default function CommentHeader({ comment }: CommentHeaderProps) {
   );
 
   return (
-    <div className="flex items-center mt-2 mb-2">
+    <div className="flex items-center flex-wrap mt-2 mb-2">
       <Link href={getUserDetailPath(comment?.author?.username)}>
         <a className="text-xs font-medium text-theme-nav-icon ml-2 hover:underline z-10">
           {comment?.author?.username}

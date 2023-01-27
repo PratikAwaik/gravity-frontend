@@ -43,7 +43,7 @@ export default function CreateCommunity() {
       <Head>
         <title>Create Community</title>
       </Head>
-      <div className="py-6 px-4 rounded-md max-w-3xl mx-auto mb-20 bg-white">
+      <div className="mt-5 py-6 px-4 rounded-md max-w-3xl mx-auto mb-20 bg-white">
         <div className="mb-4">
           <h2 className="text-lg mb-3 rounded-md font-medium">
             Create Community
