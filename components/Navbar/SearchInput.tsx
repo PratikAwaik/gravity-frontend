@@ -4,7 +4,6 @@ export default function SearchInput() {
   const [value, setValue] = React.useState("");
 
   const handleSubmit = () => {};
-  const handleInputChange = () => {};
 
   return (
     <div className="flex flex-grow items-stretch max-w-2xl rounded-3xl relative text-theme-body-text-color bg-theme-gray-field border border-theme-gray-line hover:border-theme-blue hover:bg-white focus-within:border-theme-blue focus-within:bg-white">
