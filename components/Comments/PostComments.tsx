@@ -25,6 +25,7 @@ export default function PostComments() {
       postId: router.query.postId,
       parentId: null,
     },
+    skip: !router.query.postId,
   });
 
   const [createComment] = useMutation(CREATE_COMMENT, {

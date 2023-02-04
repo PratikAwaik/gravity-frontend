@@ -13,6 +13,7 @@ export default function PostDetails() {
     variables: {
       postId: router.query.postId,
     },
+    skip: !router.query.postId,
   });
   const post = data?.getPostById;
 
