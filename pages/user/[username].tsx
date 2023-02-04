@@ -68,7 +68,16 @@ export default function UserDetails() {
                   <FromNow date={userDetails?.createdAt} />
                 </span>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h5 className="text-sm font-medium">Karma</h5>
+                  <div className="flex items-center mt-0.5" id="user-created">
+                    <i className="ri-copper-diamond-line text-xs text-theme-blue"></i>
+                    <span className="ml-1 text-xs text-theme-meta-text">
+                      {userDetails?.karma}
+                    </span>
+                  </div>
+                </div>
                 <div>
                   <h5 className="text-sm font-medium">Cake day</h5>
                   <div className="flex items-center mt-0.5" id="user-created">

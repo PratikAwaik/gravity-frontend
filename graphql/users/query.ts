@@ -19,6 +19,7 @@ export const GET_USER_DETAILS = gql`
       username
       prefixedName
       profilePic
+      karma
       createdAt
     }
   }

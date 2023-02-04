@@ -16,7 +16,12 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-const httpLink = new HttpLink({ uri: "http://localhost:4000" });
+const httpLink = new HttpLink({
+  uri:
+    process.env.NODE_ENV === "development"
+      ? process.env.GRAPHQL_DEV_URI
+      : process.env.GRAPHQL_PROD_URI,
+});
 
 const client = new ApolloClient({
   cache: new InMemoryCache({

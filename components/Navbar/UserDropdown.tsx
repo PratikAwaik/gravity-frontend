@@ -66,14 +66,20 @@ export default function UserDropdown() {
 
       {isOpen && (
         <div className="absolute top-11 z-40 right-0 w-[15.75rem] border border-theme-gray-line bg-white rounded-md">
-          <Link href={getUserDetailPath(currentUser?.id)}>
-            <a className="flex items-center py-2 px-5 h-10 w-full hover:bg-[#0000000a]">
+          <Link href={getUserDetailPath(currentUser?.username)}>
+            <a
+              className="flex items-center py-2 px-5 h-10 w-full hover:bg-[#0000000a]"
+              onClick={onClose}
+            >
               <i className="ri-user-3-line text-lg mr-2"></i>
               <span className="text-sm font-medium">Profile</span>
             </a>
           </Link>
           <Link href={PAGES.CREATE_COMMUNITY}>
-            <a className="flex items-center py-2 px-5 h-10 w-full hover:bg-[#0000000a]">
+            <a
+              className="flex items-center py-2 px-5 h-10 w-full hover:bg-[#0000000a]"
+              onClick={onClose}
+            >
               <i className="ri-community-line text-lg mr-2"></i>
               <span className="text-sm font-medium">Create Community</span>
             </a>

@@ -118,7 +118,8 @@ export default function PostHeader({
             </div>
           </div>
         </div>
-        {auth?.currentUser?.id !== post?.community?.admin?.id &&
+        {auth?.currentUser?.id &&
+          auth?.currentUser?.id !== post?.community?.admin?.id &&
           !isCommunityPosts &&
           !hasJoinedCommunity && (
             <button
