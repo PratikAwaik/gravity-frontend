@@ -4,7 +4,7 @@ import LoadingWrapper from "../components/Utils/LoadingWrapper";
 import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { GET_ALL_POSTS } from "../graphql/posts/query";
-import { LOCAL_STORAGE_KEYS, PAGES } from "../utils/constants";
+import { LOCAL_STORAGE_KEYS } from "../utils/constants";
 import { scrollToPreviousPosition } from "../utils/helpers/posts";
 import { usePostsStore } from "../stores/posts";
 

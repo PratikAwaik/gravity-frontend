@@ -13,6 +13,10 @@ interface IPostsStore {
   setUserPageNo: (userPageNo: number) => void;
   userHasMore: boolean;
   setUserHasMore: (userHasMore: boolean) => void;
+  searchPageNo: number;
+  setSearchPageNo: (searchPageNo: number) => void;
+  searchHasMore: boolean;
+  setSearchHasMore: (searchHasMore: boolean) => void;
 }
 
 export const usePostsStore = create<IPostsStore>((set) => ({
@@ -28,4 +32,8 @@ export const usePostsStore = create<IPostsStore>((set) => ({
   setUserPageNo: (userPageNo: number) => set({ userPageNo }),
   userHasMore: true,
   setUserHasMore: (userHasMore: boolean) => set({ userHasMore }),
+  searchPageNo: 0,
+  setSearchPageNo: (searchPageNo: number) => set({ searchPageNo }),
+  searchHasMore: true,
+  setSearchHasMore: (searchHasMore: boolean) => set({ searchHasMore }),
 }));

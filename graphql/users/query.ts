@@ -24,3 +24,15 @@ export const GET_USER_DETAILS = gql`
     }
   }
 `;
+
+export const GET_ALL_USERS = gql`
+  query GetAllUsers($search: String, $pageNo: Int) {
+    getAllUsers(search: $search, pageNo: $pageNo) {
+      id
+      username
+      prefixedName
+      profilePic
+      karma
+    }
+  }
+`;

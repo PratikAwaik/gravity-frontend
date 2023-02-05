@@ -29,13 +29,13 @@ const client = new ApolloClient({
       Query: {
         fields: {
           allPosts: {
-            keyArgs: ["communityId", "userId"],
+            keyArgs: ["communityId", "userId", "search"],
             merge(existing = [], incoming) {
               return [...existing, ...incoming];
             },
           },
-          getAllUserComments: {
-            keyArgs: ["userId"],
+          getAllComments: {
+            keyArgs: ["userId", "search"],
             merge(existing = [], incoming) {
               return [...existing, ...incoming];
             },

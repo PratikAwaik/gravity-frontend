@@ -6,7 +6,7 @@ export default function Custom404() {
   const router = useRouter();
 
   return (
-    <div className="w-screen h-screen relative z-50 overflow-hidden -mt-16">
+    <div className="w-screen h-screen relative z-50 overflow-hidden -mt-14">
       <Image
         className="w-full h-full object-cover absolute top-0 left-0 overflow-hidden"
         src="/images/404.jpg"

@@ -11,3 +11,10 @@ export enum TypeNames {
   POST_SCORE = "PostScore",
   COMMENT_SCORE = "CommentScore",
 }
+
+export enum SearchTabsTypes {
+  POSTS = "posts",
+  COMMENTS = "comments",
+  COMMUNITIES = "communities",
+  PEOPLE = "people",
+}

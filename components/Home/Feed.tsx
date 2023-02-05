@@ -16,6 +16,7 @@ interface FeedProps {
   communityId?: string;
   isUserPosts?: boolean;
   userId?: string;
+  search?: string;
 }
 
 export default function Feed({
@@ -29,6 +30,7 @@ export default function Feed({
   setHasMore,
   isUserPosts = false,
   userId,
+  search,
 }: FeedProps) {
   const ref = useRef(null);
   const isIntersecting = useIntersectionObserver(ref);
@@ -45,6 +47,7 @@ export default function Feed({
             pageNo: pageNo + 1,
             communityId: communityId,
             userId: userId,
+            search: search,
           },
           skip: (isCommunityPosts && !communityId) || (isUserPosts && !userId),
         });

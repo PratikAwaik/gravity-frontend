@@ -5,6 +5,10 @@ interface ICommentsStore {
   setUserCommentsPageNo: (userCommentsPageNo: number) => void;
   userCommentsHasMore: boolean;
   setUserCommentsHasMore: (userCommentsHasMore: boolean) => void;
+  searchCommentsPageNo: number;
+  setSearchCommentsPageNo: (searchCommentsPageNo: number) => void;
+  searchCommentsHasMore: boolean;
+  setSearchCommentsHasMore: (searchCommentsHasMore: boolean) => void;
 }
 
 export const useCommentsStore = create<ICommentsStore>((set) => ({
@@ -14,4 +18,10 @@ export const useCommentsStore = create<ICommentsStore>((set) => ({
   userCommentsHasMore: true,
   setUserCommentsHasMore: (userCommentsHasMore: boolean) =>
     set({ userCommentsHasMore }),
+  searchCommentsPageNo: 0,
+  setSearchCommentsPageNo: (searchCommentsPageNo: number) =>
+    set({ searchCommentsPageNo }),
+  searchCommentsHasMore: true,
+  setSearchCommentsHasMore: (searchCommentsHasMore: boolean) =>
+    set({ searchCommentsHasMore }),
 }));

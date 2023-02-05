@@ -45,10 +45,10 @@ export const GET_ALL_POST_COMMENTS = gql`
   }
 `;
 
-export const GET_ALL_USER_COMMENTS = gql`
+export const GET_ALL_COMMENTS = gql`
   ${CommentDetailsFragment}
-  query GetAllUserComments($pageNo: Int, $userId: String!) {
-    getAllUserComments(pageNo: $pageNo, userId: $userId) {
+  query GetAllComments($pageNo: Int, $userId: String, $search: String) {
+    getAllComments(pageNo: $pageNo, userId: $userId, search: $search) {
       ...CommentDetailsFragment
     }
   }

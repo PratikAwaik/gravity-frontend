@@ -23,3 +23,15 @@ export const GET_COMMUNITY_DETAILS = gql`
     }
   }
 `;
+
+export const GET_SEARCH_COMMUNITIES = gql`
+  query GetSearchCommunities($search: String!, $pageNo: Int, $limit: Int) {
+    getSearchCommunities(search: $search, pageNo: $pageNo, limit: $limit) {
+      id
+      icon
+      name
+      prefixedName
+      membersCount
+    }
+  }
+`;
