@@ -30,6 +30,7 @@ export const GET_SEARCH_COMMUNITIES = gql`
       id
       icon
       name
+      description
       prefixedName
       membersCount
     }
