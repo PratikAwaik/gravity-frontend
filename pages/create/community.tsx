@@ -43,7 +43,7 @@ export default function CreateCommunity() {
       });
     },
     onCompleted: (data) => {
-      router.push(getCommunityDetailPath(data?.createCommunity?.id));
+      router.push(getCommunityDetailPath(data?.createCommunity?.name));
     },
   });
   const router = useRouter();
