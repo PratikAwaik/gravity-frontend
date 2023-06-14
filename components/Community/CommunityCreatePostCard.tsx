@@ -1,9 +1,9 @@
 import Link from "next/link";
+import UserAvatar from "../Utils/UserAvatar";
+import CustomTooltip from "../Utils/CustomTooltip";
 import { ICommunity } from "../../models/community";
 import { useAuth } from "../../utils/Auth";
 import { getUserDetailPath } from "../../utils/constants";
-import Avatar from "../Utils/Avatar";
-import CustomTooltip from "../Utils/CustomTooltip";
 
 interface CommunityCreatePostCardProps {
   communityDetails: ICommunity;
@@ -19,7 +19,11 @@ export default function CommunityCreatePostCard({
       <div className="bg-white rounded border border-theme-post-line mb-4 flex items-center p-2">
         <Link href={getUserDetailPath(currentUser?.username)}>
           <a className="mr-2 rounded-full border border-theme-gray-line">
-            <Avatar size={38} user={currentUser} />
+            <UserAvatar
+              key={`${currentUser?.id}-create-post-card`}
+              size={38}
+              user={currentUser}
+            />
           </a>
         </Link>
         <Link href={`/create/post?community=${communityDetails?.name}`}>

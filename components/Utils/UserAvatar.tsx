@@ -1,16 +1,17 @@
 import BoringAvatar from "boring-avatars";
 
-interface AvatarProps {
+interface UserAvatarProps {
   size?: number;
   user: any;
   square?: boolean;
 }
 
-export default function Avatar({
+export default function UserAvatar({
   size = 28,
   user,
   square = false,
-}: AvatarProps) {
+}: UserAvatarProps) {
+  console.log(square);
   return user?.profilePic ? (
     <img
       width={size}

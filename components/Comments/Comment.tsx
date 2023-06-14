@@ -1,6 +1,6 @@
 import CommentHeader from "./CommentHeader";
 import CommentBody from "./CommentBody";
-import Avatar from "../Utils/Avatar";
+import UserAvatar from "../Utils/UserAvatar";
 import FromNow from "../Utils/FromNow";
 import CommentFooter from "./CommentFooter";
 import { IComment } from "../../models/comment";
@@ -54,7 +54,10 @@ export default function Comment({
       <div className="flex items-start">
         {!isUserCommentsFeed && (
           <div className="flex flex-col items-center">
-            <Avatar user={comment?.author} />
+            <UserAvatar
+              key={`${comment?.author?.id}-comment`}
+              user={comment?.author}
+            />
           </div>
         )}
         <div>

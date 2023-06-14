@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Avatar from "../Utils/Avatar";
+import UserAvatar from "../Utils/UserAvatar";
 import StorageService from "../../services/storage";
 import { LOCAL_STORAGE_KEYS } from "../../utils/constants";
 import { useDisclosure } from "../../hooks/useDisclosure";
@@ -46,8 +46,12 @@ export default function UserDropdown() {
         onClick={isOpen ? onClose : onOpen}
       >
         <div className="flex items-center w-[10rem]">
-          <div className="w-6 h-6 overflow-hidden rounded">
-            <Avatar user={currentUser} size={24} square />
+          <div className="w-7 h-7 overflow-hidden rounded">
+            <UserAvatar
+              key={`${currentUser?.id}-dropdown`}
+              user={currentUser}
+              size={28}
+            />
           </div>
           <div className="ml-1.5 flex flex-col items-start">
             <p className="text-xs font-medium whitespace-nowrap">

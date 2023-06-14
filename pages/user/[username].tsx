@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Avatar from "../../components/Utils/Avatar";
+import UserAvatar from "../../components/Utils/UserAvatar";
 import UserTabs from "../../components/User/UserTabs";
 import UserPosts from "../../components/User/UserPosts";
 import UserComments from "../../components/User/UserComments";
@@ -56,7 +56,7 @@ export default function UserDetails() {
           <div className="w-full bg-white border border-theme-post-line rounded">
             <div className="w-full p-3">
               <div className="mx-auto flex items-center justify-center w-32 h-32 overflow-hidden rounded">
-                <Avatar user={userDetails} size={129} square />
+                <UserAvatar user={userDetails} size={129} square />
               </div>
               <h1 className="mt-3 text-center text-2xl font-medium">
                 {userDetails?.username}
