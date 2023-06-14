@@ -11,7 +11,6 @@ const authLink = setContext((_, { headers }) => {
       headers: {
         ...headers,
         authorization: `Bearer ${parsedUser?.token?.value}`,
-        "Access-Control-Allow-Origin": "*",
       },
     };
   }
