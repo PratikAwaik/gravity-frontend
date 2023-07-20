@@ -3,6 +3,7 @@ import { useMutation } from "@apollo/client";
 import { DELETE_COMMENT } from "../../graphql/comments/mutation";
 import { IComment } from "../../models/comment";
 import { TypeNames } from "../../models/utils";
+import { ButtonVariant } from "../Common/Button";
 
 interface ConfirmDeleteCommentModalProps {
   onClose: () => void;
@@ -58,7 +59,7 @@ export default function ConfirmDeleteCommentModal({
       submitBtnText="Delete"
       cancelBtnText="Keep"
       size="sm"
-      submitBtnHoverClassName="hover:bg-theme-red-light"
+      submitBtnVariant={ButtonVariant.DANGER}
     >
       <div className="w-full">
         <p className="leading-5 my-2.5 whitespace-pre-wrap text-sm">

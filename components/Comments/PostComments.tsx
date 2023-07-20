@@ -13,12 +13,12 @@ import { GET_ALL_POST_COMMENTS } from "../../graphql/comments/query";
 import { useAuth } from "../../utils/Auth";
 import { getUserDetailPath } from "../../utils/constants";
 import { TypeNames } from "../../models/utils";
+import Button from "../Common/Button";
 
 export default function PostComments() {
   const router = useRouter();
   const { currentUser } = useAuth();
   const [editorContent, setEditorContent] = useState("");
-  const [submittingComment, setSubmittingComment] = useState(false);
 
   const { loading, data } = useQuery(GET_ALL_POST_COMMENTS, {
     variables: {
@@ -28,52 +28,54 @@ export default function PostComments() {
     skip: !router.query.postId,
   });
 
-  const [createComment] = useMutation(CREATE_COMMENT, {
-    update: (cache, { data: { createComment } }) => {
-      cache.modify({
-        fields: {
-          allComments(existingComments = []) {
-            const newCommentRef = cache.writeFragment({
-              data: createComment,
-              fragment: CREATE_COMMENT_FRAGMENT,
-            });
-            return [...existingComments, newCommentRef];
-          },
-        },
-      });
-
-      cache.modify({
-        id: cache.identify({
-          __typename: TypeNames.POST,
-          id: createComment?.postId,
-        }),
-        fields: {
-          commentsCount(existingCommentsCount = 0) {
-            return existingCommentsCount + 1;
-          },
-        },
-      });
-
-      if (createComment?.authorId === currentUser?.id) {
+  const [createComment, { loading: creatingComment }] = useMutation(
+    CREATE_COMMENT,
+    {
+      update: (cache, { data: { createComment } }) => {
         cache.modify({
-          id: cache.identify({
-            __typename: TypeNames.USER,
-            id: currentUser?.id,
-          }),
           fields: {
-            karma: (existingKarma = 0) => existingKarma + 1,
+            allComments(existingComments = []) {
+              const newCommentRef = cache.writeFragment({
+                data: createComment,
+                fragment: CREATE_COMMENT_FRAGMENT,
+              });
+              return [...existingComments, newCommentRef];
+            },
           },
         });
-      }
-    },
-    onError(error, clientOptions) {
-      // set error
-    },
-  });
+
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.POST,
+            id: createComment?.postId,
+          }),
+          fields: {
+            commentsCount(existingCommentsCount = 0) {
+              return existingCommentsCount + 1;
+            },
+          },
+        });
+
+        if (createComment?.authorId === currentUser?.id) {
+          cache.modify({
+            id: cache.identify({
+              __typename: TypeNames.USER,
+              id: currentUser?.id,
+            }),
+            fields: {
+              karma: (existingKarma = 0) => existingKarma + 1,
+            },
+          });
+        }
+      },
+      onError(error, clientOptions) {
+        // set error
+      },
+    }
+  );
 
   const handleCreateCommentClick = () => {
     if (!editorContent) return;
-    setSubmittingComment(true);
     createComment({
       variables: {
         content: editorContent,
@@ -81,7 +83,6 @@ export default function PostComments() {
         parentId: null,
       },
     });
-    setSubmittingComment(false);
     setEditorContent("");
   };
 
@@ -106,16 +107,12 @@ export default function PostComments() {
             placeholder="What are your thoughts?"
           />
           <div className="w-full flex items-center justify-end">
-            <button
-              type="button"
-              className={`px-4 py-1.5 mt-2 rounded-3xl text-sm bg-theme-blue text-white font-medium hover:brightness-110 ${
-                submittingComment ? "grayscale cursor-not-allowed" : ""
-              }`}
-              disabled={submittingComment}
+            <Button
+              disabled={creatingComment}
               onClick={handleCreateCommentClick}
             >
-              Comment
-            </button>
+              {creatingComment ? "Posting..." : "Comment"}
+            </Button>
           </div>
         </div>
       )}

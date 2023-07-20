@@ -10,6 +10,7 @@ import { useAuth } from "../../utils/Auth";
 import { useMutation } from "@apollo/client";
 import { JOIN_COMMUNITY } from "../../graphql/community/mutations";
 import { storeScrollPosition } from "../../utils/helpers/posts";
+import Button from "../Common/Button";
 
 interface PostHeaderProps {
   post: IPost;
@@ -122,13 +123,9 @@ export default function PostHeader({
           auth?.currentUser?.id !== post?.community?.admin?.id &&
           !isCommunityPosts &&
           !hasJoinedCommunity && (
-            <button
-              type="button"
-              className="bg-theme-blue border-none text-white text-xs font-bold py-1 px-4 rounded-3xl hover:brightness-110"
-              onClick={handleJoinCommunity}
-            >
+            <Button onClick={handleJoinCommunity} size="sm">
               Join
-            </button>
+            </Button>
           )}
       </div>
     </div>

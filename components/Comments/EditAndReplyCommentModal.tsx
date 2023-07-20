@@ -30,65 +30,71 @@ export default function EditAndReplyCommentModal({
   const [editorContent, setEditorContent] = React.useState("");
   const { currentUser } = useAuth();
 
-  const [createComment] = useMutation(CREATE_COMMENT, {
-    update: (cache, { data: { createComment } }) => {
-      cache.modify({
-        id: cache.identify({
-          __typename: TypeNames.COMMENT,
-          id: commentToReply?.id,
-        }),
-        fields: {
-          children(existingChildren = []) {
-            const newChildRef = cache.writeFragment({
-              data: createComment,
-              fragment: CREATE_COMMENT_FRAGMENT,
-            });
-            return [...existingChildren, newChildRef];
+  const [createComment, { loading: createCommentLoading }] = useMutation(
+    CREATE_COMMENT,
+    {
+      update: (cache, { data: { createComment } }) => {
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.COMMENT,
+            id: commentToReply?.id,
+          }),
+          fields: {
+            children(existingChildren = []) {
+              const newChildRef = cache.writeFragment({
+                data: createComment,
+                fragment: CREATE_COMMENT_FRAGMENT,
+              });
+              return [...existingChildren, newChildRef];
+            },
           },
-        },
-      });
+        });
 
-      cache.modify({
-        id: cache.identify({
-          __typename: TypeNames.POST,
-          id: createComment?.postId,
-        }),
-        fields: {
-          commentsCount(existingCommentsCount = 0) {
-            return existingCommentsCount + 1;
+        cache.modify({
+          id: cache.identify({
+            __typename: TypeNames.POST,
+            id: createComment?.postId,
+          }),
+          fields: {
+            commentsCount(existingCommentsCount = 0) {
+              return existingCommentsCount + 1;
+            },
           },
-        },
-      });
-    },
-    onError(error, clientOptions) {
-      // set error
-    },
-    onCompleted() {
-      onClose();
-    },
-  });
+        });
+      },
+      onError(error, clientOptions) {
+        // set error
+      },
+      onCompleted() {
+        onClose();
+      },
+    }
+  );
 
-  const [updateComment] = useMutation(UPDATE_COMMENT, {
-    update: (cache, { data: { updateComment } }) => {
-      cache.modify({
-        id: cache.identify(updateComment),
-        fields: {
-          content() {
-            return updateComment?.content;
+  const [updateComment, { loading: updateCommentLoading }] = useMutation(
+    UPDATE_COMMENT,
+    {
+      update: (cache, { data: { updateComment } }) => {
+        cache.modify({
+          id: cache.identify(updateComment),
+          fields: {
+            content() {
+              return updateComment?.content;
+            },
+            updatedAt() {
+              return updateComment?.updatedAt;
+            },
           },
-          updatedAt() {
-            return updateComment?.updatedAt;
-          },
-        },
-      });
-    },
-    onError(error, clientOptions) {
-      // set error
-    },
-    onCompleted(data) {
-      onClose();
-    },
-  });
+        });
+      },
+      onError(error, clientOptions) {
+        // set error
+      },
+      onCompleted(data) {
+        onClose();
+      },
+    }
+  );
 
   React.useEffect(() => {
     if (toEditComment) {
@@ -125,6 +131,8 @@ export default function EditAndReplyCommentModal({
       showHeader={toEditComment}
       headerTitle="Update Comment"
       submitBtnText={toEditComment ? "Update" : "Submit"}
+      isSubmitting={toEditComment ? updateCommentLoading : createCommentLoading}
+      isSubmittingText={toEditComment ? "Updating..." : "Creating..."}
     >
       <div className="w-full">
         {!toEditComment && (

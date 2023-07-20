@@ -12,6 +12,7 @@ import { CREATE_POST } from "../../graphql/posts/mutations";
 import { getPostDetailPath } from "../../utils/constants";
 import { PostType } from "../../models/post";
 import { useAuth } from "../../utils/Auth";
+import Button, { ButtonVariant } from "../../components/Common/Button";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -159,23 +160,16 @@ export default function CreatePost() {
             <DisplayError error={error.message} className="ml-4 text-sm" />
           )}
 
-          <div className="flex items-center justify-end p-4 pt-0">
-            <button
-              type="button"
-              className="px-4 py-1.5 border border-theme-blue text-sm font-medium text-theme-blue hover:bg-theme-blue-50 rounded-3xl"
+          <div className="flex items-center justify-end p-4 pt-0 gap-2">
+            <Button
+              variant={ButtonVariant.SECONDARY}
               onClick={() => router.back()}
             >
               Cancel
-            </button>
-            <button
-              type="submit"
-              className={`ml-3 px-4 py-1.5 rounded-3xl text-sm bg-theme-blue text-white font-medium hover:brightness-110 ${
-                submittingPost ? "grayscale cursor-not-allowed" : ""
-              }`}
-              disabled={submittingPost}
-            >
+            </Button>
+            <Button type="submit" disabled={submittingPost}>
               {submittingPost ? "Submitting..." : "Create Post"}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

@@ -1,3 +1,5 @@
+import Button, { ButtonVariant } from "../Common/Button";
+
 interface ModalProps {
   children: React.ReactNode;
   onClose: () => void;
@@ -7,7 +9,9 @@ interface ModalProps {
   size?: "sm" | "md" | "lg";
   headerTitle?: string;
   showHeader?: boolean;
-  submitBtnHoverClassName?: string;
+  isSubmitting?: boolean;
+  isSubmittingText?: string;
+  submitBtnVariant?: ButtonVariant;
 }
 
 export default function Modal({
@@ -19,7 +23,9 @@ export default function Modal({
   size = "md",
   headerTitle,
   showHeader = true,
-  submitBtnHoverClassName,
+  isSubmitting = false,
+  isSubmittingText,
+  submitBtnVariant = ButtonVariant.PRIMARY,
 }: ModalProps) {
   const sizeClasses =
     size === "sm"
@@ -82,23 +88,17 @@ export default function Modal({
             {/* Modal Body */}
             <div className="bg-white p-4">{children}</div>
             {/* Modal Footer */}
-            <div className="bg-theme-gray-line px-4 py-3 flex flex-row-reverse p-4">
-              <button
-                type="button"
-                className={`inline-flex items-center justify-center rounded-3xl border border-transparent bg-theme-blue px-4 py-1.5 text-sm font-medium text-white shadow-sm ml-2 w-auto ${
-                  submitBtnHoverClassName ?? "hover:brightness-110"
-                }`}
-                onClick={onSubmit}
-              >
-                {submitBtnText}
-              </button>
-              <button
-                type="button"
-                className="px-4 py-1.5 border border-theme-blue text-sm font-medium text-theme-blue hover:bg-theme-blue-50 rounded-3xl"
-                onClick={onClose}
-              >
+            <div className="bg-theme-gray-line px-4 py-3 flex justify-end gap-2 p-4">
+              <Button onClick={onClose} variant={ButtonVariant.SECONDARY}>
                 {cancelBtnText}
-              </button>
+              </Button>
+              <Button
+                onClick={onSubmit}
+                disabled={isSubmitting}
+                variant={submitBtnVariant}
+              >
+                {isSubmitting ? isSubmittingText : submitBtnText}
+              </Button>
             </div>
           </div>
         </div>

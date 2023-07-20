@@ -11,7 +11,6 @@ export default function UserAvatar({
   user,
   square = false,
 }: UserAvatarProps) {
-  console.log(square);
   return user?.profilePic ? (
     <img
       width={size}

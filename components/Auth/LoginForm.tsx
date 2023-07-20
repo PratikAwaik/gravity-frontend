@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { LOGIN_USER } from "../../graphql/users/mutations";
 import { PAGES } from "../../utils/constants";
 import { useAuth } from "../../utils/Auth";
+import Button from "../Common/Button";
 
 export default function LoginForm() {
   const [username, setUsername] = React.useState("");
@@ -77,13 +78,9 @@ export default function LoginForm() {
         <DisplayError error={error} />
 
         <div className="flex items-center justify-center">
-          <button
-            type="submit"
-            className="px-5 py-1.5 rounded-3xl font-bold text-white text-base transition duration-200 bg-theme-red w-full hover:brightness-110"
-            disabled={loading}
-          >
-            {loading ? "Logging In..." : "Log In"}
-          </button>
+          <Button type="submit" disabled={loading} colorTheme="red" size="lg">
+            {loading ? "Loggin In..." : "Log In"}
+          </Button>
         </div>
 
         <p className="text-center text-sm mt-6">

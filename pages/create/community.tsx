@@ -7,6 +7,7 @@ import { CREATE_COMMUNITY } from "../../graphql/community/mutations";
 import { getCommunityDetailPath } from "../../utils/constants";
 import { useAuth } from "../../utils/Auth";
 import { TypeNames } from "../../models/utils";
+import Button, { ButtonVariant } from "../../components/Common/Button";
 
 /**
  * TODO:
@@ -22,7 +23,7 @@ export default function CreateCommunity() {
   });
   const [error, setError] = React.useState<Record<string, string> | null>(null);
   const { currentUser } = useAuth();
-  const [createSubreddit] = useMutation(CREATE_COMMUNITY, {
+  const [createSubreddit, { loading }] = useMutation(CREATE_COMMUNITY, {
     update: (cache, { data: createCommunity }) => {
       if (createCommunity?.adminId === currentUser?.id) {
         cache.modify({
@@ -135,20 +136,16 @@ export default function CreateCommunity() {
               )}
             </fieldset>
 
-            <div className="flex items-center mt-5">
-              <button
-                type="button"
-                className="px-4 py-1.5 border border-theme-blue text-sm font-medium text-theme-blue hover:bg-theme-blue-50 rounded-3xl"
+            <div className="flex items-center mt-5 gap-2">
+              <Button
                 onClick={() => router.back()}
+                variant={ButtonVariant.SECONDARY}
               >
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="ml-2 px-4 py-1.5 rounded-3xl text-sm bg-theme-blue text-white font-medium hover:brightness-110"
-              >
-                Create Community
-              </button>
+              </Button>
+              <Button type="submit" disabled={loading}>
+                {loading ? "Creating..." : "Create Community"}
+              </Button>
             </div>
           </form>
         </div>
