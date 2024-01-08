@@ -1,21 +1,21 @@
 import Head from "next/head";
 import Feed from "../components/Home/Feed";
 import LoadingWrapper from "../components/Utils/LoadingWrapper";
-import { useQuery } from "@apollo/client";
-import { useEffect } from "react";
-import { GET_ALL_POSTS } from "../graphql/posts/query";
-import { LOCAL_STORAGE_KEYS } from "../utils/constants";
-import { scrollToPreviousPosition } from "../utils/helpers/posts";
-import { usePostsStore } from "../stores/posts";
+import {useQuery} from "@apollo/client";
+import {useEffect} from "react";
+import {GET_ALL_POSTS} from "../graphql/posts/query";
+import {LOCAL_STORAGE_KEYS} from "../utils/constants";
+import {scrollToPreviousPosition} from "../utils/helpers/posts";
+import {usePostsStore} from "../stores/posts";
 
 export default function Home() {
-  const { pageNo, setPageNo, hasMore, setHasMore } = usePostsStore((state) => ({
+  const {pageNo, setPageNo, hasMore, setHasMore} = usePostsStore((state) => ({
     pageNo: state.homePageNo,
     setPageNo: state.setHomePageNo,
     hasMore: state.homeHasMore,
     setHasMore: state.setHomeHasMore,
   }));
-  const { loading, data, fetchMore } = useQuery(GET_ALL_POSTS, {
+  const {loading, data, fetchMore} = useQuery(GET_ALL_POSTS, {
     variables: {
       pageNo: 0,
     },

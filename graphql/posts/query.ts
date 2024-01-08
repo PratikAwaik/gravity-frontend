@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const GET_ALL_POSTS = gql`
   query GetAllPosts(
@@ -66,6 +66,10 @@ export const GET_POST_BY_ID = gql`
         name
         prefixedName
         icon
+        members {
+          id
+          username
+        }
       }
       postScores {
         userId

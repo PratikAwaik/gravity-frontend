@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface EmptyStateProps {
   icon: string;
   title: string;
@@ -14,8 +16,13 @@ export default function EmptyState({
   onClick,
 }: EmptyStateProps) {
   return (
-    <div className="w-full h-fit flex flex-col items-center">
-      <img src={icon} className="w-32 h-32 object-cover rounded-full" />
+    <div className="w-full h-64 flex flex-col items-center justify-center">
+      <Image
+        src={icon}
+        width={32}
+        height={32}
+        className="object-cover rounded-full"
+      />
       <h6 className="text-sm mt-3">{title}</h6>
       {btnText && (
         <button type="button" onClick={onClick} className="btn-primary">

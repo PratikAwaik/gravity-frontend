@@ -1,9 +1,9 @@
 import * as React from "react";
 import Link from "next/link";
-import { useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import { GET_USER_SUBSCRIPTIONS } from "../../graphql/users/query";
-import { useDisclosure } from "../../hooks/useDisclosure";
+import {useQuery} from "@apollo/client";
+import {useRouter} from "next/router";
+import {GET_USER_SUBSCRIPTIONS} from "../../graphql/users/query";
+import {useDisclosure} from "../../hooks/useDisclosure";
 
 interface CommunityDropdownProps {
   setSelectedCommunity: React.Dispatch<React.SetStateAction<any>>;
@@ -12,8 +12,8 @@ interface CommunityDropdownProps {
 export default function CommunityDropdown({
   setSelectedCommunity,
 }: CommunityDropdownProps) {
-  const { data } = useQuery(GET_USER_SUBSCRIPTIONS);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {data} = useQuery(GET_USER_SUBSCRIPTIONS);
+  const {isOpen, onOpen, onClose} = useDisclosure();
   const [searchText, setSearchText] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -71,7 +71,7 @@ export default function CommunityDropdown({
             className="bg-transparent border-none outline-none w-full text-sm placeholder:text-theme-body-text-color font-medium"
             onFocus={onOpen}
             value={searchText}
-            onChange={({ target }) => setSearchText(target.value)}
+            onChange={({target}) => setSearchText(target.value)}
           />
           <button type="button" onClick={() => (isOpen ? onClose() : onOpen())}>
             <i className="ri-arrow-down-s-line text-xl text-theme-gray-action-icon"></i>
@@ -90,7 +90,7 @@ export default function CommunityDropdown({
                 </a>
               </Link>
             </div>
-            {searchResults.map((sub: any) => (
+            {searchResults?.map((sub: any) => (
               <button
                 key={sub.id}
                 className="flex items-center py-2 w-full"

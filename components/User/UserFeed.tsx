@@ -1,12 +1,14 @@
 import InfiniteScrollLoader from "../Utils/InfiniteScrollLoader";
-import { useEffect, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { IUser } from "../../models/user";
-import { LOCAL_STORAGE_KEYS } from "../../utils/constants";
-import { scrollToPreviousPosition } from "../../utils/helpers/posts";
+import {useEffect, useRef} from "react";
+import {useIntersectionObserver} from "../../hooks/useIntersectionObserver";
+import {IUser} from "../../models/user";
+import {LOCAL_STORAGE_KEYS} from "../../utils/constants";
+import {scrollToPreviousPosition} from "../../utils/helpers/posts";
 import Link from "next/link";
 import UserAvatar from "../Utils/UserAvatar";
 import numberFormatter from "../../utils/helpers/numberFormatter";
+import EmptyState from "../Utils/EmptyState";
+import sadSvg from "../../public/images/sad.svg";
 
 interface UserFeedProps {
   users: IUser[];
@@ -52,23 +54,36 @@ export default function UserFeed({
 
   return (
     <div className="w-full">
-      {users?.map((user: IUser) => (
-        <div key={user?.id}>
-          <Link href={`/user${user?.username}`}>
-            <a className="p-4 flex items-center bg-white border border-theme-post-line">
-              <UserAvatar user={user} size={36} square={false} />
-              <div className="flex items-center pl-2">
-                <h6 className="text-xs font-bold">{user?.prefixedName}</h6>
-                <span className="mini-dot"></span>
-                <p className="text-xs text-theme-meta-text">
-                  {numberFormatter.format(user?.karma)} Karma
-                </p>
-              </div>
-            </a>
-          </Link>
-        </div>
-      ))}
-      <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+      {users?.length > 0 ? (
+        <>
+          {users?.map((user: IUser) => (
+            <div key={user?.id}>
+              <Link href={`/user${user?.username}`}>
+                <a className="p-4 flex items-center bg-white border border-theme-post-line">
+                  <UserAvatar user={user} size={36} square={false} />
+                  <div className="flex items-center pl-2">
+                    <h6 className="text-xs font-bold">{user?.prefixedName}</h6>
+                    <span className="mini-dot"></span>
+                    <p className="text-xs text-theme-meta-text">
+                      {numberFormatter.format(user?.karma)} Karma
+                    </p>
+                  </div>
+                </a>
+              </Link>
+            </div>
+          ))}
+          <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+        </>
+      ) : (
+        <EmptyState
+          icon={sadSvg}
+          title={
+            search && search.length > 0
+              ? "No results found!"
+              : "Wow, such empty!"
+          }
+        />
+      )}
     </div>
   );
 }

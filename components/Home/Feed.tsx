@@ -1,9 +1,11 @@
 import FeedPost from "./FeedPost";
 import InfiniteScrollLoader from "../Utils/InfiniteScrollLoader";
-import { useEffect, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { IPost } from "../../models/post";
-import { PAGINATION_LIMIT } from "../../utils/constants";
+import {useEffect, useRef} from "react";
+import {useIntersectionObserver} from "../../hooks/useIntersectionObserver";
+import {IPost} from "../../models/post";
+import {PAGINATION_LIMIT} from "../../utils/constants";
+import EmptyState from "../Utils/EmptyState";
+import sadSvg from "../../public/images/sad.svg";
 
 interface FeedProps {
   serverPosts: IPost[];
@@ -61,15 +63,28 @@ export default function Feed({
 
   return (
     <div className="w-full">
-      {serverPosts?.map((post: any) => (
-        <FeedPost
-          post={post}
-          key={post.id}
-          isCommunityPosts={isCommunityPosts}
-          isUserPosts={isUserPosts}
+      {serverPosts?.length > 0 ? (
+        <>
+          {serverPosts?.map((post: any) => (
+            <FeedPost
+              post={post}
+              key={post.id}
+              isCommunityPosts={isCommunityPosts}
+              isUserPosts={isUserPosts}
+            />
+          ))}
+          <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+        </>
+      ) : (
+        <EmptyState
+          icon={sadSvg}
+          title={
+            search && search.length > 0
+              ? "No results found!"
+              : "Wow, such empty!"
+          }
         />
-      ))}
-      <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+      )}
     </div>
   );
 }

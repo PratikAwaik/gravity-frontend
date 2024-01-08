@@ -1,12 +1,14 @@
 import InfiniteScrollLoader from "../Utils/InfiniteScrollLoader";
-import { useEffect, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { ICommunity } from "../../models/community";
-import { LOCAL_STORAGE_KEYS } from "../../utils/constants";
-import { scrollToPreviousPosition } from "../../utils/helpers/posts";
+import {useEffect, useRef} from "react";
+import {useIntersectionObserver} from "../../hooks/useIntersectionObserver";
+import {ICommunity} from "../../models/community";
+import {LOCAL_STORAGE_KEYS} from "../../utils/constants";
+import {scrollToPreviousPosition} from "../../utils/helpers/posts";
 import Link from "next/link";
 import CommunityAvatar from "../Utils/CommunityAvatar";
 import numberFormatter from "../../utils/helpers/numberFormatter";
+import EmptyState from "../Utils/EmptyState";
+import sadSvg from "../../public/images/sad.svg";
 
 interface CommunityFeedProps {
   communities: ICommunity[];
@@ -58,40 +60,54 @@ export default function CommunityFeed({
 
   return (
     <div className="w-full">
-      {communities?.map((community: ICommunity) => (
-        <div key={community?.id} className="w-full">
-          <Link href={`/community/${community?.id}`}>
-            <a className="p-4 flex items-center bg-white border border-theme-post-line">
-              <CommunityAvatar
-                className="w-8 h-8 flex-shrink-0"
-                community={community}
-              />
-              <div className="pl-2">
-                <div className="flex items-center mb-1">
-                  <h6 className="text-xs font-bold leading-4">
-                    {community?.prefixedName}
-                  </h6>
-                  <span className="mini-dot"></span>
-                  <p className="text-xs leading-4 text-theme-meta-text">
-                    {numberFormatter.format(community?.membersCount)} Members
-                  </p>
-                </div>
-                <p
-                  className="font-theme-font-family-noto text-theme-meta-text text-xs leading-[18px] text-ellipsis overflow-hidden w-full"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: "1",
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {community?.description}
-                </p>
-              </div>
-            </a>
-          </Link>
-        </div>
-      ))}
-      <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+      {communities?.length > 0 ? (
+        <>
+          {communities?.map((community: ICommunity) => (
+            <div key={community?.id} className="w-full">
+              <Link href={`/community/${community?.id}`}>
+                <a className="p-4 flex items-center bg-white border border-theme-post-line">
+                  <CommunityAvatar
+                    className="w-8 h-8 flex-shrink-0"
+                    community={community}
+                  />
+                  <div className="pl-2">
+                    <div className="flex items-center mb-1">
+                      <h6 className="text-xs font-bold leading-4">
+                        {community?.prefixedName}
+                      </h6>
+                      <span className="mini-dot"></span>
+                      <p className="text-xs leading-4 text-theme-meta-text">
+                        {numberFormatter.format(community?.membersCount)}{" "}
+                        Members
+                      </p>
+                    </div>
+                    <p
+                      className="font-theme-font-family-noto text-theme-meta-text text-xs leading-[18px] text-ellipsis overflow-hidden w-full"
+                      style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: "1",
+                        WebkitBoxOrient: "vertical",
+                      }}
+                    >
+                      {community?.description}
+                    </p>
+                  </div>
+                </a>
+              </Link>
+            </div>
+          ))}
+          <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+        </>
+      ) : (
+        <EmptyState
+          icon={sadSvg}
+          title={
+            search && search.length > 0
+              ? "No results found!"
+              : "Wow, such empty!"
+          }
+        />
+      )}
     </div>
   );
 }

@@ -1,11 +1,12 @@
-import { useMutation } from "@apollo/client";
-import { useMemo } from "react";
+import {useMutation} from "@apollo/client";
+import {useMemo} from "react";
 import {
   JOIN_COMMUNITY,
   LEAVE_COMMUNITY,
 } from "../../graphql/community/mutations";
-import { ICommunity } from "../../models/community";
-import { useAuth } from "../../utils/Auth";
+import {ICommunity} from "../../models/community";
+import {useAuth} from "../../utils/Auth";
+import toast from "react-hot-toast";
 
 interface CommunityMetaInfoProps {
   communityDetails: ICommunity;
@@ -14,13 +15,13 @@ interface CommunityMetaInfoProps {
 export default function CommunityMetaInfo({
   communityDetails,
 }: CommunityMetaInfoProps) {
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   const hasJoinedCommunity = useMemo(
     () => communityDetails?.members?.[0]?.id === currentUser?.id,
     [communityDetails?.members]
   );
   const [joinCommunity] = useMutation(JOIN_COMMUNITY, {
-    update: (cache, { data: { joinCommunity } }) => {
+    update: (cache, {data: {joinCommunity}}) => {
       cache.modify({
         id: cache.identify(joinCommunity),
         fields: {
@@ -34,7 +35,7 @@ export default function CommunityMetaInfo({
   });
 
   const [leaveCommunity] = useMutation(LEAVE_COMMUNITY, {
-    update: (cache, { data: { leaveCommunity } }) => {
+    update: (cache, {data: {leaveCommunity}}) => {
       cache.modify({
         id: cache.identify(leaveCommunity),
         fields: {
@@ -47,20 +48,36 @@ export default function CommunityMetaInfo({
     onError(error, clientOptions) {},
   });
 
-  const handleJoinCommunity = () => {
-    joinCommunity({
-      variables: {
-        communityId: communityDetails?.id,
-      },
-    });
+  const handleJoinCommunity = async () => {
+    try {
+      await joinCommunity({
+        variables: {
+          communityId: communityDetails?.id,
+        },
+      });
+      toast.success(`Successfully joined ${communityDetails.prefixedName}`);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        `Failed to join ${communityDetails.prefixedName}. Please try again later!`
+      );
+    }
   };
 
-  const handleLeaveCommunity = () => {
-    leaveCommunity({
-      variables: {
-        communityId: communityDetails?.id,
-      },
-    });
+  const handleLeaveCommunity = async () => {
+    try {
+      await leaveCommunity({
+        variables: {
+          communityId: communityDetails?.id,
+        },
+      });
+      toast.success(
+        `Oops! We're sad to see you go. \n - ${communityDetails.name}`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error(`Failed to leave community. Please try again later!`);
+    }
   };
 
   return (

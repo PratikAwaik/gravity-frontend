@@ -45,7 +45,7 @@ const client = new ApolloClient({
     },
   }),
   link: authLink.concat(httpLink),
-  connectToDevTools: true,
+  connectToDevTools: process.env.NODE_ENV === 'development',
 });
 
 export default client;

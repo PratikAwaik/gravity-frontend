@@ -1,12 +1,13 @@
 import * as React from "react";
 import Link from "next/link";
 import DisplayError from "../Utils/DisplayError";
-import { ApolloError, useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { REGISTER_USER } from "../../graphql/users/mutations";
-import { PAGES } from "../../utils/constants";
-import { useAuth } from "../../utils/Auth";
+import {ApolloError, useMutation} from "@apollo/client";
+import {useRouter} from "next/router";
+import {REGISTER_USER} from "../../graphql/users/mutations";
+import {PAGES} from "../../utils/constants";
+import {useAuth} from "../../utils/Auth";
 import Button from "../Common/Button";
+import toast from "react-hot-toast";
 
 export default function RegisterForm() {
   const [username, setUsername] = React.useState("");
@@ -16,7 +17,7 @@ export default function RegisterForm() {
   const router = useRouter();
   const auth = useAuth();
 
-  const [registerUser, { loading }] = useMutation(REGISTER_USER, {
+  const [registerUser, {loading}] = useMutation(REGISTER_USER, {
     onError: (error: ApolloError) => {
       setError(error.graphQLErrors[0].message);
     },
@@ -27,10 +28,17 @@ export default function RegisterForm() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    registerUser({ variables: { username, email, password } });
+
+    try {
+      await registerUser({variables: {username, email, password}});
+      toast.success(`Yay! you joined Gravity`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to sign up. Please try again later!`);
+    }
   };
 
   return (
@@ -51,7 +59,7 @@ export default function RegisterForm() {
             name="username"
             required
             value={username}
-            onChange={({ target }) => setUsername(target.value)}
+            onChange={({target}) => setUsername(target.value)}
             autoComplete="off"
             minLength={3}
             maxLength={21}
@@ -83,7 +91,7 @@ export default function RegisterForm() {
             required
             value={email}
             placeholder="Email"
-            onChange={({ target }) => setEmail(target.value)}
+            onChange={({target}) => setEmail(target.value)}
             autoComplete="off"
           />
         </fieldset>
@@ -102,7 +110,7 @@ export default function RegisterForm() {
             required
             placeholder="Password"
             value={password}
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={({target}) => setPassword(target.value)}
           />
         </fieldset>
 

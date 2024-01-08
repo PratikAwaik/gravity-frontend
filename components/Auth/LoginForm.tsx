@@ -2,12 +2,13 @@ import * as React from "react";
 import Link from "next/link";
 import DisplayError from "../Utils/DisplayError";
 import client from "../../utils/client";
-import { ApolloError, useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { LOGIN_USER } from "../../graphql/users/mutations";
-import { PAGES } from "../../utils/constants";
-import { useAuth } from "../../utils/Auth";
+import {ApolloError, useMutation} from "@apollo/client";
+import {useRouter} from "next/router";
+import {LOGIN_USER} from "../../graphql/users/mutations";
+import {PAGES} from "../../utils/constants";
+import {useAuth} from "../../utils/Auth";
 import Button from "../Common/Button";
+import toast from "react-hot-toast";
 
 export default function LoginForm() {
   const [username, setUsername] = React.useState("");
@@ -15,7 +16,7 @@ export default function LoginForm() {
   const [error, setError] = React.useState<string | null>(null);
   const router = useRouter();
   const auth = useAuth();
-  const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+  const [loginUser, {loading}] = useMutation(LOGIN_USER, {
     onError: (error: ApolloError) => {
       setError(error.graphQLErrors[0].message);
     },
@@ -27,10 +28,17 @@ export default function LoginForm() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
-    loginUser({ variables: { username, password } });
+
+    try {
+      await loginUser({variables: {username, password}});
+      toast.success(`Successfully logged into u/${username}`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to log in. Please try again later!`);
+    }
   };
 
   return (
@@ -52,7 +60,7 @@ export default function LoginForm() {
             placeholder="Username"
             required
             value={username}
-            onChange={({ target }) => setUsername(target.value)}
+            onChange={({target}) => setUsername(target.value)}
             autoComplete="off"
           />
         </fieldset>
@@ -71,7 +79,7 @@ export default function LoginForm() {
             placeholder="Password"
             required
             value={password}
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={({target}) => setPassword(target.value)}
           />
         </fieldset>
 

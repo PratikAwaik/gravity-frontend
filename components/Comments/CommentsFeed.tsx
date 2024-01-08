@@ -1,10 +1,12 @@
 import FeedComment from "../User/FeedComment";
 import InfiniteScrollLoader from "../Utils/InfiniteScrollLoader";
-import { IComment } from "../../models/comment";
-import { useEffect, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
-import { scrollToPreviousPosition } from "../../utils/helpers/posts";
-import { LOCAL_STORAGE_KEYS } from "../../utils/constants";
+import {IComment} from "../../models/comment";
+import {useEffect, useRef} from "react";
+import {useIntersectionObserver} from "../../hooks/useIntersectionObserver";
+import {scrollToPreviousPosition} from "../../utils/helpers/posts";
+import {LOCAL_STORAGE_KEYS} from "../../utils/constants";
+import EmptyState from "../Utils/EmptyState";
+import sadSvg from "../../public/images/sad.svg";
 
 interface CommentsFeedProps {
   userId?: string;
@@ -53,10 +55,23 @@ export default function CommentsFeed({
 
   return (
     <div className="w-full">
-      {comments?.map((comment: IComment) => (
-        <FeedComment key={comment?.id} comment={comment} />
-      ))}
-      <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+      {comments?.length > 0 ? (
+        <>
+          {comments?.map((comment: IComment) => (
+            <FeedComment key={comment?.id} comment={comment} />
+          ))}
+          <InfiniteScrollLoader ref={ref} hasMore={hasMore} />
+        </>
+      ) : (
+        <EmptyState
+          icon={sadSvg}
+          title={
+            search && search.length > 0
+              ? "No results found!"
+              : "Wow, such empty!"
+          }
+        />
+      )}
     </div>
   );
 }

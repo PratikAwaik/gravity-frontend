@@ -2,25 +2,26 @@ import * as React from "react";
 import Link from "next/link";
 import FancyEditor from "../Utils/FancyEditor";
 import CommentsContainer from "./CommentsContainer";
-import { useMutation, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import {useMutation, useQuery} from "@apollo/client";
+import {useRouter} from "next/router";
+import {useState} from "react";
 import {
   CREATE_COMMENT,
   CREATE_COMMENT_FRAGMENT,
 } from "../../graphql/comments/mutation";
-import { GET_ALL_POST_COMMENTS } from "../../graphql/comments/query";
-import { useAuth } from "../../utils/Auth";
-import { getUserDetailPath } from "../../utils/constants";
-import { TypeNames } from "../../models/utils";
+import {GET_ALL_POST_COMMENTS} from "../../graphql/comments/query";
+import {useAuth} from "../../utils/Auth";
+import {getUserDetailPath} from "../../utils/constants";
+import {TypeNames} from "../../models/utils";
 import Button from "../Common/Button";
+import toast from "react-hot-toast";
 
 export default function PostComments() {
   const router = useRouter();
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
   const [editorContent, setEditorContent] = useState("");
 
-  const { loading, data } = useQuery(GET_ALL_POST_COMMENTS, {
+  const {loading, data} = useQuery(GET_ALL_POST_COMMENTS, {
     variables: {
       postId: router.query.postId,
       parentId: null,
@@ -28,10 +29,10 @@ export default function PostComments() {
     skip: !router.query.postId,
   });
 
-  const [createComment, { loading: creatingComment }] = useMutation(
+  const [createComment, {loading: creatingComment}] = useMutation(
     CREATE_COMMENT,
     {
-      update: (cache, { data: { createComment } }) => {
+      update: (cache, {data: {createComment}}) => {
         cache.modify({
           fields: {
             allComments(existingComments = []) {
@@ -74,16 +75,22 @@ export default function PostComments() {
     }
   );
 
-  const handleCreateCommentClick = () => {
+  const handleCreateCommentClick = async () => {
     if (!editorContent) return;
-    createComment({
-      variables: {
-        content: editorContent,
-        postId: router.query.postId ?? "",
-        parentId: null,
-      },
-    });
-    setEditorContent("");
+    try {
+      await createComment({
+        variables: {
+          content: editorContent,
+          postId: router.query.postId ?? "",
+          parentId: null,
+        },
+      });
+      setEditorContent("");
+      toast.success(`Successfully posted your comment!`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to post your comment. Please try again later!`);
+    }
   };
 
   if (loading) return null;

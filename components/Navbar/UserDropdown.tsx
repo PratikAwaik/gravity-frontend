@@ -1,20 +1,21 @@
 import Link from "next/link";
 import UserAvatar from "../Utils/UserAvatar";
 import StorageService from "../../services/storage";
-import { LOCAL_STORAGE_KEYS } from "../../utils/constants";
-import { useDisclosure } from "../../hooks/useDisclosure";
-import { useAuth } from "../../utils/Auth";
-import { useEffect, useRef } from "react";
-import { getUserDetailPath, PAGES } from "../../utils/constants";
-import { useApolloClient } from "@apollo/client";
-import { useRouter } from "next/router";
+import {LOCAL_STORAGE_KEYS} from "../../utils/constants";
+import {useDisclosure} from "../../hooks/useDisclosure";
+import {useAuth} from "../../utils/Auth";
+import {useEffect, useRef} from "react";
+import {getUserDetailPath, PAGES} from "../../utils/constants";
+import {useApolloClient} from "@apollo/client";
+import {useRouter} from "next/router";
+import toast from "react-hot-toast";
 
 export default function UserDropdown() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const apolloClient = useApolloClient();
   const router = useRouter();
-  const { currentUser } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {currentUser} = useAuth();
+  const {isOpen, onOpen, onClose} = useDisclosure();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
@@ -29,12 +30,20 @@ export default function UserDropdown() {
     }
   };
 
-  const handleLogout = () => {
-    StorageService.removeItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
-    apolloClient.resetStore();
-    router.push(PAGES.INDEX).then(() => {
-      router.reload();
-    });
+  const handleLogout = async () => {
+    try {
+      const currentUserPrefixedName = `u/${currentUser?.username}`;
+
+      StorageService.removeItem(LOCAL_STORAGE_KEYS.CURRENT_USER);
+      await apolloClient.resetStore();
+      await router.push(PAGES.INDEX).then(() => {
+        router.reload();
+        toast.success(`You are logged out from ${currentUserPrefixedName}`);
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to logout. Please try again later!`);
+    }
   };
 
   return (

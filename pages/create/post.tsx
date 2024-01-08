@@ -6,13 +6,14 @@ import CommunityDropdown from "../../components/Community/CommunityDropdown";
 import TextPost from "../../components/CreatePost/TextPost";
 import DisplayError from "../../components/Utils/DisplayError";
 import PostTabs from "../../components/CreatePost/PostTabs";
-import { ApolloError, useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { CREATE_POST } from "../../graphql/posts/mutations";
-import { getPostDetailPath } from "../../utils/constants";
-import { PostType } from "../../models/post";
-import { useAuth } from "../../utils/Auth";
-import Button, { ButtonVariant } from "../../components/Common/Button";
+import {ApolloError, useMutation} from "@apollo/client";
+import {useRouter} from "next/router";
+import {CREATE_POST} from "../../graphql/posts/mutations";
+import {getPostDetailPath} from "../../utils/constants";
+import {PostType} from "../../models/post";
+import {useAuth} from "../../utils/Auth";
+import Button, {ButtonVariant} from "../../components/Common/Button";
+import toast from "react-hot-toast";
 
 export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] = React.useState<any>();
@@ -31,11 +32,11 @@ export default function CreatePost() {
   const titleTextareaRef = React.createRef<HTMLTextAreaElement>();
   const [titleLength, setTitleLength] = React.useState(0);
   const [submittingPost, setSubmittingPost] = React.useState(false);
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
 
   const router = useRouter();
   const [createPost] = useMutation(CREATE_POST, {
-    update: (cache, { data: createPost }) => {
+    update: (cache, {data: createPost}) => {
       if (createPost?.authorId === currentUser?.id) {
         cache.modify({
           id: cache.identify({
@@ -84,15 +85,15 @@ export default function CreatePost() {
 
   // increase title textarea height when content increases
   const textAreaChangeHandler = () => {
-    const { current } = titleTextareaRef;
+    const {current} = titleTextareaRef;
     (current as HTMLTextAreaElement).style.height = "auto";
     (current as HTMLTextAreaElement).style.height =
       (titleTextareaRef.current as HTMLTextAreaElement).scrollHeight + "px";
     setTitleLength((current as HTMLTextAreaElement).value.length);
-    setPostData({ ...postData, title: (current as HTMLTextAreaElement).value });
+    setPostData({...postData, title: (current as HTMLTextAreaElement).value});
   };
 
-  const handlePostSubmit = (e: any) => {
+  const handlePostSubmit = async (e: any) => {
     e.preventDefault();
     setSubmittingPost(true);
     if (!selectedCommunity) {
@@ -103,13 +104,20 @@ export default function CreatePost() {
       setSubmittingPost(false);
       return;
     }
-    createPost({
-      variables: {
-        ...postData,
-        communityId: selectedCommunity.id,
-        type: currentTab,
-      },
-    });
+
+    try {
+      await createPost({
+        variables: {
+          ...postData,
+          communityId: selectedCommunity.id,
+          type: currentTab,
+        },
+      });
+      toast.success(`Successfully created post!`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to create post. Please try again later!`);
+    }
   };
 
   return (

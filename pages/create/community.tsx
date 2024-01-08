@@ -1,13 +1,14 @@
 import * as React from "react";
 import Head from "next/head";
 import DisplayError from "../../components/Utils/DisplayError";
-import { useMutation } from "@apollo/client";
-import { useRouter } from "next/router";
-import { CREATE_COMMUNITY } from "../../graphql/community/mutations";
-import { getCommunityDetailPath } from "../../utils/constants";
-import { useAuth } from "../../utils/Auth";
-import { TypeNames } from "../../models/utils";
-import Button, { ButtonVariant } from "../../components/Common/Button";
+import {useMutation} from "@apollo/client";
+import {useRouter} from "next/router";
+import {CREATE_COMMUNITY} from "../../graphql/community/mutations";
+import {getCommunityDetailPath} from "../../utils/constants";
+import {useAuth} from "../../utils/Auth";
+import {TypeNames} from "../../models/utils";
+import Button, {ButtonVariant} from "../../components/Common/Button";
+import toast from "react-hot-toast";
 
 /**
  * TODO:
@@ -22,9 +23,9 @@ export default function CreateCommunity() {
     icon: null,
   });
   const [error, setError] = React.useState<Record<string, string> | null>(null);
-  const { currentUser } = useAuth();
-  const [createSubreddit, { loading }] = useMutation(CREATE_COMMUNITY, {
-    update: (cache, { data: createCommunity }) => {
+  const {currentUser} = useAuth();
+  const [createSubreddit, {loading}] = useMutation(CREATE_COMMUNITY, {
+    update: (cache, {data: createCommunity}) => {
       if (createCommunity?.adminId === currentUser?.id) {
         cache.modify({
           id: cache.identify({
@@ -49,10 +50,19 @@ export default function CreateCommunity() {
   });
   const router = useRouter();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
-    createSubreddit({ variables: subreddit });
+
+    try {
+      await createSubreddit({variables: subreddit});
+      toast.success(`Successfully created ${subreddit.name}`);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        `Failed to create ${subreddit.name}. Please try again later!`
+      );
+    }
   };
 
   return (
@@ -80,8 +90,8 @@ export default function CreateCommunity() {
               <div className="w-full flex items-center text-sm border border-theme-gray-line rounded-md hover:border-theme-nav-icon focus-within:border-theme-nav-icon">
                 <span className="pl-4 text-sm">c/</span>
                 <input
-                  onChange={({ target }) =>
-                    setSubreddit({ ...subreddit, name: target.value })
+                  onChange={({target}) =>
+                    setSubreddit({...subreddit, name: target.value})
                   }
                   name="name"
                   type="text"
@@ -122,8 +132,8 @@ export default function CreateCommunity() {
                 Description
               </label>
               <textarea
-                onChange={({ target }) =>
-                  setSubreddit({ ...subreddit, description: target.value })
+                onChange={({target}) =>
+                  setSubreddit({...subreddit, description: target.value})
                 }
                 value={subreddit.description}
                 rows={5}

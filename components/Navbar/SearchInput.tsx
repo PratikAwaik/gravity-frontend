@@ -1,24 +1,29 @@
 import Link from "next/link";
 import numberFormatter from "../../utils/helpers/numberFormatter";
-import { useQuery } from "@apollo/client";
-import { FormEvent, MouseEvent, useEffect, useRef, useState } from "react";
-import { GET_SEARCH_COMMUNITIES } from "../../graphql/community/query";
-import { useDisclosure } from "../../hooks/useDisclosure";
-import { ICommunity } from "../../models/community";
-import { useRouter } from "next/router";
-import { SearchTabsTypes } from "../../models/utils";
+import {useQuery} from "@apollo/client";
+import {FormEvent, MouseEvent, useEffect, useRef, useState} from "react";
+import {GET_SEARCH_COMMUNITIES} from "../../graphql/community/query";
+import {useDisclosure} from "../../hooks/useDisclosure";
+import {ICommunity} from "../../models/community";
+import {useRouter} from "next/router";
+import {SearchTabsTypes} from "../../models/utils";
+import {useDebounce} from "../../hooks/useDebounce";
 
 export default function SearchInput() {
   const [value, setValue] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {isOpen, onOpen, onClose} = useDisclosure();
   const router = useRouter();
-  const { data, loading } = useQuery(GET_SEARCH_COMMUNITIES, {
+
+  const debouncedValue = useDebounce(value);
+
+  const {data} = useQuery(GET_SEARCH_COMMUNITIES, {
     variables: {
       name: value,
       limit: 5,
+      search: debouncedValue,
     },
-    skip: !value,
+    skip: !debouncedValue,
   });
 
   useEffect(() => {
@@ -69,14 +74,14 @@ export default function SearchInput() {
           placeholder="Search Gravity"
           className="pl-2 pr-3 py-1.5 bg-theme-gray-field relative border-none text-sm outline-none w-full rounded-3xl placeholder-theme-gray-action-icon hover:bg-white focus-within:bg-white"
           value={value}
-          onChange={({ target }) => setValue(target.value)}
+          onChange={({target}) => setValue(target.value)}
           onFocus={handleInputFocus}
         />
       </form>
 
       {isOpen && value && (
         <div className="w-full absolute top-10 left-0 bg-white py-3 border border-theme-gray-line rounded shadow-sm shadow-[#1c1c1c33]">
-          {data?.getSearchedCommunities?.length > 0 ? (
+          {data?.getSearchCommunities?.length > 0 ? (
             <>
               <p className="text-sm font-medium px-4 pb-4">Communities</p>
               {data?.getSearchCommunities?.map((community: ICommunity) => (

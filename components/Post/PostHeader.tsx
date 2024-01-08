@@ -1,16 +1,14 @@
 import Link from "next/link";
 import FromNow from "../Utils/FromNow";
-import { IPost } from "../../models/post";
-import {
-  getCommunityDetailPath,
-  getUserDetailPath,
-} from "../../utils/constants";
-import { useMemo } from "react";
-import { useAuth } from "../../utils/Auth";
-import { useMutation } from "@apollo/client";
-import { JOIN_COMMUNITY } from "../../graphql/community/mutations";
-import { storeScrollPosition } from "../../utils/helpers/posts";
+import {IPost} from "../../models/post";
+import {getCommunityDetailPath, getUserDetailPath} from "../../utils/constants";
+import {useMemo} from "react";
+import {useAuth} from "../../utils/Auth";
+import {useMutation} from "@apollo/client";
+import {JOIN_COMMUNITY} from "../../graphql/community/mutations";
+import {storeScrollPosition} from "../../utils/helpers/posts";
 import Button from "../Common/Button";
+import toast from "react-hot-toast";
 
 interface PostHeaderProps {
   post: IPost;
@@ -31,7 +29,7 @@ export default function PostHeader({
     [post?.community?.members]
   );
   const [joinCommunity] = useMutation(JOIN_COMMUNITY, {
-    update: (cache, { data: { joinCommunity } }) => {
+    update: (cache, {data: {joinCommunity}}) => {
       cache.modify({
         id: cache.identify(joinCommunity),
         fields: {
@@ -44,12 +42,20 @@ export default function PostHeader({
     onError(error, clientOptions) {},
   });
 
-  const handleJoinCommunity = () => {
-    joinCommunity({
-      variables: {
-        communityId: post?.community?.id,
-      },
-    });
+  const handleJoinCommunity = async () => {
+    try {
+      await joinCommunity({
+        variables: {
+          communityId: post?.community?.id,
+        },
+      });
+      toast.success(`Successfully joined ${post.community.prefixedName}`);
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        `Failed to join ${post.community.prefixedName}. Please try again later!`
+      );
+    }
   };
 
   return (

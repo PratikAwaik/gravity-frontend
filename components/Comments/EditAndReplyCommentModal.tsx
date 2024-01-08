@@ -3,16 +3,17 @@ import Link from "next/link";
 import Modal from "../Utils/Modal";
 import DOMPurify from "isomorphic-dompurify";
 import FancyEditor from "../Utils/FancyEditor";
-import { IComment } from "../../models/comment";
-import { useAuth } from "../../utils/Auth";
-import { useMutation } from "@apollo/client";
+import {IComment} from "../../models/comment";
+import {useAuth} from "../../utils/Auth";
+import {useMutation} from "@apollo/client";
 import {
   CREATE_COMMENT,
   CREATE_COMMENT_FRAGMENT,
   UPDATE_COMMENT,
 } from "../../graphql/comments/mutation";
-import { getUserDetailPath } from "../../utils/constants";
-import { TypeNames } from "../../models/utils";
+import {getUserDetailPath} from "../../utils/constants";
+import {TypeNames} from "../../models/utils";
+import toast from "react-hot-toast";
 
 interface ReplyCommentModalProps {
   onClose: () => void;
@@ -28,12 +29,12 @@ export default function EditAndReplyCommentModal({
   toEditComment,
 }: ReplyCommentModalProps) {
   const [editorContent, setEditorContent] = React.useState("");
-  const { currentUser } = useAuth();
+  const {currentUser} = useAuth();
 
-  const [createComment, { loading: createCommentLoading }] = useMutation(
+  const [createComment, {loading: createCommentLoading}] = useMutation(
     CREATE_COMMENT,
     {
-      update: (cache, { data: { createComment } }) => {
+      update: (cache, {data: {createComment}}) => {
         cache.modify({
           id: cache.identify({
             __typename: TypeNames.COMMENT,
@@ -71,10 +72,10 @@ export default function EditAndReplyCommentModal({
     }
   );
 
-  const [updateComment, { loading: updateCommentLoading }] = useMutation(
+  const [updateComment, {loading: updateCommentLoading}] = useMutation(
     UPDATE_COMMENT,
     {
-      update: (cache, { data: { updateComment } }) => {
+      update: (cache, {data: {updateComment}}) => {
         cache.modify({
           id: cache.identify(updateComment),
           fields: {
@@ -102,25 +103,38 @@ export default function EditAndReplyCommentModal({
     }
   }, []);
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (!editorContent) return;
-    createComment({
-      variables: {
-        parentId: commentToReply.id,
-        content: editorContent,
-        postId: commentToReply.postId,
-      },
-    });
+
+    try {
+      await createComment({
+        variables: {
+          parentId: commentToReply.id,
+          content: editorContent,
+          postId: commentToReply.postId,
+        },
+      });
+      toast.success(`Successfully posted reply to the comment!`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to reply to the comment. Please try again later!`);
+    }
   };
 
-  const handleCommentUpdate = () => {
+  const handleCommentUpdate = async () => {
     if (!editorContent) return;
-    updateComment({
-      variables: {
-        commentId: commentToEdit.id,
-        content: editorContent,
-      },
-    });
+    try {
+      await updateComment({
+        variables: {
+          commentId: commentToEdit.id,
+          content: editorContent,
+        },
+      });
+      toast.success(`Successfully updated your comment!`);
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to update your comment. Please try again later`);
+    }
   };
 
   return (
