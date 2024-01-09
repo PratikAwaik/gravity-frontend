@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const CREATE_COMMUNITY = gql`
   mutation ($name: String!, $description: String!) {
@@ -32,6 +32,21 @@ export const LEAVE_COMMUNITY = gql`
       members {
         id
         username
+      }
+    }
+  }
+`;
+
+export const UDPATE_COMMUNITY = gql`
+  mutation UpdateCommunity($communityId: String!, $icon: CommunityIconPayload) {
+    updateCommunity(communityId: $communityId, icon: $icon) {
+      id
+      name
+      prefixedName
+      description
+      icon {
+        url
+        publicId
       }
     }
   }

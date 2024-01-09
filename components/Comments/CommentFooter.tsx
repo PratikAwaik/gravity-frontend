@@ -2,20 +2,20 @@ import * as React from "react";
 import Link from "next/link";
 import EditAndReplyCommentModal from "./EditAndReplyCommentModal";
 import ConfirmDeleteCommentModal from "./ConfirmDeleteCommentModal";
-import { useMutation } from "@apollo/client";
-import { UPDATE_COMMENT_SCORE } from "../../graphql/comments/mutation";
-import { useDisclosure } from "../../hooks/useDisclosure";
-import { IComment } from "../../models/comment";
-import { useAuth } from "../../utils/Auth";
-import { PAGES } from "../../utils/constants";
+import {useMutation} from "@apollo/client";
+import {UPDATE_COMMENT_SCORE} from "../../graphql/comments/mutation";
+import {useDisclosure} from "../../hooks/useDisclosure";
+import {IComment} from "../../models/comment";
+import {PAGES} from "../../utils/constants";
+import {useAuth} from "../../utils/Auth";
 
 interface CommentFooterProps {
   comment: IComment;
 }
 
-export default function CommentFooter({ comment }: CommentFooterProps) {
-  const { currentUser } = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+export default function CommentFooter({comment}: CommentFooterProps) {
+  const {currentUser} = useAuth();
+  const {isOpen, onOpen, onClose} = useDisclosure();
   const {
     isOpen: isConfirmDeleteModalOpen,
     onOpen: onConfirmDeleteModalOpen,
@@ -36,7 +36,7 @@ export default function CommentFooter({ comment }: CommentFooterProps) {
   );
 
   const [updateCommentScore] = useMutation(UPDATE_COMMENT_SCORE, {
-    update: (cache, { data: { updateCommentScore } }) => {
+    update: (cache, {data: {updateCommentScore}}) => {
       cache.modify({
         id: cache.identify(updateCommentScore),
         fields: {
@@ -69,7 +69,7 @@ export default function CommentFooter({ comment }: CommentFooterProps) {
     ) {
       direction = "UNVOTE";
     } else direction = directionToChange;
-    updateCommentScore({ variables: { direction, commentId: comment.id } });
+    updateCommentScore({variables: {direction, commentId: comment.id}});
   };
 
   return (

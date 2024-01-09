@@ -3,18 +3,18 @@ import UserAvatar from "../Utils/UserAvatar";
 import StorageService from "../../services/storage";
 import {LOCAL_STORAGE_KEYS} from "../../utils/constants";
 import {useDisclosure} from "../../hooks/useDisclosure";
-import {useAuth} from "../../utils/Auth";
 import {useEffect, useRef} from "react";
 import {getUserDetailPath, PAGES} from "../../utils/constants";
 import {useApolloClient} from "@apollo/client";
 import {useRouter} from "next/router";
 import toast from "react-hot-toast";
+import {useCurrentUser} from "../../hooks/useCurrentUser";
 
 export default function UserDropdown() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const apolloClient = useApolloClient();
   const router = useRouter();
-  const {currentUser} = useAuth();
+  const {currentUser} = useCurrentUser();
   const {isOpen, onOpen, onClose} = useDisclosure();
 
   useEffect(() => {

@@ -94,7 +94,7 @@ export default function SearchInput() {
                     onClick={onClose}
                   >
                     <img
-                      src={community?.icon}
+                      src={community?.icon?.url}
                       alt={community?.name}
                       className="w-6 h-6 rounded-full mr-2"
                     />

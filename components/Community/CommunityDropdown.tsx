@@ -4,6 +4,7 @@ import {useQuery} from "@apollo/client";
 import {useRouter} from "next/router";
 import {GET_USER_SUBSCRIPTIONS} from "../../graphql/users/query";
 import {useDisclosure} from "../../hooks/useDisclosure";
+import {ICommunity} from "../../models/community";
 
 interface CommunityDropdownProps {
   setSelectedCommunity: React.Dispatch<React.SetStateAction<any>>;
@@ -90,14 +91,14 @@ export default function CommunityDropdown({
                 </a>
               </Link>
             </div>
-            {searchResults?.map((sub: any) => (
+            {searchResults?.map((sub: Partial<ICommunity>) => (
               <button
                 key={sub.id}
                 className="flex items-center py-2 w-full"
                 onClick={() => handleCommunitySelect(sub)}
               >
                 <img
-                  src={sub.icon}
+                  src={sub.icon?.url}
                   alt="community icon"
                   className="w-8 h-8 rounded-full"
                 />

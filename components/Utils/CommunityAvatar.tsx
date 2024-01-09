@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ICommunity } from "../../models/community";
+import {ICommunity} from "../../models/community";
 
 interface CommunityAvatarProps {
   community: ICommunity;
@@ -18,9 +18,9 @@ export default function CommunityAvatar({
         !square && "rounded-full"
       } flex items-center justify-center ${className}`}
     >
-      {community?.icon ? (
+      {community?.icon?.url ? (
         <img
-          src={community?.icon ?? ""}
+          src={community?.icon?.url ?? ""}
           alt={community?.name}
           className={`object-cover ${!square && "rounded-full"} w-full h-full`}
         />
@@ -30,7 +30,7 @@ export default function CommunityAvatar({
             !square && "rounded-full"
           } w-full h-full bg-theme-blue flex items-center justify-center`}
         >
-          <span className={`font-bold`}>c/</span>
+          <span className={`font-bold text-white text-xxs`}>c/</span>
         </div>
       )}
     </div>

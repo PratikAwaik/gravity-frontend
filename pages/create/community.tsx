@@ -56,7 +56,7 @@ export default function CreateCommunity() {
 
     try {
       await createSubreddit({variables: subreddit});
-      toast.success(`Successfully created ${subreddit.name}`);
+      toast.success(`Successfully created c/${subreddit.name}`);
     } catch (error) {
       console.error(error);
       toast.error(

@@ -26,7 +26,10 @@ export const GET_ALL_POSTS = gql`
         id
         name
         prefixedName
-        icon
+        icon {
+          url
+          publicId
+        }
         members {
           id
           username
@@ -65,7 +68,10 @@ export const GET_POST_BY_ID = gql`
         id
         name
         prefixedName
-        icon
+        icon {
+          url
+          publicId
+        }
         members {
           id
           username

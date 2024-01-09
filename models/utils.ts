@@ -10,6 +10,7 @@ export enum TypeNames {
   COMMENT = "Comment",
   POST_SCORE = "PostScore",
   COMMENT_SCORE = "CommentScore",
+  COMMUNITY = "Community",
 }
 
 export enum SearchTabsTypes {

@@ -7,6 +7,7 @@ import {
 import {ICommunity} from "../../models/community";
 import {useAuth} from "../../utils/Auth";
 import toast from "react-hot-toast";
+import CommunityProfilePic from "./CommunityProfilePic";
 
 interface CommunityMetaInfoProps {
   communityDetails: ICommunity;
@@ -20,6 +21,7 @@ export default function CommunityMetaInfo({
     () => communityDetails?.members?.[0]?.id === currentUser?.id,
     [communityDetails?.members]
   );
+
   const [joinCommunity] = useMutation(JOIN_COMMUNITY, {
     update: (cache, {data: {joinCommunity}}) => {
       cache.modify({
@@ -90,13 +92,7 @@ export default function CommunityMetaInfo({
         <div className="w-full z-10 bg-white">
           <div className="max-w-[61.5rem] px-4 mx-auto">
             <div className="-mt-[0.875rem] mb-3 flex items-center">
-              <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
-                <img
-                  src={communityDetails?.icon}
-                  alt={communityDetails?.name}
-                  className="w-[4.5rem] h-[4.5rem] rounded-full"
-                />
-              </div>
+              <CommunityProfilePic communityDetails={communityDetails} />
               <div className="mt-6 pl-4 flex items-start">
                 <div className="pr-6">
                   <h1 className="text-[1.75rem] font-bold pr-0.5 pb-1 text-ellipsis leading-8">

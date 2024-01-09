@@ -9,6 +9,7 @@ import {JOIN_COMMUNITY} from "../../graphql/community/mutations";
 import {storeScrollPosition} from "../../utils/helpers/posts";
 import Button from "../Common/Button";
 import toast from "react-hot-toast";
+import CommunityAvatar from "../Utils/CommunityAvatar";
 
 interface PostHeaderProps {
   post: IPost;
@@ -69,10 +70,9 @@ export default function PostHeader({
                 storeScrollPosition(isPostDetail, isCommunityPosts, isUserPosts)
               }
             >
-              <img
-                className="w-5 h-5 rounded-full mr-1"
-                src={post?.community?.icon}
-                alt="Community Icon"
+              <CommunityAvatar
+                community={post?.community}
+                className="mr-1 w-5 h-5"
               />
               <span className="font-bold hidden sm:inline-block">
                 {post?.community?.prefixedName}
