@@ -3,9 +3,9 @@ import CommentBody from "./CommentBody";
 import UserAvatar from "../Utils/UserAvatar";
 import FromNow from "../Utils/FromNow";
 import CommentFooter from "./CommentFooter";
-import { IComment } from "../../models/comment";
-import { useEffect, useMemo, useState } from "react";
-import { scrollWithOffset } from "../../utils/helpers/comments";
+import {IComment} from "../../models/comment";
+import {useEffect, useState} from "react";
+import {scrollWithOffset} from "../../utils/helpers/comments";
 
 interface CommentProps {
   comment: IComment;

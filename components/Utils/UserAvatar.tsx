@@ -3,7 +3,7 @@ import {IUser} from "../../models/user";
 
 interface UserAvatarProps {
   size?: number;
-  user: IUser;
+  user: Partial<IUser>;
   square?: boolean;
 }
 
