@@ -6,9 +6,9 @@ export const useCurrentUser = () => {
   const {currentUser: authLSUser} = useAuth();
   const {data, loading} = useQuery(GET_USER_DETAILS, {
     variables: {
-      username: authLSUser.username,
+      username: authLSUser?.username,
     },
-    skip: !authLSUser.username,
+    skip: !authLSUser?.username,
   });
 
   return {
