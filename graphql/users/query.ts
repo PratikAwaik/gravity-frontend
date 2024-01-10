@@ -6,7 +6,10 @@ export const GET_USER_SUBSCRIPTIONS = gql`
       id
       name
       prefixedName
-      icon
+      icon {
+        url
+        publicId
+      }
       membersCount
     }
   }
