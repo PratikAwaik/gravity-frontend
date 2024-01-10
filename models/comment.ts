@@ -1,10 +1,11 @@
-import { IPost } from "./post";
-import { Direction } from "./utils";
+import {IIcon} from "./common";
+import {IPost} from "./post";
+import {Direction} from "./utils";
 
 export interface IComment {
   author: {
     id: string;
-    profilePic: string | null;
+    icon: IIcon;
     username: string;
   };
   children: IComment[];

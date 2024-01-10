@@ -38,8 +38,8 @@ export const LEAVE_COMMUNITY = gql`
 `;
 
 export const UDPATE_COMMUNITY = gql`
-  mutation UpdateCommunity($communityId: String!, $icon: CommunityIconPayload) {
-    updateCommunity(communityId: $communityId, icon: $icon) {
+  mutation UpdateCommunity($payload: UpdateCommunityPayload) {
+    updateCommunity(payload: $payload) {
       id
       name
       prefixedName

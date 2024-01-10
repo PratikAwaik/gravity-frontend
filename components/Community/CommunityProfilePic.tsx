@@ -4,6 +4,7 @@ import {useAuth} from "../../utils/Auth";
 import {useMutation} from "@apollo/client";
 import {UDPATE_COMMUNITY} from "../../graphql/community/mutations";
 import {TypeNames} from "../../models/utils";
+import {combineStrings} from "../../utils/helpers/string";
 
 interface CommunityProfilePicProps {
   communityDetails: ICommunity;
@@ -21,7 +22,7 @@ export default function CommunityProfilePic({
   );
   const fileInputRef = useRef<any>();
 
-  const [updateCommunity] = useMutation(UDPATE_COMMUNITY, {
+  const [updateCommunity, {loading}] = useMutation(UDPATE_COMMUNITY, {
     update: (cache, {data: {updateCommunity}}) => {
       cache.modify({
         id: cache.identify({
@@ -55,10 +56,12 @@ export default function CommunityProfilePic({
         if (reader.result) {
           await updateCommunity({
             variables: {
-              communityId: communityDetails?.id,
-              icon: {
-                content: reader.result,
-                publicId: communityDetails?.icon?.publicId,
+              payload: {
+                communityId: communityDetails?.id,
+                icon: {
+                  content: reader.result,
+                  publicId: communityDetails?.icon?.publicId,
+                },
               },
             },
           });
@@ -72,11 +75,20 @@ export default function CommunityProfilePic({
       {isCommunityAdmin && (
         <>
           <label
-            className="group-hover:flex hidden w-full h-full items-center justify-center absolute top-0 left-0 bg-slate-600-800 rounded-full cursor-pointer z-10"
+            className={combineStrings(
+              "group-hover:flex hidden w-full h-full items-center justify-center absolute top-0 left-0 bg-slate-600-800 rounded-full cursor-pointer z-10"
+            )}
             htmlFor="upload-community-icon"
           >
-            <i className="ri-camera-line text-2xl text-slate-500"></i>
+            {!loading && (
+              <i className="ri-camera-line text-2xl text-slate-500"></i>
+            )}
           </label>
+          {loading && (
+            <div className="w-full h-full flex items-center justify-center absolute top-0 left-0">
+              <i className="ri-loader-4-line text-2xl text-slate-500 animate-spin"></i>
+            </div>
+          )}
           <input
             type="file"
             className="hidden"
@@ -91,19 +103,21 @@ export default function CommunityProfilePic({
         <img
           src={communityDetails?.icon.url ?? ""}
           alt={communityDetails?.name}
-          className={`object-cover ${
-            !square && "rounded-full"
-          } w-[4.5rem] h-[4.5rem]  ${
-            isCommunityAdmin && "group-hover:opacity-25"
-          }`}
+          className={combineStrings(
+            "object-cover w-[90%] h-[90%]",
+            !square && "rounded-full",
+            isCommunityAdmin && "group-hover:opacity-25",
+            loading && "opacity-25"
+          )}
         />
       ) : (
         <div
-          className={`${
-            !square && "rounded-full"
-          } w-[4.5rem] h-[4.5rem] bg-theme-blue flex items-center justify-center  ${
-            isCommunityAdmin && "group-hover:opacity-25"
-          }`}
+          className={combineStrings(
+            "w-[90%] h-[90%] bg-theme-blue flex items-center justify-center",
+            !square && "rounded-full",
+            isCommunityAdmin && "group-hover:opacity-25",
+            loading && "opacity-25"
+          )}
         >
           <span className={`font-bold text-4xl text-white`}>c/</span>
         </div>

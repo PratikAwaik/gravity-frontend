@@ -20,7 +20,10 @@ export const GET_COMMUNITY_DETAILS = gql`
       createdAt
       members {
         id
-        profilePic
+        icon {
+          url
+          publicId
+        }
         username
       }
     }

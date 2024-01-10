@@ -5,7 +5,10 @@ export const CREATE_COMMENT_FRAGMENT = gql`
     author {
       id
       username
-      profilePic
+      icon {
+        url
+        publicId
+      }
     }
     createdAt
     updatedAt
@@ -23,7 +26,10 @@ export const CREATE_COMMENT_FRAGMENT = gql`
       author {
         id
         username
-        profilePic
+        icon {
+          url
+          publicId
+        }
       }
       createdAt
       updatedAt

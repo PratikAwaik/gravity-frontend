@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const GET_USER_SUBSCRIPTIONS = gql`
   query GetUserSubscriptions {
@@ -18,7 +18,10 @@ export const GET_USER_DETAILS = gql`
       id
       username
       prefixedName
-      profilePic
+      icon {
+        url
+        publicId
+      }
       karma
       createdAt
     }
@@ -31,7 +34,10 @@ export const GET_ALL_USERS = gql`
       id
       username
       prefixedName
-      profilePic
+      icon {
+        url
+        publicId
+      }
       karma
     }
   }

@@ -1,11 +1,14 @@
-import { gql } from "@apollo/client";
+import {gql} from "@apollo/client";
 
 export const CommentDetailsFragment = gql`
   fragment CommentDetailsFragment on Comment {
     author {
       id
       username
-      profilePic
+      icon {
+        url
+        publicId
+      }
     }
     createdAt
     updatedAt
