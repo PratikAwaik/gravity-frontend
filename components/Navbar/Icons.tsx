@@ -1,16 +1,30 @@
 import * as React from "react";
 import Link from "next/link";
 import CustomTooltip from "../Utils/CustomTooltip";
-import { useRouter } from "next/router";
-import { PAGES } from "../../utils/constants";
-import { useAuth } from "../../utils/Auth";
+import {useRouter} from "next/router";
+import {PAGES} from "../../utils/constants";
 import UserDropdown from "./UserDropdown";
+import {useCurrentUser} from "../../hooks/useCurrentUser";
+import Image from "next/image";
 
 export default function Icons() {
   const router = useRouter();
-  const { currentUser } = useAuth();
+  const {currentUser, loadingUser} = useCurrentUser();
 
-  return currentUser ? (
+  if (loadingUser) {
+    return (
+      <div className="w-24 h-full flex items-center justify-center">
+        <Image
+          src="/images/loading-white.svg"
+          className="bg-transparent text-theme-gray-200"
+          width={35}
+          height={35}
+        />
+      </div>
+    );
+  }
+
+  return currentUser?.id ? (
     <div className="flex items-center mx-4">
       <Link href={PAGES.INDEX}>
         <a
