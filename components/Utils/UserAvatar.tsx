@@ -1,5 +1,6 @@
 import BoringAvatar from "boring-avatars";
 import {IUser} from "../../models/user";
+import {combineStrings} from "../../utils/helpers/string";
 
 interface UserAvatarProps {
   size?: number;
@@ -34,12 +35,14 @@ export const BoringUserAvatar = ({
   user,
   square = false,
   size = 28,
+  className,
 }: {
   user: IUser;
   square?: boolean;
   size?: number;
+  className?: string;
 }) => (
-  <div className="group-hover:opacity-25">
+  <div className={combineStrings(className)}>
     <BoringAvatar
       size={size}
       name={user?.username}

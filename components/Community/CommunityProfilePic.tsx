@@ -53,7 +53,7 @@ export default function CommunityProfilePic({
       const reader = new FileReader();
       reader.readAsDataURL(uploadedFile);
       reader.onloadend = async () => {
-        if (reader.result) {
+        if (reader.result && isCommunityAdmin) {
           await updateCommunity({
             variables: {
               payload: {
@@ -96,6 +96,7 @@ export default function CommunityProfilePic({
             onChange={handleImageOnChange}
             accept="image/png, image/jpeg, image/webp, image/jpg"
             ref={fileInputRef}
+            onClick={() => !loading && fileInputRef.current.click()}
           />
         </>
       )}

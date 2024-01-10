@@ -6,6 +6,7 @@ import {TypeNames} from "../../models/utils";
 import {IUser} from "../../models/user";
 import {UPDATE_LOGGED_IN_USER} from "../../graphql/users/mutations";
 import {BoringUserAvatar} from "../Utils/UserAvatar";
+import {combineStrings} from "../../utils/helpers/string";
 
 interface UserProfilePicProps {
   user: IUser;
@@ -74,18 +75,21 @@ export default function UserProfilePic({
         <>
           <label
             className="group-hover:flex hidden w-full h-full items-center justify-center absolute top-0 left-0 bg-slate-600-800 rounded-full cursor-pointer z-10"
-            htmlFor="upload-community-icon"
+            htmlFor="upload-user-icon"
           >
-            {loading ? (
-              <i className="ri-loader-4-line text-4xl text-slate-500 animate-spin"></i>
-            ) : (
+            {!loading && (
               <i className="ri-camera-line text-4xl text-slate-500"></i>
             )}
           </label>
+          {loading && (
+            <div className="w-full h-full flex items-center justify-center absolute top-0 left-0">
+              <i className="ri-loader-4-line text-4xl text-slate-500 animate-spin"></i>
+            </div>
+          )}
           <input
             type="file"
             className="hidden"
-            id="upload-community-icon"
+            id="upload-user-icon"
             onChange={handleImageOnChange}
             accept="image/png, image/jpeg, image/webp, image/jpg"
             ref={fileInputRef}
@@ -97,12 +101,22 @@ export default function UserProfilePic({
         <img
           src={user?.icon.url ?? ""}
           alt={user?.name}
-          className={`object-cover ${
-            !square && "rounded-full"
-          } w-full h-full  ${isCurrentUser && "group-hover:opacity-25"}`}
+          className={combineStrings(
+            "object-cover w-full h-full",
+            !square && "rounded-full",
+            isCurrentUser && "group-hover:opacity-25",
+            loading && "opacity-25"
+          )}
         />
       ) : (
-        <BoringUserAvatar user={user} size={129} />
+        <BoringUserAvatar
+          user={user}
+          size={128}
+          className={combineStrings(
+            isCurrentUser && "group-hover:opacity-25",
+            loading && "opacity-25"
+          )}
+        />
       )}
     </div>
   );
