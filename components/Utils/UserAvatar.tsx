@@ -14,12 +14,16 @@ export default function UserAvatar({
   square = false,
 }: UserAvatarProps) {
   return user?.icon ? (
-    <img
-      width={size}
-      height={size}
-      src={user?.icon.url}
-      alt={`${user?.username}'s profile pic`}
-    />
+    <div className="shrink-0 w-fit h-fit rounded-full flex items-center justify-center overflow-hidden">
+      <img
+        width={size}
+        height={size}
+        src={user?.icon.url}
+        alt={`${user?.username}'s profile pic`}
+        className={combineStrings("object-cover", !square && "rounded-full")}
+        style={{height: size, width: size}}
+      />
+    </div>
   ) : (
     <BoringAvatar
       size={size}

@@ -14,7 +14,7 @@ export default function CommunityAvatar({
 }: CommunityAvatarProps) {
   return (
     <div
-      className={`relative ${
+      className={`relative shrink-0 ${
         !square && "rounded-full"
       } flex items-center justify-center ${className}`}
     >

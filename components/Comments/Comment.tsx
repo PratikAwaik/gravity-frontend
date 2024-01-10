@@ -53,7 +53,7 @@ export default function Comment({
     >
       <div className="flex items-start">
         {!isUserCommentsFeed && (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center shrink-0">
             <UserAvatar
               key={`${comment?.author?.id}-comment`}
               user={comment?.author}

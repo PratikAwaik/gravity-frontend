@@ -58,7 +58,7 @@ export default function UserFeed({
         <>
           {users?.map((user: IUser) => (
             <div key={user?.id}>
-              <Link href={`/user${user?.username}`}>
+              <Link href={`/user/${user?.username}`}>
                 <a className="p-4 flex items-center bg-white border border-theme-post-line">
                   <UserAvatar user={user} size={36} square={false} />
                   <div className="flex items-center pl-2">

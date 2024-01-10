@@ -56,8 +56,7 @@ export default function UserDetails() {
         <div className="w-[19.5rem] max-w-[19.5rem] ml-6">
           <div className="w-full bg-white border border-theme-post-line rounded">
             <div className="w-full p-3">
-              <div className="mx-auto flex items-center justify-center w-32 h-32 overflow-hidden rounded">
-                {/* <UserAvatar user={userDetails} size={129} square /> */}
+              <div className="mx-auto flex items-center justify-center w-32 h-32 overflow-hidden rounded mt-2">
                 <UserProfilePic user={userDetails} />
               </div>
               <h1 className="mt-3 text-center text-2xl font-medium">

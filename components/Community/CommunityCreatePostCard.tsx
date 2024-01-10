@@ -21,7 +21,7 @@ export default function CommunityCreatePostCard({
           <a className="mr-2 rounded-full border border-theme-gray-line">
             <UserAvatar
               key={`${currentUser?.id}-create-post-card`}
-              size={38}
+              size={36}
               user={currentUser}
             />
           </a>
