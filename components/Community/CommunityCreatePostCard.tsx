@@ -1,9 +1,9 @@
 import Link from "next/link";
 import UserAvatar from "../Utils/UserAvatar";
 import CustomTooltip from "../Utils/CustomTooltip";
-import { ICommunity } from "../../models/community";
-import { useAuth } from "../../utils/Auth";
-import { getUserDetailPath } from "../../utils/constants";
+import {ICommunity} from "../../models/community";
+import {getUserDetailPath} from "../../utils/constants";
+import {useCurrentUser} from "../../hooks/useCurrentUser";
 
 interface CommunityCreatePostCardProps {
   communityDetails: ICommunity;
@@ -12,7 +12,7 @@ interface CommunityCreatePostCardProps {
 export default function CommunityCreatePostCard({
   communityDetails,
 }: CommunityCreatePostCardProps) {
-  const { currentUser } = useAuth();
+  const {currentUser} = useCurrentUser();
 
   return (
     currentUser?.id && (
